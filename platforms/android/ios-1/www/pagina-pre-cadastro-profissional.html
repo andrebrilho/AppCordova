@@ -1,0 +1,527 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <link href="webfiles/css/fase2.css" rel="stylesheet" />
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+    <script src="scripts/emprestimoValor-controller.js" type="text/javascript"></script>
+    <script src="scripts/PreCadastroLocalStorage.js"></script>
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+</head>
+<body>
+    <nav class="app-nav" style="display: none">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+    <section class="app-container">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="pagina-pre-cadastro.html" title="Voltar" class="icone"><i class="fa fa-angle-left"></i></a>
+                    </div>
+                    <div class="col-xs-8" style="margin-left:15%; font-size:18px">
+                        Dados Profissionais
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+        .badge-ok {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: white;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 21px;
+            right: 35px;
+            background: #60b28a;
+            text-align: center;
+        }
+
+        .badge-wrng {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: #244b6d;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 21px;
+            right: 35px;
+            background: #ffcc5c;
+            text-align: center;
+        }
+
+        .pre-cadastro-bg-numbers {
+            height: 60px;
+            width: 60px;
+            background: #c6ccce;
+            font-size: 30px;
+            font-family: Raleway;
+            color: #485e6b;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .pre-cadastro-textdiv {
+            width: calc(100%-60px);
+        }
+
+        .pre-cadastro-listitem {
+            height: 62px;
+            background: transparent;
+            width: 100%;
+            border-bottom: 2px solid #dee0e1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pre-cadastro-seta {
+            position: absolute;
+            right: 15px;
+            top: 25px;
+            color: #bababa;
+        }
+
+        .form-Fase2 {
+            color: #485e6b;
+        }
+    </style>
+    <section class="section app-container" id="content" style="color:#313131">
+
+        <div id="Header" style="background-color:#244b6d;padding:20px 20px 15px 20px;position:relative;z-index:10">
+            <h6 style="color: white; font-size:18px">Preencha os campos abaixo:</h6>
+        </div>
+        <div id="content" class="form-Fase2">
+
+            <div class="container">
+
+                <form class="formulario form-comum m-t-1" method="post" id="formProfissional">
+                    <div class="row">
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Ocupação:</label>
+                            <select class="form-control" id="cboOcupacao" name="CodigoOcupacao" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5">
+                                <option value="">Selecione</option>
+                                <option value="11">Aposentado / Pensionista</option>
+                                <option value="18">Funcionário Público</option>
+                                <option value="1">Assalariado</option>
+                                <option value="22">Outros</option>
+                            </select>
+                        </div>
+                        <div id="divDadosProfissionais">
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Nome da Empresa:</label>
+                                <input type="text" class="form-control" id="txtNomeEmpresa" name="RazaoSocial" placeholder="Nome da Empresa" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">CEP:</label>
+                                <input type="text" id="txtCEPEmpresa" class="form-control" name="CEP" placeholder="CEP" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Endereço:</label>
+                                <input type="text" id="txtEnderecoEmpresa" class="form-control" name="Logradouro" placeholder="Endereço" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-5 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Nº:</label>
+                                <input type="text" id="txtNumeroEmpresa" class="form-control" name="Numero" placeholder="Nº" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-7 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Complemento:</label>
+                                <input type="text" id="txtComplementoEmpresa" class="form-control" name="Complemento" placeholder="Comp." style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-4 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">UF:</label>
+                                <select class="form-control" id="cboUF" name="UF" style="padding: 0.5rem 0.4rem;font-size:18px;height:45px;background:#f5f5f5"></select>
+                            </div>
+                            <div class="col-xs-8 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Cidade:</label>
+                                <select class="form-control" id="cboNaturalidade" name="Municipio" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="submit" title="Continuar" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Continuar</button>
+                        </div>
+                        <div class="col-xs-12">
+                            <a href="pagina-pre-cadastro-patrimonio.html" title="Voltar" class="center-block btn btn-primary m-t-1" style="padding: 8px;">Voltar</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var user = JSON.parse(sh1.Login_Get());
+
+        $(document).ready(function () {
+            var combo_ocupacao;
+            var combo_uf;
+            var combo_vidade;
+
+            $('#content').loadmask("");
+
+            jQuery.support.cors = true;
+            $.ajaxSetup({ cache: false });
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetDadosProfissionais?numCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+
+            request.done(function (_data) {
+
+                var data = _data.DadosSolicitacaoProfissionais[0];
+                if (data == undefined) {
+                    data = {};
+                }
+
+                $("#cboUFEmpresa").change(function () {
+                    if ($(this).val() != "") {
+                        carregaCidade($(this).val());
+                    }
+                });
+
+                var localStorage = new PreCadastroLocalStorage("profissionais" + "_" + user.id_user);
+
+                $("#cboOcupacao").change(function () {
+                    if ($("#cboOcupacao").val() == 11 || $("#cboOcupacao").val() == 12) {
+                        $("#divDadosProfissionais").hide();
+                        $.each($("#divDadosProfissionais input,#divDadosProfissionais select"), function (index, item) {
+                            $(item).prop("disabled", "disabled").val("");
+                        });
+
+                    } else {
+                        $("#divDadosProfissionais").show();
+                        $.each($("#divDadosProfissionais input,#divDadosProfissionais select"), function (index, item) {
+                            $(item).prop("disabled", false);
+                        });
+                    }
+                });
+
+                if (data.hasOwnProperty("Sequencial") && data.Sequencial > 0) {
+
+                    if (data.hasOwnProperty('CodigoOcupacao') && data.CodigoOcupacao > 0) {
+                        $("#cboOcupacao").val(data.CodigoOcupacao);
+                    }
+
+                    if (data.hasOwnProperty('RazaoSocial'))
+                        $("#txtNomeEmpresa").val(data.RazaoSocial);
+
+                    if (data.hasOwnProperty('CEP') && data.CEP > 0) {
+                        var _cep = "" + data.CEP;
+                        $("#txtCEPEmpresa").val(_cep).mask("00000-000");
+                    }
+
+                    if (data.hasOwnProperty('Logradouro'))
+                        $("#txtEnderecoEmpresa").val(data.Logradouro);
+
+                    if (data.hasOwnProperty('Numero'))
+                        $("#txtNumeroEmpresa").val(data.Numero);
+
+                    if (data.hasOwnProperty('Complemento'))
+                        $("#txtComplementoEmpresa").val(data.Complemento);
+
+                    if (data.hasOwnProperty('UF'))
+                        carregaUF(function () { $("#cboUF").val(data.UF); })
+
+                    if (data.hasOwnProperty('Municipio'))
+                        carregaCidade(data.UF, function () { $("#cboNaturalidade").val(data.Municipio); })
+
+                } else {
+                    var precadastro = JSON.parse(sh1.PreCadastro_Get());
+                    if (precadastro != null && precadastro.hasOwnProperty("UF_profissionais_" + user.id_user)) {
+                        carregaCidade(precadastro["UF_profissionais_" + user.id_user].value, function () { if (precadastro.hasOwnProperty("Municipio_profissionais_" + user.id_user)) { $("#cboNaturalidade").val(precadastro["Municipio_profissionais_" + user.id_user].value) } });
+                    }
+
+
+                    if (precadastro != null && precadastro.hasOwnProperty("UF_profissionais_" + user.id_user)) {
+                        carregaUF(function () { if (precadastro.hasOwnProperty("UF_profissionais_" + user.id_user)) { $("#cboUF").val(precadastro["UF_profissionais_" + user.id_user].value) } localStorage.inicializaCampos(); });
+                    } else {
+                        carregaUF(function () { var localStorage = new PreCadastroLocalStorage("profissionais" + "_" + user.id_user); localStorage.inicializaCampos(); });
+                    }
+
+                }
+                if ($("#cboOcupacao").val() == 11 || $("#cboOcupacao").val() == 12) {
+                    $("#divDadosProfissionais").hide();
+                    $.each($("#divDadosProfissionais input,#divDadosProfissionais select"), function (index, item) {
+                        $(item).prop("disabled", "disabled").val("");
+                    });
+
+                } else {
+                    $("#divDadosProfissionais").show();
+                    $.each($("#divDadosProfissionais input,#divDadosProfissionais select"), function (index, item) {
+                        $(item).prop("disabled", false);
+                    });
+                }
+                $('#content').unloadmask("");
+
+
+            });
+
+            request.fail(function (data) {
+                $('#content').unloadmask("");
+                //alert("erro");
+            });
+
+
+        });
+
+        $("#txtCEPEmpresa").blur(function () {
+            $('#content').loadmask("");
+            var request2 = $.ajax({
+                url: u.GetUrlApi() + "PreCadastro/GetEnderecoCEP?CEP=" + $("#txtCEPEmpresa").val().replace("-", "") + "&NumCPF=" + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                   , method: 'POST'
+                    , crossDomain: true
+                   , dataType: "json"
+                   , timeout: u.GetRequestTimeout()
+                   , beforeSend: function (request) {
+                       request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                   }
+
+            });
+            request2.done(function (data) {
+                console.dir(data);
+                $('#content').unloadmask("");
+                if (data.Enderecos.length > 0) {
+                    $("#txtEnderecoEmpresa").val(data.Enderecos[0].Logradouro);
+                    $("#cboUF").val(data.Enderecos[0].UF)
+                    carregaCidade(data.Enderecos[0].UF, function () {
+                        $("#cboNaturalidade").val(data.Enderecos[0].Municipio);
+                        $("#formProfissional").append("<input type='hidden' name='cboNaturalidade' value='" + $("#cboNaturalidade").val() + "'/>");
+                        $("#cboNaturalidade").attr("disabled", "disabled");
+                    });
+                    $("#txtNumeroEmpresa").focus();
+                    $("#formProfissional").append("<input type='hidden' name='cboUF' value='" + $("#cboUF").val() + "'/>");
+                    $("#cboUF").attr("disabled", "disabled");
+                }
+                else {
+                    $("#cboUF").removeAttr("disabled");
+                    $("#cboNaturalidade").removeAttr("disabled");
+                    $("input[name=cboUF]").remove();
+                    $("input[name=cboNaturalidade]").remove();
+                }
+                
+            });
+            request2.fail(function (data) {
+                $('#content').unloadmask("");
+            });
+
+        });
+        $("#txtCEPEmpresa").mask("99999-999");
+
+        $('#formProfissional').submit(function (e) {
+            e.preventDefault();
+
+            $("#Modal .results").html("");
+            var valido = true;
+            var idOcupacaoEscondeCampos = 11;
+            var idOcupacaoEscondeCampos2 = 12;
+
+            if ($("#cboOcupacao").val() == "") {
+                $("#Modal .results").append("Informe sua ocupação.<br/>");
+                valido = false;
+            }
+            if ($("#txtNomeEmpresa").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Preencha o nome da empresa.<br/>");
+                valido = false;
+            }
+            if ($("#txtCEPEmpresa").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Preencha o CEP da empresa.<br/>");
+                valido = false;
+            }
+            if ($("#txtEnderecoEmpresa").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Preencha o Endereço da empresa.<br/>");
+                valido = false;
+            }
+            if ($("#txtNumeroEmpresa").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Preencha o número da empresa.<br/>");
+                valido = false;
+            }
+
+            if ($("#cboUF").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Informe a UF da empresa.<br/>");
+                valido = false;
+            }
+            if ($("#cboNaturalidade").val() == "" && $("#cboOcupacao").val() != idOcupacaoEscondeCampos && $("#cboOcupacao").val() != idOcupacaoEscondeCampos2) {
+                $("#Modal .results").append("Informe a Cidade da empresa.<br/>");
+                valido = false;
+            }
+
+            if (valido) {
+                $('#content').loadmask("");
+
+                var serializeArray = $("#formProfissional").serializeArray();
+
+                var obj = {};
+
+                for (var i = 0; i < serializeArray.length; i++) {
+                    obj[serializeArray[i]['name']] = serializeArray[i]['value'];
+                }
+
+                obj["CPF"] = user.id_user;
+
+
+                if(obj.hasOwnProperty("CEP"))
+                    obj.CEP = obj.CEP.replace("-", "");
+
+
+                var request = $.ajax({
+                    url: u.GetUrlApi() + "PreCadastro/SaveDadosProfissionais?plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+                    , data: obj
+
+                });
+                request.done(function (data) {
+                    $('#content').unloadmask("");
+                    if (data.Error.length == 0) {
+                        location.href = 'pagina-pre-cadastro-upload.html';
+                    } else {
+                        $("#Modal").modal("show");
+                        $("#Modal .results").html("Ocorreu um erro ao salvar os dados.");
+                    }
+                });
+                request.fail(function (data) {
+                    $('#content').unloadmask("");
+                    $("#Modal").modal("show");
+                    $("#Modal .results").html("Ocorreu um erro ao salvar os dados.");
+                });
+            } else {
+                $("#Modal").modal("show");
+            }
+        });
+        
+
+        
+        function carregaUF(callback) {
+            var requestUF = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetUF?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                   , method: 'POST'
+                    , crossDomain: true
+                   , dataType: "json"
+                   , timeout: u.GetRequestTimeout()
+                   , beforeSend: function (request) {
+                       request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                   }
+            });
+            requestUF.done(function (data) {
+                $("#cboUF").html("<option value=''>Selecione</option>");
+                $.each(data.UnidadesFederativas, function (index, item) {
+                    $("#cboUF").append("<option value='" + item.Sigla + "'>" + item.Sigla + "</option>");
+                });
+
+                $("#cboUF").unbind("change");
+                $("#cboUF").change(function () {
+                    if ($(this).val() != "") {
+                        carregaCidade($(this).val());
+                    }
+                });
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+            requestUF.fail(function (data) { console.dir("erro ao carregar uf"); });
+        }
+
+        function carregaCidade(uf, callback) {
+
+            $("#content").loadmask("");
+            jQuery.support.cors = true;
+            $.ajaxSetup({ cache: false });
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetCidades?uf=' + uf + '&NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+
+            request.done(function (data) {
+
+                $("#content").unloadmask("");
+
+                $("#cboNaturalidade").html("<option value=''>Selecione</option>");
+                $.each(data.Naturalidades, function (index, item) {
+                    $("#cboNaturalidade").append("<option value='" + item.Municipio + "'>" + item.Municipio + "</option>");
+                });
+                if (typeof callback === 'function') {
+                    callback();
+                }
+
+            });
+
+            request.fail(function (data) { console.dir("erro ao carregar cidade"); });
+
+
+
+        }
+    </script>
+</body>
+</html>

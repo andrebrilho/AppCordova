@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider IT</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+</head>
+
+<body>
+    <div class="load-menu"></div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle menu collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Meu Cadastro</a>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:15px;background:#2f2f2f;">
+        <h4 style="color:white">Altere os dados do seu cadastro:</h3>
+    </div>
+    <div class="container-fluid">
+        <form method="post" id="formDados">
+            <input type="hidden" name="idUsuario" />
+
+            <div class="form-group">
+                <label for="Nome">Nome</label>
+                <input type="text" class="form-control" id="Nome" placeholder="Nome">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" id="Email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="Senha">Senha</label>
+                <input type="password" required class="form-control" id="Senha" placeholder="Senha">
+            </div>
+            <button type="submit" class="btn-login btn-salvar">Salvar</button>
+        </form>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        var loading = $.loading();
+        var user = window.localStorage.getItem("user");
+        user = JSON.parse(user);
+        $("input[name=idUsuario]").val(user._id);
+        $("input[id=Email]").val(user.email);
+        $("input[id=Nome]").val(user.fullname);
+
+        $("#formDados").submit(function (e) {
+            e.preventDefault();
+            var obj = {
+                fullname: $("#Nome").val(),
+                id: $("input[name=idUsuario]").val(),
+                email: $("#Email").val(),
+                password: $("#Senha").val()
+            }
+
+            if ($("#Email").val() == "" || $("#Senha").val() == "" || $("#Nome").val() == "") {
+                navigator.notification.alert(
+                    'Todos os campos são obrigatórios',  // message
+                    function () { },
+                    'Atenção',            // title
+                    'OK'                  // buttonName
+                );
+            } else {
+                if ($("#Email").val() != "") {
+                    var x = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    if (!x.test($("#Email").val())) {
+                        navigator.notification.alert(
+                            'Digite um e-mail válido.',  // message
+                            function () { },
+                            'Atenção',            // title
+                            'OK'                  // buttonName
+                        );
+                        return false;
+                    }
+                }
+                $.put("http://serviceciab2.azurewebsites.net/user", obj).done(function (data) {
+                    if (data != null && !data.hasOwnProperty("error")) {
+                        $("#nameUsuario").html(data.fullname.split(' ')[0]);
+                        window.localStorage.setItem("user", JSON.stringify(data));
+                        navigator.notification.alert(
+                            'Os dados foram salvos com sucesso!',  // message
+                            function () { },         // callback
+                            'Salvo com sucesso!',            // title
+                            'Ok'                  // buttonName
+                        );
+                    }else{
+                        navigator.notification.alert(
+                            'Não foi possível salvar seus dados.',  // message
+                            function(){},         // callback
+                            'Atenção',            // title
+                            'Tentar novamente'                  // buttonName
+                        );
+                    }
+                });
+            }
+        });
+
+    });
+    $.put = function (url, data, callback, type) {
+
+        if ($.isFunction(data)) {
+            type = type || callback,
+                callback = data,
+                data = {}
+        }
+
+        return $.ajax({
+            url: url,
+            type: 'PUT',
+            success: callback,
+            data: data,
+            contentType: type
+        });
+    }
+
+</script>
+
+</html>

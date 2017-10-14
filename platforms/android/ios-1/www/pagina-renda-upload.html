@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <link href="webfiles/css/fase2.css" rel="stylesheet" />
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+</head>
+<body style="background:#e4e4e4 !important;">
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+    <section class="app-container">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="pagina-renda-cadastro.html" title="Voltar" class="icone app-nav-collapse"><i class="fa fa-angle-left"></i></a>
+                    </div>
+                    <div style="margin-left:15%; font-size:18px" class="col-xs-8">
+                        Foto dos Documentos
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" tabindex="-1" role="dialog" id="Upload">
+        <div class="modal-dialog" role="document" style="margin:0;max-width:100% !important;width:100%">
+            <div class="modal-content" style="border:0;border-radius:0;text-align:center">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;"></h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;font-size:16px">
+
+                </div>
+                <div class="modal-footer" style="padding:0px 15px;text-align:center">
+                    <button type="button" data-index="1" class="btn btn-cor-primaria getImage" style="height:60px;width:60px;margin-top:10px; border-radius:50%; text-align:center; padding:0"><i class="fa fa-camera" style="font-size:24px"></i></button>
+                </div>
+                <label style="color:#012342; font-size:12px">Pressione para abrir a câmera.</label>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="Upload2Items">
+        <div class="modal-dialog" role="document" style="margin:0;max-width:100% !important;width:100%">
+            <div class="modal-content" style="border:0;border-radius:0;text-align:center">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;"></h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;font-size:16px">
+
+                </div>
+
+                <div class="modal-footer">
+                    <div row>
+                        <div class="col-xs-6" style="text-align:center">
+                            <div style="padding:0px 15px">
+                                <button type="button" data-index="1" class="btn btn-cor-primaria getImage" style="height:60px;width:60px;margin-top:10px; border-radius:50%; text-align:center; padding:0"><i class="fa fa-camera" style="font-size:24px"></i></button>
+                            </div>
+                            <label style="color:#012342; font-size:12px; align-content:center" class="foto1"></label>
+                        </div>
+                        <div class="col-xs-6" style="text-align:center">
+                            <div style="padding:0px 15px">
+                                <button type="button" data-index="2" disabled class="btn btn-cor-primaria getImage" style="height:60px;width:60px;margin-top:10px; border-radius:50%; text-align:center; padding:0"><i class="fa fa-camera" style="font-size:24px"></i></button>
+                            </div>
+                            <label style="color:#012342; font-size:12px; align-content:center" class="foto2"></label>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="modal-footer" style="padding:0px 15px;text-align:center">
+                    <button type="submit" class="btn btn-cor-primaria" form="formPerfil" style="height:60px;width:60px;margin-top:10px; border-radius:50%; text-align:center; padding:0"><i class="fa fa-camera" style="font-size:24px"></i></button>
+                </div>-->
+                <label style="color:#012342; font-size:12px">Pressione para abrir a câmera.</label>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <section class="section app-container" id="content" style="">
+        <div id="Header" style="background-color:#244b6d;padding:20px 20px 15px 20px;position:relative;z-index:10">
+            <h6 style="color: white; font-size:18px">
+                Clique em <i class="fa fa-camera" style="font-size:28px;color:white;font-size:18px"></i> e com a câmera de seu celular tire foto de seus documentos.
+                <img onclick="showHelp()" src="webfiles/images/icones/information.svg" style="width: 16px;height: 16px;" /><br /><br />Após finalizar todas as fotos
+                clique em Continuar.
+            </h6>
+        </div>
+
+        <div style="padding:10px;width:100%;">
+            <p style="color:#485e6b"><b>Documentos Obrigatórios</b></p>
+            <div class="btnUpload2Items" data-tipo-doc="ExtratoBancario" foto1="Extrato 1" foto2="Extrato 2" data-doc="Extrato bancário" data-msg="Tire uma foto dos dois últimos extratos bancários (inteiro) constando: Nome, N° da agência e N° da conta corrente e salário recebido.<br/><br/>Somente serão aceitos extratos emitidos via internet banking ou caixa eletrônico.<br/>Para Cliente Cartão Magnético inserir a imagem do Cartão do Benefício e o Comprovante dos Dados da nova conta.<br /><br /><b>Siga as instruções acima para que o documento enviado não seja recusado<b/>" style="border-radius:3px;background:white;border-bottom:2px solid #bdbdbd;float:left;width:100%;margin-bottom:5px;position:relative">
+                <div style="float:left">
+                    <div id="ExtratoBancario" class="status" style="width: 50px;height: 50px;margin-top: 16px;margin-left: 15px;text-align: center;padding-top: 13px;border-radius: 25px;">
+                        <i id="ExtratoBancario_i" class="" style="font-size:24px;color:white;"></i>
+                    </div>
+                </div>
+
+                <div style="width: calc(100% - 100px) !important;margin: 5px 13px;float: left;padding: 10px 0px;height: 71px;border-left: 1px solid #d1d1d1;">
+                    <label style="color:#485e6b; margin-left:10px; font-size:15px"><b>Extrato Bancário</b></label>
+                    <p id="ExtratoBancario_p" style="position:absolute;bottom:5px;color:#485e6b;float:left; margin-left:10px"></p>
+                </div>
+            </div>
+            <div class="btnUpload2Items" data-tipo-doc="ComprovanteRenda" foto1="Comprovante 1" foto2="Comprovante 2" data-doc="Demonstrativo de Pagamento" data-msg="Tire uma foto dos seus dois últimos demonstrativos de pagamento.<br/>Para Cliente Cartão Magnético inserir o comprovante emitido pelo INSS e o último demonstrativo de pagamento.<br/><br/><b>Siga as instruções acima para que o documento enviado não seja recusado<b/>" style="border-radius:3px;background:white;border-bottom:2px solid #bdbdbd;float:left;width:100%;margin-bottom:5px;position:relative">
+                <div style="float:left">
+                    <div id="ComprovanteRenda" class="status" style="width: 50px;height: 50px;margin-top: 16px;margin-left: 15px;text-align: center;padding-top: 13px;border-radius: 25px;">
+                        <i id="ComprovanteRenda_i" class="" style="font-size:24px;color:white;"></i>
+                    </div>
+                </div>
+
+                <div style="width: calc(100% - 100px) !important;margin: 5px 13px;float: left;padding: 10px 0px;height: 71px;border-left: 1px solid #d1d1d1;">
+                    <label style="color:#485e6b; margin-left:10px; font-size:15px"><b>Demonstrativo de Pagamento</b></label>
+                    <p id="ComprovanteRenda_p" style="position:absolute;bottom:5px;color:#485e6b;float:left; margin-left:10px"></p>
+                </div>
+            </div>
+
+        </div>
+        <div style="float:left;text-align:center;width:100%;margin-top:10px">
+            <button class="btn btn-cor-primaria btn-enviar-analise" disabled><b>Continuar</b></button>
+        </div>
+
+        <form id="formUpload" method="POST" enctype="multipart/form-data" style="display:none">
+            <input type="text" name="num_cpf" />
+            <input type="text" name="cod_cliente" />
+            <input type="text" name="tipo_doc" />
+            <input type="text" name="id_tomador" />
+            <input type="text" name="perfil_cliente" />
+            <input type="text" name="index" />
+            <input type="file" name="file" accept="image/*" />
+        </form>
+    </section>
+    <section class="barra-acesso" style="clear:both">
+        <div class="container">
+            <div class="texto">
+                <p class="nome m-h-20 fsize-1 text-xs-center m-b-0">
+                    <b style='color:#969696'></b>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="info">
+        <div class="modal-dialog" role="document" style="margin:0;max-width:100% !important;width:100%">
+            <div class="modal-content" style="border:0;border-radius:0">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;"><b>Dicas para fotos</b></h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;height:134px; text-align:center">
+                    <div class="col-xs-12 m-b-1">
+                        <br />
+                        <label style="font-size:18px;">Tire as fotos em um ambiente iluminado.</label>
+                        <br />
+                        <label style="font-size:18px;">As imagens devem estar legíveis.</label>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:0px 15px">
+                    <button onclick="hideHelp()" class="btn btn-cor-primaria" style="height:40px;width:100%;margin-top:10px;"><b>Entendi</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divPreview" style="position:fixed;z-index:1100;left:0;right:0;bottom:0;top:0;background:black;display:none;">
+        <img id="previewIMG" src="" style="width:100%;margin-top:10%;" />
+        <div style="position:fixed;z-index:110;bottom:0;background:black;width:100%;text-align:center;padding:20px">
+            <button id="btnCancelarArquivo" style="margin-right:20px;background:transparent;color:white;font-size:18px;border:0;">Cancelar</button>
+            <button id="btnEnviarArquivo" style="margin-left:20px;background:transparent;color:white;font-size:18px;border:0;">Usar Foto</button>
+        </div>
+    </div>
+
+    <div id="divPreviewGaleria" style="position:fixed;z-index:1100;left:0;right:0;bottom:0;top:0;background:black;display:none;">
+        <img id="previewIMGGaleria" src="" style="width:100%;margin-top:10%;" />
+        <input type="hidden" name="imgURI" />
+        <div style="position:fixed;z-index:110;bottom:0;background:black;width:100%;text-align:center;padding:20px">
+            <button id="btnCancelarArquivoGaleria" style="margin-right:20px;background:transparent;color:white;font-size:18px;border:0;">Cancelar</button>
+            <button id="btnEnviarArquivoGaleria" style="margin-left:20px;background:transparent;color:white;font-size:18px;border:0;">Usar Foto</button>
+        </div>
+    </div>
+
+    <script>
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+        var ObjValorNovo = sh1.ObjRenda_Get();
+
+        $(document).ready(function () {
+
+            InicioNome();
+            CarregarRodape();
+
+            $(".btnUpload").click(function () {
+
+                if ($(this).find(".status").attr("data-status") == STATUS_PENDENTE || $(this).find(".status").attr("data-status") == STATUS_REPROVADO) {
+                    $("#Upload .modal-title").html("<b>" + $(this).attr("data-doc") + "</b>");
+                    $("#Upload .modal-body").html($(this).attr("data-msg"));
+                    $("input[name=tipo_doc]").val($(this).attr("data-tipo-doc"));
+                    $("#Upload").modal("show");
+                }
+            });
+
+            $(".btnUpload2Items").click(function () {
+                var status = sh1.statusDocRenda_Get();
+                if ($(this).find(".status").attr("data-status") == STATUS_PENDENTE || $(this).find(".status").attr("data-status") == STATUS_REPROVADO) {
+                    var tipo_doc = $(this).attr("data-tipo-doc");
+
+                    if (!status.hasOwnProperty("DadosSolicitacoesImagens"))
+                        status["DadosSolicitacoesImagens"] = [];
+
+                    if ($.grep(status.DadosSolicitacoesImagens, function (e) { return e.TipoDocumento == retornaIdByTipoDoc(tipo_doc) && e.Face == "1" && (e.StatusCadastral == "0" || e.StatusCadastral == "6") }).length > 0) {
+
+                        $($("#Upload2Items").find(".getImage")[0]).prop("disabled", "disabled").css({ background: "#127817", color: "white" }).find("i.fa").removeClass("fa-camera").addClass("fa-thumbs-up").parent().parent().parent().find("label").html("Concluído");
+                        $($("#Upload2Items").find(".getImage")[1]).prop("disabled", false);
+                    } else {
+                        $($("#Upload2Items").find(".getImage")[0]).prop("disabled", false).css({ background: "#FFB51F", color: "#0E2545" }).find("i.fa").removeClass("fa-thumbs-up").addClass("fa-camera").parent().parent().parent().find("label").html($(this).attr("foto1"));
+                        $($("#Upload2Items").find(".getImage")[1]).prop("disabled", "disabled");
+                        $("#Upload2Items .foto1").html($(this).attr("foto1"));
+                    }
+
+                    $("#Upload2Items .modal-title").html("<b>" + $(this).attr("data-doc") + "</b>");
+                    $("#Upload2Items .modal-body").html($(this).attr("data-msg"));
+
+                    $("#Upload2Items .foto2").html($(this).attr("foto2"));
+                    $("input[name=tipo_doc]").val($(this).attr("data-tipo-doc"));
+                    $("#Upload2Items").modal("show");
+                }
+            });
+
+            $(".btn-enviar-analise").click(function () {
+                 location.href = 'pagina-renda-retorno.html';
+            });
+
+            $(".getImage").click(function () {
+                $("input[name=index]").val($(this).attr("data-index"));
+
+                if (u.getPlatform() == "W") {
+                    $("input[name=file]").click();
+                }
+                else {
+                    var options = {
+                        "buttonLabels": ["Abrir Câmera", "Selecionar da Galeria"],
+                        "addCancelButtonWithLabel": "Cancelar",
+                    };
+
+                    window.plugins.actionsheet.show(options, function (btnIndex) {
+                        if (btnIndex === 1) {
+                            openCamera();
+                        }
+                        else if (btnIndex === 2) {
+                            openFilePicker();
+                        }
+                    });
+                }
+            });
+
+            $("input[name=file]").change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#previewIMG").attr("src", e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                    $("#divPreview").show();
+                }
+            });
+
+            $("#btnCancelarArquivo").click(function () {
+                $("input[name=file]").val("");
+                $("#previewIMG").attr("src", "");
+                $("#divPreview").hide();
+            });
+
+            $("#btnEnviarArquivo").click(function () {
+                $("#previewIMG").attr("src", "");
+                $("#divPreview").hide();
+                $("#formUpload").submit();
+            });
+
+            $("#formUpload").submit(function (e) {
+                e.preventDefault();
+
+                if ($("input[name=file]").val() == "")
+                    return false;
+
+                var form = new FormData($(this)[0]);
+
+                $('#content').loadmask("");
+
+                $.ajax({
+                    url: u.GetUrlApi() + "Emprestimo/UploadDocumentos?plataforma=" + u.getPlatform() + "&versao=" + u.getVersion() + "&num_cpf=" + $('input[name=num_cpf]').val() + "&tipo_doc=" + $('input[name=tipo_doc]').val() + "&index=" + $('input[name=index]').val() + "&cod_cliente=" + $('input[name=cod_cliente]').val() + "&id_tomador=" + $('input[name=id_tomador]').val() + "&perfil_cliente=" + $('input[name=perfil_cliente]').val(),
+                    type: "post",
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    async: true,
+                    data: form,
+                    success: function (data) {
+                        //var obj = { response: data };
+                        onSuccess(data);
+
+                        $("input[name=file]").val("");
+
+                    },
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer " + dadosUser.token);
+                    },
+                    error: function (data, text, error) {
+                        $('#content').unloadmask("");
+                    }
+                });
+
+            });
+
+            $("input[name=num_cpf]").val(dadosUser.id_user);
+            $("input[name=cod_cliente]").val(ObjValorNovo.codCliente);
+            $("input[name=perfil_cliente]").val(3);
+            $("input[name=id_tomador]").val(0);
+
+            getStatus();
+        });
+
+        function retornaTipoDocById(id) {
+            switch (id) {
+                case 1:
+                    return "DocumentoIdentificacao";
+                    break;
+                case 4:
+                    return "CPF";
+                    break;
+                case 7:
+                    return "ComprovanteResidencia";
+                    break;
+                case 93:
+                    return "ExtratoBancario";
+                    break;
+                case 8:
+                    return "ComprovanteRenda";
+                    break;
+                case 164:
+                    return "FotoRosto";
+                    break;
+                case 163:
+                    return "FotoAssinatura";
+                    break;
+                case 112:
+                    return "OutrosDocumentos";
+                    break;
+            }
+        }
+
+        function retornaIdByTipoDoc(tipo) {
+            switch (tipo) {
+                case "DocumentoIdentificacao":
+                    return 1;
+                    break;
+                case "CPF":
+                    return 4;
+                    break;
+                case "ComprovanteResidencia":
+                    return 7;
+                    break;
+                case "ExtratoBancario":
+                    return 93;
+                    break;
+                case "ComprovanteRenda":
+                    return 8;
+                    break;
+                case "FotoRosto":
+                    return 164;
+                    break;
+                case "FotoAssinatura":
+                    return 163;
+                    break;
+                case "OutrosDocumentos":
+                    return 112;
+                    break;
+            }
+        }
+
+        function getStatus() {
+
+            $('#content').loadmask("");
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'Emprestimo/GetStatusDocumentos?numCPF=' + dadosUser.id_user + "&sequencial=0&perfil=3&codCliente=" + ObjValorNovo.codCliente + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion(), method: 'POST'
+                            , crossDomain: true
+                           , dataType: "json"
+                           , timeout: u.GetRequestTimeout()
+                           , beforeSend: function (request) {
+                               request.setRequestHeader("Authorization", 'Bearer ' + dadosUser.token);
+                           }
+            });
+
+            request.done(function (data) {
+
+                $.each(data.DadosSolicitacoesImagens, function (index, item) {
+                    delete item.ImgBase64;
+                });
+
+                sh1.statusDocRenda_Set(data);
+                verificaStatus(data);
+
+                $('#content').unloadmask("");
+            });
+
+            request.fail(function (data) {
+                $('#content').unloadmask("");
+            });
+        }
+
+        function showHelp() {
+            $("#info").modal("show");
+        }
+
+        function hideHelp() {
+            $("#info").modal("hide");
+        }
+
+        var STATUS_PENDENTE = "PENDENTE";
+        var STATUS_CONCLUIDO = "CONCLUIDO";
+        var STATUS_APROVADO = "APROVADO";
+        var STATUS_REPROVADO = "REPROVADO";
+        var STATUS_EM_ANALISE = "EM_ANALISE";
+
+        function verificaStatus(obj) {
+
+            var statusUpload = {
+                ExtratoBancario: STATUS_PENDENTE,
+                ComprovanteRenda: STATUS_PENDENTE,
+            };
+
+            if (obj.DadosSolicitacoesImagens.length > 0) {
+
+                $.each(obj.DadosSolicitacoesImagens, function (index, item) {
+                    var tipo_documento = retornaTipoDocById(item.TipoDocumento);
+
+                    if ((tipo_documento == "DocumentoIdentificacao" || tipo_documento == "ExtratoBancario" || tipo_documento == "ComprovanteRenda") && item.Face == "1") {
+                        return;
+                    }
+                    else {
+                        switch (item.StatusCadastral) {
+                            case "0": statusUpload[tipo_documento] = STATUS_CONCLUIDO;
+                                break;
+                            case "5": statusUpload[tipo_documento] = STATUS_REPROVADO;
+                                break;
+                            case "6": statusUpload[tipo_documento] = STATUS_APROVADO;
+                                break;
+                        }
+                    }
+                });
+
+            }
+
+            if ((statusUpload.ExtratoBancario == STATUS_CONCLUIDO || statusUpload.ExtratoBancario == STATUS_APROVADO) && (statusUpload.ComprovanteRenda == STATUS_CONCLUIDO || statusUpload.ComprovanteRenda == STATUS_APROVADO)) {
+                $(".btn-enviar-analise").prop("disabled", false);
+            }
+
+            atualizaStatus(statusUpload);
+        }
+
+        function atualizaStatus(statusUpload) {
+            atualizaStatusCell("DocumentoIdentificacao", statusUpload.DocumentoIdentificacao);
+            atualizaStatusCell("CPF", statusUpload.CPF);
+            atualizaStatusCell("ComprovanteResidencia", statusUpload.ComprovanteResidencia);
+            atualizaStatusCell("ExtratoBancario", statusUpload.ExtratoBancario);
+            atualizaStatusCell("ComprovanteRenda", statusUpload.ComprovanteRenda);
+            atualizaStatusCell("FotoRosto", statusUpload.FotoRosto);
+            atualizaStatusCell("FotoAssinatura", statusUpload.FotoAssinatura);
+            atualizaStatusCell("OutrosDocumentos", statusUpload.OutrosDocumentos);
+        }
+
+        function atualizaStatusCell(id, status) {
+            if (status == STATUS_PENDENTE) {
+                $("#" + id).css({ background: "#b1b1b1" });
+                $("#" + id + "_i").addClass("fa").addClass("fa-camera");
+                $("#" + id + "_p").html("Status: <b>Pendente</b>");
+            }
+            else if (status == STATUS_CONCLUIDO) {
+                $("#" + id).css({ background: "#127817" });
+                $("#" + id + "_i").addClass("fa").addClass("fa-thumbs-up");
+                $("#" + id + "_p").html("Status: <b>Concluído</b>");
+            }
+            else if (status == STATUS_APROVADO) {
+                $("#" + id).css({ background: "#127817" });
+                $("#" + id + "_i").addClass("fa").addClass("fa-check");
+                $("#" + id + "_p").html("Status: <b>Aprovado</b>");
+            }
+            else if (status == STATUS_REPROVADO) {
+                $("#" + id).css({ background: "#c70909" });
+                $("#" + id + "_i").addClass("fa").addClass("fa-remove");
+                $("#" + id + "_p").html("Status: <b>Reprovado</b>");
+            }
+            else if (status == STATUS_EM_ANALISE) {
+                $("#" + id).css({ background: "#ffb51f" });
+                $("#" + id + "_i").addClass("fa").addClass("fa-clock-o");
+                $("#" + id + "_p").html("Status: <b>Em Análise</b>");
+            }
+
+            $("#" + id).attr("data-status", status);
+        }
+
+        function setOptions(sourceType) {
+            var option = {
+                quality: 60,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: sourceType,
+                encodingType: Camera.EncodingType.JPEG,
+                mediaType: Camera.MediaType.PICTURE,
+                correctOrientation: true
+            };
+
+            return option;
+        }
+
+        function openCamera() {
+            navigator.camera.getPicture(function (URI) {
+                mobileUpload(URI);
+            }, function () {
+
+            }, setOptions(Camera.PictureSourceType.CAMERA));
+        }
+
+        function openFilePicker() {
+            navigator.camera.getPicture(function (URI) {
+                if (u.getPlatform() == "A") {
+                    window.FilePath.resolveNativePath(URI, function (result) {
+                        URI = result.split("?")[0];
+                                                      $("#previewIMGGaleria").attr("src", URI);
+                                                      $("#divPreviewGaleria").show();
+                                                      $("input[name=imgURI]").val(URI);
+                    }, function (error) { });
+
+                } else {
+                                        $("#previewIMGGaleria").attr("src", URI);
+                                        $("#divPreviewGaleria").show();
+                                        $("input[name=imgURI]").val(URI);
+                    URI = URI.split("?")[0];
+                }
+                
+
+            }, function () {
+
+            }, setOptions(Camera.PictureSourceType.SAVEDPHOTOALBUM));
+        }
+
+        $("#btnEnviarArquivoGaleria").click(function () {
+            $("#previewIMGGaleria").attr("src", "");
+            $("#divPreviewGaleria").hide();
+            mobileUpload($("input[name=imgURI]").val());
+        });
+
+        $("#btnCancelarArquivoGaleria").click(function () {
+            $("input[name=imgURI]").val("");
+            $("#previewIMGGaleria").attr("src", "");
+            $("#divPreviewGaleria").hide();
+        }); 
+
+        function mobileUpload(uri) {
+            $('#content').loadmask("");
+
+            var url = u.GetUrlApi() + "Emprestimo/UploadDocumentos?plataforma=" + u.getPlatform() + "&versao=" + u.getVersion() + "&num_cpf=" + $('input[name=num_cpf]').val() + "&tipo_doc=" + $('input[name=tipo_doc]').val() + "&index=" + $('input[name=index]').val() + "&cod_cliente=" + $('input[name=cod_cliente]').val() + "&id_tomador=" + $('input[name=id_tomador]').val() + "&perfil_cliente=" + $('input[name=perfil_cliente]').val()
+
+            var encode = encodeURI(url);
+
+            var fileUploadOptions = new FileUploadOptions();
+            fileUploadOptions.fileKey = 'file';
+            fileUploadOptions.chunkedMode = false;
+            fileUploadOptions.fileName = uri.substring(uri.lastIndexOf('/') + 1);
+            //fileUploadOptions.params = obj;
+            fileUploadOptions.mimeType = 'image/jpeg';
+            fileUploadOptions.headers = { "Authorization": "Bearer " + dadosUser.token }
+
+            var ft = new FileTransfer();
+            ft.upload(uri, encode, onSuccess, onError, fileUploadOptions);
+
+        }
+
+        function onSuccess(data) {
+            $('#content').unloadmask("");
+            if (u.getPlatform() != "W") {
+                data = data.response;
+                data = JSON.parse(data);
+            }
+
+
+
+            if (data.Error.length == 0) {
+
+                var doc = $("input[name=tipo_doc]").val();
+                var index = $("input[name=index]").val();
+                if ((doc == "ExtratoBancario" || doc == "ComprovanteRenda" || doc == "DocumentoIdentificacao") && index == 1) {
+
+                    $($("#Upload2Items").find(".getImage")[0]).prop("disabled", "disabled").css({ background: "#127817", color: "white" }).find("i.fa").removeClass("fa-camera").addClass("fa-thumbs-up").parent().parent().parent().find("label").html("Concluído");
+                    $($("#Upload2Items").find(".getImage")[1]).prop("disabled", false);
+
+                } else {
+                    $("#Upload").modal("hide");
+                    $("#Upload2Items").modal("hide");
+                    getStatus();
+                }
+            }
+        }
+
+        function onError(data) {
+            $('#content').unloadmask("");
+        }
+    </script>
+</body>
+</html>

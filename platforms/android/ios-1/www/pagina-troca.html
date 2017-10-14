@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+   
+    <script type="text/javascript" src="cordova.js"></script>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+
+    <title>Crefisa</title>
+</head>
+<body>
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        <div class="text-xs-center">Trocar senha</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section central-relacionamento">
+
+            <div class="bg-branco full-height p-t-2 h-100">
+
+                <div id="content" class="container">
+
+                    <div style="position:relative;top:-10px" class="font-medium">
+                        <img src="webfiles/images/icones/trocar-senha.svg" width="20" class="center-block" />
+                        <p style="position:relative;top:10px;font-size:18px; text-align:justify !important"" class="text-xs-center m-y-2">Para a alteração de sua senha com segurança, você deve preencher todos os campos abaixo com atenção.</p>
+                    </div>
+
+                    <form style="position:relative;top:20px" class="form-group form-comum">
+                        <div class="row">
+                            <div class="col-xs-12 m-y-1 grupo-input" style="position:relative;top:-10px">
+                                <label style="font-size:22px; font-weight:bold">Senha atual:</label>
+                                <input type="text" style="font-size:22px;position:relative;top:-7px;background-color:#f5f5f5; color:#000000" maxlength="6" onfocus="DarScroll();" onkeypress="return SomenteNumero(event);" name="senhaatual" id="txtSenha" placeholder="Senha atual" class="showPassInput form-control" />
+                            </div>
+                            <div class="col-xs-12 grupo-input m-y-1" style="position:relative;top:-20px">
+                                <label style="font-size:22px; font-weight:bold">Nova Senha:</label>
+                                <input type="text" style="font-size:22px;position:relative;top:-7px;background-color:#f5f5f5; color:#000000" name="novasenha" onfocus="DarScroll();" maxlength="4" onkeypress="return SomenteNumero(event);" id="txtNovaSenha" placeholder="Nova Senha" class="showPassInput2 form-control" />
+                            </div>
+                            <!--
+                            <div style="position:relative;top:-30px" class="col-xs-12 grupo-input m-y-1">
+                                <label style="font-size:22px; font-weight:bold">Confirme a Senha:</label>
+                                <input type ="text" style="font-size:22px;position:relative;top:-7px;background-color:#f5f5f5; color:#000000" type="password" name="novasenha" onfocus="DarScroll();" maxlength="6" onkeypress="return SomenteNumero(event);" id="txtConfirmarSenha" placeholder="Confirme a Senha" class="showPassInput2 form-control" />
+                            </div>
+                                -->
+                            <div style="position:relative;top:-65px" class="col-xs-12 m-t-1">
+                                <!--data-toggle="modal" data-target="#senhaAlteradaSucesso"-->
+                                <a href="#" onclick="ConfirmarSenha();" style="font-size:18px;font-weight:bold" title="Proximo passo" class="btn btn-cor-primaria center-block m-t-2">Confirmar</a>
+                                <a href="pagina-ola.html" title="Voltar para o inicio" class="btn btn-link center-block">Voltar para o inicio</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <section class="barra-acesso">
+                    <div class="container">
+                        <div class="texto">
+                            <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </section>
+
+    </section>
+
+    <!-- TODO: Modal Senha alterada com sucesso -->
+    <div class="modal modal-simples modal-vertical fade" id="senhaAlteradaSucesso" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1">A sua senha foi alterada com sucesso!</p>
+                    <a href="javascript:void(0);" title="Menu" data-dismiss="modal" class="app-nav-collapse btn btn-cor-primaria m-t-2">Ir para o menu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <!--Para prosseguir você precisa aceitar os termos contratuais.-->
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-simples modal-vertical fade" id="senhaSucesso" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1">A sua senha foi alterada com sucesso!</p>
+                    <a href="#" title="Menu" data-dismiss="modal" onclick="Inicio();" class="app-nav-collapse btn btn-cor-primaria m-t-2">Voltar para o ínicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script type="text/javascript">
+    InicioNome();
+    CarregarRodape();
+
+    function Inicio() {
+        window.location = 'pagina-ola.html';
+    }
+
+    function DarScroll() {
+        $('html,body').animate({ scrollTop: 100 }, 'slow');
+    }
+
+    function SomenteNumero(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) return true;
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+
+
+    function ConfirmarSenha() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        var esqueceuSenha = sh1.EsqueciSenha_Get();
+        var senhaAtual = $('#txtSenha').val();
+        var senha = $('#txtNovaSenha').val();
+        //var COnfirmarSenha = $('#txtConfirmarSenha').val();
+  
+        //if (senha == "" || senhaAtual == "" || COnfirmarSenha == "") {
+        if (senha == "" || senhaAtual == "") {
+            $('.modal-aviso').modal('show');
+            $('.results').html("Por favor preencha a senha.");
+
+            //navigator.notification.alert('Por favor preencha todos os campos', function () { }, 'Atenção', 'Entendi');
+            return;
+        }
+
+        /*if (senha != COnfirmarSenha) {
+            $('.modal-aviso').modal('show');
+            $('.results').html("As senhas digitadas não são iguais, digite novamente!");
+            //navigator.notification.alert('As senhas digitadas não são iguais, digite novamente!', function () { }, 'Atenção', 'Entendi');
+
+            $('#txtNovaSenha').val('');
+            $('#txtConfirmarSenha').val('');
+            return;
+        }*/
+
+        if (senha.length < 4 && senhaAtual.length < 4) {
+            $('.modal-aviso').modal('show');
+            $('.results').html("Senha não pode ter menos que 4 caracteres!");
+            //navigator.notification.alert('Senha não pode ter menos que 6 caracteres!', function () { }, 'Atenção', 'Entendi');
+            return;
+        }
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+        $('#content').loadmask("");
+        
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/ValidarSenha?travaAppAntigo=1'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                        , Senha: senhaAtual
+
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $('#content').unloadmask("");
+                    if (result) {
+                        sh1.TrocaSenha_Set(senha);
+                        CriarUser();
+                    } else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Senha Inválida");
+
+                        //navigator.notification.alert('Senha Inválida', function () { }, 'Atenção', 'Entendi');
+
+                        $('#txtNovaSenha').val('');
+                        //$('#txtConfirmarSenha').val('');
+                        $('#txtSenha').val('');
+
+                        return;
+                    }
+
+                }
+            );
+        request.fail(
+            function (result) {
+                $('#content').unloadmask("");
+                return 'Problema ao acessar serviço';
+            }
+        );
+
+    }
+
+    function CriarUser() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+        var dadosUser = sh1.Login_Get();
+        var senha = sh1.TrocaSenha_Get();
+        dadosUser = JSON.parse(dadosUser);
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/VerificaClienteCrefisa?travaAppAntigo=1&plataforma='+u.getPlatform()+'&versao='+u.getVersion()
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+                    if (result.ClienteCadSenha == true) {
+
+
+                        jQuery.support.cors = true;
+                        var request2 = $.ajax({
+                            url: u.GetUrlApi() + 'Login/CriarSenha?travaAppAntigo=1'
+                                , method: 'POST'
+                                , crossDomain: true
+                                , timeout: u.GetRequestTimeout()
+                                , data:
+                                    {
+                                        CPF: dadosUser.id_user
+                                        , Senha: senha
+
+                                    }
+                        });
+
+                        request2.done(
+                                function (result) {
+                                    $('#content').unloadmask();
+
+
+                                    if (result == true) {
+                                        $("#senhaSucesso").modal();
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro ao alterar senha, tente novamente!");
+                                    }
+
+                                });
+                        request2.fail(
+                                function (result) {
+                                    $('#content').unloadmask();
+                                    if (result.status == 400) {
+                                        //BAD REQUEST
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro não especificado!");
+
+                                    }
+                                    else if (result.status == 404) {
+                                        //NOT FOUND
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Servidor não encontrado!");
+
+                                    }
+                                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                                        //TIMEOUT
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Tempo de requisição expirou!");
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                                    }
+                                }
+                            );
+                    }
+                    else {
+                        $('#content').unloadmask();
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Senha incorreta!");
+                    }
+
+                });
+
+        request.fail(
+                                function (result) {
+                                    $('#content').unloadmask();
+                                    if (result.status == 400) {
+                                        //BAD REQUEST
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro não especificado!");
+
+                                    }
+                                    else if (result.status == 404) {
+                                        //NOT FOUND
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Servidor não encontrado!");
+
+                                    }
+                                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                                        //TIMEOUT
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Tempo de requisição expirou!");
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                                    }
+                                }
+                            );
+    }
+
+
+</script>

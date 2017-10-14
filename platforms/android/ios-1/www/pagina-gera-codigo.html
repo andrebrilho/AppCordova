@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+
+    <link href="css/ProgressBar.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/jquery.progressTimer.min.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+</head>
+<body>
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="#" title="Voltar" onclick="Inicio();" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container" style="font-size:16px">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        <div class="text-xs-center">Código de ativação</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section central-relacionamento codigo-ativacao">
+
+            <div class="bg-branco" id="content">
+                <div class="container">
+                    <div class="font-medium">
+                        <img src="webfiles/images/icones/click-1.svg" class="center-block m-t-2" />
+                        <p class="text-xs-center m-y-2">Gere aqui o código de ativação para ser utilizado em nosso site para seguir com sua alteração de senha.</p>
+                    </div>
+                </div>
+
+                <div class="ativacao-codigo-web text-xs-center">
+                    <div class="container">
+                        <div class="codigo"><p class="CodAtivacao"></p></div>
+                        <div id="progressTimer"></div>
+                        <p>O código gerado tem a validade de apenas 2 minutos para utilização em nosso site.</p>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <a href="javascript:void(0);" onclick="CodigoAtivacao();" title="" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Gerar código de ativação</a>
+                    <a href="#" title="" onclick="Inicio();" class="btn btn-link center-block m-t-2">Voltar para o início</a>
+                </div>
+            </div>
+
+            <section style="position:relative;top:130px" class="barra-acesso">
+                <div class="container">
+                    <div class="texto">
+                        <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+
+    </section>
+
+    <!-- TODO: Modal Senha alterada com sucesso -->
+    <div class="modal modal-simples modal-vertical fade" id="senhaAlteradaSucesso" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1">A sua senha foi alterada com sucesso!</p>
+                    <a href="javascript:void(0);" title="Menu" data-dismiss="modal" class="app-nav-collapse btn btn-cor-primaria m-t-2">Ir para o menu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+
+</body>
+
+
+</html>
+<script type="text/javascript">
+    InicioNome();
+
+    function Inicio() {
+        window.location = 'pagina-ola.html';
+    }
+
+    function CodigoAtivacao() {
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        CarregarRodape();
+        var TipoEnvio = '';
+        var esqueceuSenha = false;
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+        $('#content').loadmask("");
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/ObterCodigoAtivacao'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                        , TipoEnvio: TipoEnvio
+
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+                    $('.CodAtivacao').html(result);
+                    $("#progressTimer").progressTimer({
+                        timeLimit: 120,
+                        warningThreshold: 20,
+                        baseStyle: 'progress-bar-info',
+                        warningStyle: 'progress-bar-warning',
+                        completeStyle: 'progress-bar-danger',
+                        onFinish: function () {
+                            console.log("I'm done");
+                        }
+                    });
+                    $('#content').unloadmask();
+                });
+
+        request.fail(
+             function (result) {
+                 $('#content').unloadmask();
+                 if (result.status == 400) {
+                     //BAD REQUEST
+                     $('.modal-aviso').modal('show');
+                     $('.results').html("Erro não especificado!");
+                     //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                 }
+                 else if (result.status == 404) {
+                     //NOT FOUND
+                     $('.modal-aviso').modal('show');
+                     $('.results').html("Servidor não encontrado!");
+                     //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                 }
+                 else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                     //TIMEOUT
+                     $('.modal-aviso').modal('show');
+                     $('.results').html("Tempo de requisição expirou!");
+                     //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                 }
+                 else {
+                     $('.modal-aviso').modal('show');
+                     $('.results').html("Ocorreu um erro não identificado na requisição!");
+                     //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                 }
+             }
+            );
+
+    }
+
+</script>

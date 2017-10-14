@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;font-src *">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+</head>
+<body class="bgLogin">
+    <section class="section fluxo-login">
+        <div id="content" class="chamada-login container">
+            <div  class="col-xs-12">
+                <div class="cadastro">
+                    <div class="texto">
+                        <!--h1> style="font-size:18px"><span id="spTexto">Criar senha</span></!--h1-->
+                    </div>
+                    <form class="form-group campo-simples">
+                        <div class="row">
+                            <!-- Para deixar o campo normal basta apenas retirar a classe "campo-sucesso" -->
+                            <div class="col-xs-12">
+                                <input type="tel" maxlength="4" onkeypress="return SomenteNumero(event);" id="txtSenha" onfocus="AlterarPosicaoFocusCriaSenha('dvSuspender');" name="senha" placeholder="Crie sua senha" class="input-simples center-block w-90 form-control labelCriarSenha"style="padding: 16px 5px;" />
+                                <!--<a href="javascript:void(0);" class="showPass"></a>-->
+                                <small style="color:white" class="msg-response-input senha-forte"></small>
+                            </div>
+                            <!--
+                            <div class="col-xs-12">
+                                <input type="tel" maxlength="6" id="txtConfirmarSenha" onfocus="AlterarPosicaoFocusCriaSenha('dvSuspender');" name="senha" placeholder="Confirme sua senha" class="input-simples center-block w-90 form-control labelCriarSenha"style="padding: 16px 5px;" />
+                                <small style="color:white" class="msg-response-input senha-forte"></small>
+                            </div>
+                        -->
+                            <div style="text-align:center;">
+                                <label style="color:#0E2545;font-size:18px;margin-top:10px;">Senha com 4 números</label>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="acoes" style="text-align:center;margin-top:10px;">
+                        <a href="#" title="Termos"  onclick="$('.modal-termos').modal('show')" class="labelCriarSenha" style="color:#0E2545; text-align:center;text-decoration:underline;font-weight:600;font-size:18px !important">Termos e Condições de Uso</a>
+                        <a href="#" title="Entrar" class="btn btn-cor-primaria" onclick="CriarUser();" style="font-size:18px; font-weight:bold;margin-top:15px;">Entrar</a>
+                        <a href="pagina-login.html" title="Voltar" class="btn simples" style="color:#0E2545">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footerLigueParaNos" style="position:fixed; bottom: 0; left:0; width:100%; height:40px; background-color:#0E2545">
+            <div style="width:30%; height:75%; float:left; margin-top:6px">
+                <div class="logo">
+                    <svg width="68px" height="25px" viewBox="103 39 169 63" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs></defs>
+                        <g id="Page-1-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(104.000000, 39.000000)">
+                            <path d="M150.644331,33.8227147 L153.109077,22.1726685 C151.615744,22.0960037 150.198571,21.4939594 149.078571,20.6694367 L142.579584,32.1661533 C144.895744,33.2206704 147.432917,33.8227147 150.122411,33.8227147 L150.644331,33.8227147 Z" id="Fill-1" fill="#FFB51F"></path>
+                            <path d="M161.547083,14.6565097 L167.520416,14.5798449 C167.219509,12.0987608 166.400416,9.8439132 165.131829,7.81530194 L159.905163,9.46810526 C160.949003,10.8217655 161.547083,12.5512336 161.547083,14.3536085 L161.547083,14.6565097 Z" id="Fill-3" fill="#FFB51F"></path>
+                            <path d="M157.737589,7.58906556 L159.977589,2.55399077 C158.187083,1.34990212 156.171829,0.448714681 153.931829,0 L153.931829,6.53830656 C155.272843,6.53830656 156.617589,6.9141145 157.737589,7.58906556" id="Fill-5" fill="#FFB51F"></path>
+                            <path d="M150.792917,7.06368606 L146.164331,0 C143.550997,0.598286242 141.162411,1.72571006 139.147157,3.30560665 L147.360491,9.77100646 C148.255744,8.56691782 149.375744,7.66573038 150.792917,7.06368606" id="Fill-7" fill="#FFB51F"></path>
+                            <path d="M146.015669,12.77747 L133.025163,12.77747 C132.724256,13.9778006 132.575669,15.3314608 132.575669,16.685121 C132.575669,18.1883527 132.800416,19.6149197 133.097589,20.9685799 L146.389003,17.0609289 C146.091829,16.2326482 145.867083,15.3314608 145.867083,14.3536085 C145.867083,13.828229 145.939509,13.3028495 146.015669,12.77747" id="Fill-9" fill="#FFB51F"></path>
+                            <path d="M156.320416,21.7968606 L159.604256,31.1153943 C161.920416,29.6121625 163.935669,27.656458 165.280416,25.2520388 L160.499509,18.3379243 C159.604256,19.9178209 158.038496,21.1948163 156.320416,21.7968606" id="Fill-11" fill="#FFB51F"></path>
+                            <g id="Group-15" transform="translate(0.000000, 24.954173)" fill="#FFFFFF">
+                                <path d="M15.2728427,25.7798986 L16.1718293,17.9608386 C5.26900267,21.3431101 9.45182933,5.40960499 17.440416,8.79187645 L19.7528427,0.823244875 C-1.97291733,-4.28473666 -8.993824,32.6173483 15.2728427,25.7798986" id="Fill-13"></path>
+                            </g>
+                            <path d="M20.800416,50.6574824 L24.2328427,32.9945091 C22.964256,32.6187012 21.6956693,32.3924648 20.278496,32.4691296 L21.398496,26.5291093 C25.4290027,25.9308231 29.6118293,25.8541583 33.9395093,25.8541583 L32.598496,30.8163263 C35.1356693,26.3795378 37.8975893,24.1246901 41.3337493,25.8541583 L38.9451627,34.121933 C33.8670827,32.9945091 31.402336,40.2844316 29.8328427,50.7341472 L20.800416,50.6574824 Z" id="Fill-16" fill="#FFFFFF"></path>
+                            <path d="M48.5756693,36.0009727 C49.0251627,34.3481693 49.920416,33.071174 51.3375893,32.1662284 C53.204256,31.1921343 54.5490027,32.9178443 53.3528427,34.4210761 C52.160416,35.8514011 50.518496,36.3001158 48.5756693,36.0009727 M58.282336,42.615944 L58.282336,49.5300585 C29.162336,59.4506366 36.6290027,26.0037298 52.9795093,25.2521139 C66.9451627,24.9529708 65.2270827,42.615944 47.7528427,41.7147566 C47.3795093,44.4949837 50.8156693,44.8707917 58.282336,42.615944" id="Fill-18" fill="#FFFFFF"></path>
+                            <path d="M82.4728427,50.8069788 L91.5090027,50.8069788 L96.0651627,26.3065559 C91.4328427,25.7774183 87.1051627,25.8540831 83.2195093,26.7552705 L82.0270827,32.5419612 C83.3718293,32.4690545 84.7128427,32.6952909 86.1337493,32.994434 L82.4728427,50.8069788 Z M93.078496,13.7515642 C96.0651627,13.7515642 98.526176,16.1597415 98.526176,19.166205 C98.526176,22.1726685 96.0651627,24.6499945 93.078496,24.6499945 C90.0918293,24.6499945 87.6270827,22.1726685 87.6270827,19.166205 C87.6270827,16.1597415 90.0918293,13.7515642 93.078496,13.7515642 L93.078496,13.7515642 Z" id="Fill-20" fill="#FFFFFF"></path>
+                            <path d="M95.6156693,50.2049344 L97.2575893,42.915012 C103.604256,44.9436233 104.427083,42.5392041 101.067083,39.8356417 C96.5109227,35.6250896 98.1528427,29.5354977 101.737589,27.1310785 C105.246176,25.0258024 109.352843,24.3508513 114.133749,25.3287036 L112.339509,31.7903453 C110.027083,31.1153943 108.232843,31.1153943 107.562336,32.6952909 C107.189003,34.1218578 108.758496,34.7968089 109.950923,35.9242327 C112.339509,38.4819815 113.162336,41.4117802 111.817589,44.9436233 C108.682336,50.4311708 103.006176,51.784831 95.6156693,50.2049344" id="Fill-22" fill="#FFFFFF"></path>
+                            <path d="M130.709003,31.943675 C129.962336,37.3545577 125.931829,43.8161994 124.362336,42.3129677 C123.467083,41.2622087 123.539509,39.007361 124.659509,36.3767054 C126.080416,32.9177692 128.095669,31.4145374 130.709003,31.943675 L130.709003,31.943675 Z M127.870923,49.9824561 L140.491829,49.3804118 L141.611829,43.6666279 L137.577589,43.0645836 L140.789003,25.7045115 C138.324256,25.1024672 135.859509,24.8033241 133.322336,24.7266593 C117.718496,23.3729991 112.937589,36.8291782 114.579509,44.8707165 C115.851829,51.2594515 122.644256,54.0396787 129.291829,45.396096 L127.870923,49.9824561 Z" id="Fill-24" fill="#FFFFFF"></path>
+                            <g id="Group-28" transform="translate(56.000000, 13.679935)" fill="#FFFFFF">
+                                <path d="M7.50900267,37.1270436 C6.61374933,41.2609309 5.41758933,42.0892116 2.13374933,40.9617878 L0.118496,48.3283751 C2.43092267,49.0033261 4.89566933,49.0033261 7.50900267,48.4779466 C11.9128427,47.5767592 14.8995093,44.1178229 16.3928427,37.8786595 L19.680416,19.3144988 L23.562336,19.3144988 L25.1318293,12.5499559 L20.9490027,12.5499559 L20.9490027,12.2508127 C21.246176,10.8971525 21.5470827,9.76972872 22.0690027,9.01811283 C22.518496,8.33940369 23.040416,7.89068901 23.638496,7.74111745 C24.3851627,7.43821625 25.3528427,7.66445263 26.4728427,8.33940369 L28.4918293,0.823244875 C26.6975893,0.447436934 24.9070827,0.374530194 23.1128427,0.374530194 C16.9909227,0.600766574 13.1090027,4.28218116 12.2137493,12.3237195 L12.1375893,12.5499559 L9.29950933,12.5499559 L7.73374933,19.3144988 L10.8690027,19.3144988 L7.50900267,37.1270436 Z" id="Fill-26"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div style="width:70%; float:left; text-align:right" onclick="$('#ModalTelefone').modal('show')">
+
+                <!--a> href="#" title="Ligue" onclick="$('#ModalTelefone').modal('show')">Ligue para nós!</a-->
+                <p style="font-size:16px; margin-right:10px; margin-top:9px">
+                    <img src="webfiles/images/icon_ligue_pra_nos.png" style="width:26px; height:26px; margin-top:-3px" />
+                    Ligue para nós!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-aviso2 modal modal-simples fade" id="ModalTelefone" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Central de Relacionamento</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="mini-central">
+                        <div class="ativacao-num">
+                            <div class="central-item m-y-1">
+                                <div class="num">
+                                    <svg width="20px" height="20px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <defs></defs>
+                                        <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                                    </svg>
+                                    4004-4001
+                                </div>
+                                <div class="titulo">Capitais e regiões metropolitanas</div>
+                            </div>
+                            <div class="central-item m-y-1">
+                                <div class="num">
+                                    <svg width="20px" height="20px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <defs></defs>
+                                        <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                                    </svg>
+                                    0800-722-4444
+                                </div>
+                                <div class="titulo">Demais localidades</div><p>
+                                    De segunda a sexta-feira,<br />das 8h às 22h<br />e aos sábados, das<br />8h às 15h
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" title="Entendi" onclick="$('#ModalTelefone').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div> class="modal modal-simples fade" id="senhaSucesso" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1">Parabéns, seja bem vindo ao Crefisa Digital!</p>
+                    <a href="#" title="Menu" data-dismiss="modal" onclick="Inicio();" class="app-nav-collapse btn btn-cor-primaria m-t-2">Comece a utilizar</a>
+                </div>
+            </div>
+        </div>
+    </div-->
+
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-termos modal modal-simples fade" id="termos" tabindex="-1" role="dialog" aria-labelledby="termosLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="termosLabel">
+                        Termos e Condições de Uso
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div style="text-align:justify !important">
+                        <p>Termos e Condições de Uso</p>
+
+                        <p> A utilização deste aplicativo se sujeita aos Termos e Condições abaixo:</p>
+
+                        <p> a) A Crefisa S/A não garante que as informações, instrumentos e os materiais contidos, utilizados e oferecidos por meio deste aplicativo, em ambiente logado ou não, estejam precisamente atualizados ou completos, e não se responsabiliza por danos causados por eventuais erros de conteúdo ou falhas de acesso ou de equipamentos.</p>
+
+                        <p>b) A Crefisa S/A não se responsabiliza, expressa ou tacitamente, pelo uso indevido das informações, dos instrumentos, dos materiais disponibilizados e/ou dos equipamentos utilizados por este aplicativo, para quaisquer que sejam os fins, feito por qualquer usuário, sendo de inteira responsabilidade desse as eventuais lesões a direito próprio ou de terceiros, causadas ou não por esse uso inadequado.</p>
+
+                        <p>c) Em nenhuma circunstância, a Crefisa S/A, seus diretores, funcionários ou terceiros prestadores de serviço, serão responsáveis por quaisquer danos diretos ou indiretos, especiais, incidentais ou de consequência, lucros cessantes, perdas ou despesas oriundas da conexão com este aplicativo, em ambiente logado ou não, ou uso da sua parte ou incapacidade de uso por qualquer parte, ou com relação a qualquer falha de desempenho, erro, omissão, interrupção, defeito ou demora na operação ou transmissão, vírus cibernético, spyware, malware, ou qualquer outro tipo de programa malicioso análogo, ou falha da linha ou sistema, mesmo se a Crefisa S/A ou seus representantes estejam avisados da possibilidade de ocorrência de tais danos, perdas ou despesas.</p>
+
+                        <p>d) A providência de todos os recursos para acesso a este aplicativo, bem como o uso e guarda da senha pessoal de acesso são de inteira e exclusiva responsabilidade do usuário.</p>
+
+                        <p>e) A Crefisa S/A se reserva ao direito de melhorar as funcionalidades deste aplicativo em função da análise e da consolidação das informações e sugestões colhidas e das oportunidades para o conjunto de usuários do aplicativo.</p>
+
+                        <p>f) Salvo disposição em contrário, todo o conteúdo do aplicativo, tais como informações, materiais, software, tecnologias, instrumentos, organização de conteúdo do aplicativo, gráficos, desenhos etc., são de propriedade da Crefisa S/A e protegidos por direitos autorais, sendo vedada a sua reprodução, alteração ou cessão.</p>
+
+                        <p> g) Ao utilizar o aplicativo da Crefisa S/A, o usuário manifesta estar de acordo com esta política e autoriza de forma livre e informada, a coletar, a usar, a armazenar, a tratar e a compartilhar os dados informados, inclusive o código de identificação do seu aparelho celular e sua localização.</p>
+
+                        <p>h) Os dados são tratados com padrões rígidos de segurança, de confidencialidade e de ética, utilizados para pesquisas em fontes disponíveis de mercado, entidades de proteção ao crédito, ao Sistema de Informações do Banco Central (SCR), e compartilhados com as empresas do grupo e/ou parceiros da Crefisa S/A.</p>
+
+                        <p> i) A Crefisa S/A faculta o uso deste aplicativo, mas não se responsabiliza, por eventuais prejuízos, diretos e/ou indiretos, de quaisquer naturezas, causados por falhas, omissões, defeitos, interferência de terceiros, uso inadequado de equipamento, falha de sistema, dentre outros.</p>
+
+                    </div>
+
+                    <a href="#" title="Enviar" data-dismiss="modal" class="btn btn-cor-primaria m-t-2">Concordo</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+    <input type="hidden" id="hdCadastrouSenha" value="0" />
+    <input type="hidden" id="hdSenha" />
+    <input type="hidden" id="hdSenhaConfirmar" />
+</body>
+</html>
+<script type="text/javascript">
+
+
+    $('#txtSenha').mask('9999');
+
+    var u = new Util();
+    if (u.GetAppOuWeb() == 1) {
+
+      
+    }
+
+    function Inicio() {
+        // window.location = 'pagina-ola.html';
+
+
+        
+            var u = new Util();
+            var sh1 = new StorageHelp();
+        
+            var dadosUser = sh1.Login_Get();
+
+            dadosUser = JSON.parse(dadosUser);
+
+            var userName = dadosUser.id_user;
+            var password =  $("#txtSenha").val();
+            
+            $('#content').loadmask("");
+
+            jQuery.support.cors = true;
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'token'
+                    , method: 'POST'
+                    , crossDomain: true
+                    , timeout: u.GetRequestTimeout()
+                    , data:
+                        {
+                            username: userName
+                            , password: password
+                            , grant_type: 'password'
+                        }
+            });
+
+            request.done(
+            function (result) {
+                sh1.login_class.id_user = userName;
+                sh1.login_class.token = result.access_token;
+                if (result.ClienteNovo == "True") {
+                    sh1.login_class.flagNovo = true;
+                    sh1.Login_Save(JSON.stringify(sh1.login_class));
+                    window.location = 'pagina-pre-cadastro.html';
+                    $('#content').unloadmask();
+                }
+                else {
+                            
+                    sh1.login_class.user = result.id_usuario;
+                    sh1.login_class.token_guid = "";
+                    sh1.login_class.codCliente = result.cod_cliente;
+                    sh1.login_class.applications = result.id_usuario;
+                    sh1.login_class.flgPreAprovado = result.flgPreAprovado;
+
+                    sh1.Login_Save(JSON.stringify(sh1.login_class));
+
+                    window.location = 'pagina-ola.html';
+                    $('#content').unloadmask();
+                }   
+            });
+            request.fail(
+                    function (result) {
+                        $('#content').unloadmask();
+                        if (result.status == 400) {
+                            //BAD REQUEST
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Usuário ou senha inválidos!");
+                            //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                        }
+                        else if (result.status == 404) {
+                            //NOT FOUND
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Servidor não encontrado!");
+                            //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                        }
+                        else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                            //TIMEOUT
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Tempo de requisição expirou!");
+                            //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                        }
+                        else {
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Ocorreu um erro não identificado na requisição!");
+                            //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                        }
+                    }
+                );
+        }
+    
+
+
+    function GuardaNumeroSenha(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) {
+            $("#hdSenha").val($("#txtSenha").val());
+
+            $("#txtSenha").val('');
+
+            var qtde = $("#hdSenha").val().length;
+
+            for (i = 0; i < qtde; i++) {
+                $("#txtSenha").val($("#txtSenha").val() + '*');
+            }
+
+        }
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+    function SomenteNumero(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) return true;
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+    function GuardaNumeroSenhaConfirmar(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) {
+            $("#hdSenhaConfirmar").val($("#hdSenhaConfirmar").val());
+
+            $("#txtSenha").val('');
+
+            var qtde = $("#hdSenhaConfirmar").val().length;
+
+            for (i = 0; i < qtde; i++) {
+                $("#txtSenha").val($("#txtSenha").val() + '*');
+            }
+
+        }
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+
+    function CriarUser() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        if ($("#hdCadastrouSenha").val() == '1') {
+            window.location = 'pagina-ola.html';
+            return;
+        }
+
+
+        var senha = $('#txtSenha').val();
+        /*var COnfirmarSenha = $('#txtConfirmarSenha').val();
+
+        if (senha != COnfirmarSenha) {
+
+            $('.modal-aviso').modal('show');
+            $('.results').html("As senhas digitadas não são iguais, digite novamente!");
+            //navigator.notification.alert('As senhas digitadas não são iguais, digite novamente!', function () { }, 'Atenção', 'OK');
+            RetornaPosicaoFocus('dvSuspender');
+
+            $('#txtSenha').val('');
+            $('#txtConfirmarSenha').val('');
+
+            return;
+        }*/
+        if ($("#txtSenha").val().length < 4) {
+
+            $('.modal-aviso').modal('show');
+            $('.results').html("Senha não pode ter menos que 4 caracteres!");
+            //navigator.notification.alert('Senha não pode ter menos que 6 caracteres!', function () { }, 'Atenção', 'OK');
+            RetornaPosicaoFocus('dvSuspender');
+
+            $('#txtSenha').val('');
+            //$('#txtConfirmarSenha').val('');
+            return;
+        }
+
+        $('#content').loadmask("");
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/CriarSenha?travaAppAntigo=1'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                        , Senha: $("#txtSenha").val()
+
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+                    $('#content').unloadmask();
+
+                    if (result == true) {
+                        //$("#senhaSucesso").modal();
+                        //$("#txtSenha").css("display", "none");
+                        $("#hdCadastrouSenha").val('1');
+                        RetornaPosicaoFocus('dvSuspender');
+                        Inicio();
+                    }
+                    else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Erro ao criar senha, tente novamente!");
+                        //navigator.notification.alert('Erro ao criar senha, tente novamente!', function () { }, 'Atenção', 'OK');
+                        $('#txtSenha').val('');
+                        //$('#txtConfirmarSenha').val('');
+                    }
+
+                });
+        request.fail(
+            function (result) {
+                RetornaPosicaoFocus('dvSuspender');
+                $('#content').unloadmask();
+                if (result.status == 400) {
+                    //BAD REQUEST
+                    $('.modal-aviso').modal('show');
+                    $('.results').html("Erro não especificado!");
+                    //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                }
+                else if (result.status == 404) {
+                    //NOT FOUND
+                    $('.modal-aviso').modal('show');
+                    $('.results').html("Servidor não encontrado!");
+                    //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                }
+                else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                    //TIMEOUT
+                    $('.modal-aviso').modal('show');
+                    $('.results').html("Tempo de requisição expirou!");
+                    //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                }
+                else {
+                    $('.modal-aviso').modal('show');
+                    $('.results').html("Ocorreu um erro não identificado na requisição!");
+                    //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                }
+            });
+    }
+</script>
+

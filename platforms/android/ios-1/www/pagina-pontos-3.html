@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <title>Crefisa</title>
+        <script type="text/javascript" src="scripts/jquery.js"></script>
+        <script type="text/javascript" src="scripts/jqueryui.js"></script>
+        <script src="scripts/storage-help.js"></script>
+        <script src="scripts/util/Util.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4uF5KkX3RZ1M68SPuhKGUat7T7kp0XrQ&callback=initMap"></script>
+    </head>
+    <body>
+
+        <nav class="app-nav" style="display: none;">
+            <div class="breadcrumb-nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                            <div class="text-xs-center">Menu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msg-container nome-cliente">
+                Olá,  
+            </div>
+
+            <ul class="menu-itens">
+                <li class="menu-item">
+                    <a href="pagina-ola.html" title="">
+                        <img src="webfiles/images/icones/home.svg" />
+                        <span>Início</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pagina-6.html" title="">
+                        <img src="webfiles/images/icones/fazer-emprestimo.svg" />
+                        <span>Fazer empréstimo</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pagina-meus-contratos.html" title="">
+                        <img src="webfiles/images/icones/meus-contratos.svg" />
+                        <span>Meus contratos</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pagina-pontos-1.html" title="">
+                        <img src="webfiles/images/icones/pontos-de-atendimento.svg" />
+                        <span>Pontos de atendimento</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pagina-troca.html" title="">
+                        <img src="webfiles/images/icones/trocar-senha.svg" />
+                        <span>Trocar senha</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pagina-central-relacionamento.html" title="">
+                        <img src="webfiles/images/icones/central-de-relacionamento.svg" />
+                        <span>Central de relacionamento</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="#" title="">
+                        <img src="webfiles/images/icones/sair.svg" />
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="app-container app-container-full">
+
+            <div class="breadcrumb-nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                            <div class="text-xs-center">Pontos de atendimento</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section pontos-de-atendimento h-100">
+
+                <div class="mapa-barra">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <img src="webfiles/images/icones/map-marker-2.svg" />
+                        </div>
+                        <div class="col-xs-9">
+                            <p class="font-heavy"><span id="spQtdeLoja"></span> lojas próximas a você!</p>
+                            <p><a href="pagina-pontos-2.html" class="link-focus font-medium">Veja o mapa.</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-branco full-height p-t-2">
+                    
+                    <div id="dvLista" class="mapa-lista m-t-3 p-t-1">
+                        
+                    </div>
+                    
+                    <div class="container">
+
+                    </div>
+                    <section class="barra-acesso">
+                        <div class="container">
+                            <div class="texto">
+                                <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                            </div>
+                        </div>
+                    </section>  
+                </div>
+
+            </section>
+
+        </section>
+        
+        
+        <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css"  />
+
+        <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8" ></script>
+        <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8" ></script>
+        <script type="text/javascript" language="javascript" src="webfiles/js/gmaps.js"></script>
+        <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8" ></script>
+        
+    </body>
+</html>
+
+
+<script>
+    CarregarRodape();
+    Carregar();
+
+    function Carregar() {
+        SetaLatitudeLongitude();
+    }
+
+    function SetaLatitudeLongitude()
+    {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        var lojas = sh1.Lojas_Get();
+
+        lojas = JSON.parse(lojas);
+
+        var longitude = JSON.parse(lojas.lojasLatitudeLongitude);
+
+        $("#spQtdeLoja").html(longitude.length);
+        var numero = 0;
+
+        var endereco = sh1.EnderecoAtualAPP_Get();
+        if (endereco == null) {
+            endereco = sh1.EnderecoMapa_Get();
+            window.localStorage.removeItem("ENDERECO_MAPA");
+        }
+
+        for (i = 0; i < longitude.length; i++) {
+
+            origin = endereco;
+            destination = longitude[i].latitude + "," + longitude[i].longitude;
+
+
+            var service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix(
+              {
+                  origins: [origin],
+                  destinations: [destination],
+                  travelMode: google.maps.TravelMode.DRIVING,
+                  avoidHighways: false,
+                  avoidTolls: false
+              }, function (response, status) { callback(response, status) });
+
+            function callback(response, status, item) {
+                var i = numero;
+
+                
+                $("#dvLista").append("<div class='mapa-lista-item'>" +
+                                "<p class='font-heavy font-15'>Crefisa - " + longitude[i].filial + "<span class='pull-xs-right'>" + response.rows[0].elements[0].distance.text + " </span></p>" +
+                                "<p class=''>" + longitude[i].rua + "," + longitude[i].numero + "</p>" +
+                                "<p class=''>" + longitude[i].estado + "," + longitude[i].cidade + "</p>" +
+                                "<p class=''>CEP:" + longitude[i].cep + "</p>" +
+                                "<p class=''> Tel:" + longitude[i].telefone + "</p>" +
+                                "<a href='pagina-agendar-visita.html' class='btn btn-cor-primaria w-100 center-block'>Agendar visita</a>" +
+                            "</div>");
+
+                numero = numero + 1;
+            }
+
+            
+        }
+        return false;
+    }
+
+</script>

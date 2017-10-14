@@ -1,0 +1,53 @@
+<div class="nav-floating fecha-menu">
+        <div class="saudacao">Olá, <b id="nameUsuario"></b></div>
+        <div class="itens-menu">
+            <a href="index.html"><div class="item-menu" data-text="Início"><span class="fa fa-home"></span></div></a>
+            <a href="portabilidade.html"><div class="item-menu" data-text="Portabilidade"><span class="fa fa-usd"></span></div></a>
+            <a href="meucadastro.html"><div class="item-menu" data-text="Meu Cadastro"><span class="fa fa-user"></span></div></a>
+            <a href="minhasportabilidades.html"><div class="item-menu" data-text="Minhas Portabilidades"><span class="fa fa-envelope-open-o "></span></div></a>
+            <a href="#" id="sair"><div class="item-menu" data-text="Sair"><span class="fa fa-power-off"></span></div></a>
+            <!--<div class="close-menu"><span class="fa fa-remove"></span></div>-->
+        </div>
+    </div>
+<script>
+    var user = window.localStorage.getItem("user");
+    user = JSON.parse(user);
+    $("#nameUsuario").html(user.fullname.split(' ')[0]);
+    $("#sair").click(function(){
+        window.localStorage.setItem("user", null);
+        window.localStorage.setItem("DIVIDA", null);
+        window.localStorage.setItem("PORTABILIDADE", null);
+        location.href="login.html";
+    });
+    Plot = function (elm) {
+            this.position = function (x, y) {
+                var xoffset = arguments[2] ? 0 : elm.scrollWidth / 2;
+                var yoffset = arguments[2] ? 0 : elm.scrollHeight / 2;
+                elm.style.left = (x - xoffset) + 'px';
+                elm.style.top = (y - yoffset) + 'px';
+
+            };
+
+            this.rotate = function (str) {
+                elm.style.webkitTransform = elm.style.MozTransform =
+                    elm.style.OTransform = elm.style.transform =
+                    'rotate(' + str + ')';
+            };
+
+        };
+        var stage = document.querySelector('.itens-menu'),
+            plots = $('.item-menu').length,
+            increase = Math.PI * 2 / plots,
+            angle = 55,
+            x = 0,
+            y = 0;
+
+        for (var i = 0; i < plots; i++) {
+            var p = new Plot($('.item-menu')[i]);
+            x = 100 * Math.cos(angle) + 100;
+            y = 100 * Math.sin(angle) + 100;
+            p.position(x, y);
+            $($('.item-menu')[i]).append("<div class='text-menu'>" + $($('.item-menu')[i]).data("text") + "</div>");
+            angle += increase;
+        }
+</script>

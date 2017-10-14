@@ -1,0 +1,231 @@
+﻿
+  <!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;font-src *">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+</head>
+<body ng-controller="paginaInicialController">
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+
+
+    </nav>
+    <div id="content">
+        <section class="app-container">
+
+            <div class="breadcrumb-nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        </div>
+                        <div style="margin-left:15%" class="col-xs-8">
+                            Bem-vindo
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="section bem-vindo">
+                <div class="msg-container">
+                    <div class="nome-cliente" style="margin-top:4px"></div>
+                </div>
+                <div class="bg-azul-dark full-height h-100 p-t-2" ng-if="(status != null && status != 5) || PreAprovado == 'S' ">
+                    <div class="container">
+                        <div class="col-xs-12" style="font-size:16px;">
+                            <!--EM ANALISE-->
+                            <div class="bem-vindo-app" ng-if="status == '2' || status =='1'">
+                                <div class="texto">Neste momento sua solicitação de empréstimo está em processo de análise.</div>
+                                <br />
+                                <div class="texto">Aguarde o retorno através de SMS / E-mail.</div>
+                            </div>
+                            <!--PENDENCIA DOC VALOR SUPERIOR-->
+                            <div class="bem-vindo-app" ng-if="status == '3' && sequencialRenda != '' && sequencialRenda != null && sequencialRenda != 0">
+                                <div class="texto">Para finalizar o processo de análise, identificamos a necessidade do envio de um novo documento.</div>
+                                <br />
+                                <div class="texto">Clique em Enviar Documento e regularize a pendência.</div>
+                                <a ng-click='redirectValorSuperior(sequencialRenda)' href="#" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">
+                                    Enviar Documento
+                                </a>
+                            </div>
+                            <!--PENDENCIA DOC NOVA RENDA-->
+                            <div class="bem-vindo-app" ng-if="status == '3' && (sequencialRenda == '' || sequencialRenda == null ||sequencialRenda == 0)">
+                                <div class="texto">Para finalizar o processo de análise, identificamos a necessidade do envio de um novo documento.</div>
+                                <br />
+                                <div class="texto">Clique em Enviar Documento e regularize a pendência.</div>
+                                <a ng-click='redirectNovaRenda()' href="#" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">
+                                    Enviar Documento
+                                </a>
+                            </div>
+                            <!--RENDA APROVADA -- PAG 19-->
+                            <div class="bem-vindo-app" ng-if="status == '7'">
+                                <div class="texto">Sua proposta foi aprovada!</div>
+                                <br />
+                                <div class="texto">Você tem um valor liberado de</div>
+                                <div class="valor">{{valorTomador}}</div>
+                                <br />
+                                <div class="texto">Contratação válida até: {{dataVencimentoPre}}</div>
+                                <a href="pagina-6.html" title="Simular empréstimo" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">Simular empréstimo</a>
+                            </div>
+                            <!--RENDA REPROVADA E POSSUI OUTRA RENDA -- PAG 20 -->
+                            <div class="bem-vindo-app" ng-if="status == '5' && numeroRendas > 1">
+                                <div class="texto">Após a análise realizada, não foi possível liberar um valor superior conforme solicitado.</div>
+                                <br />
+                                <div class="texto">Clique em Simular Empréstimo e verifique seus valores disponíveis.</div>
+                                <br />
+                                <a href="pagina-6.html" title="Simular empréstimo" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">Simular empréstimo</a>
+                            </div>
+                            <!--PRE APROVADO-->
+                            <div class="bem-vindo-app" ng-if="PreAprovado == 'S' && (status == '' || status == null || status == '0')">
+                                <div class="texto">Você tem um limite total disponível para empréstimo de</div>
+                                <div class="valor"> {{limiteTotalValor}}</div>
+                                <a href="pagina-6.html" title="Simular empréstimo" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">Simular empréstimo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--RENDA REPROVADA E NAO POSSUI OUTRA RENDA -- PAG 21-->
+                <div class="sem-limite" ng-if="status == '5' && (numeroRendas == 1 || numeroRendas == '' || numeroRendas == null || numeroRendas == 0)">
+                    <div class="bg-azul-dark full-height h-100 p-t-2">
+                        <div class="container">
+                            <div class="col-xs-12" style="font-size:16px;">
+                                <!-- -->
+                                <div class="bem-vindo-app">
+                                    <div class="texto">Neste momento você não possui crédito pré-aprovado.</div>
+                                    <br />
+                                    <div class="texto">Para uma nova análise, simule e envie seus documentos.</div>
+                                    <br />
+                                    <a href="pagina-renda-cadastro.html" title="Simular empréstimo" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">Solicite já</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="nao-possui text-xs-center m-t-2">
+
+                        <p class="m-t-1" style="font-size:16px; margin: 0px 10px 0px 10px">Após análise, concluímos que neste momento você não possui crédito aprovado para contratação via Crefisa Digital.</p>
+                        <p class="m-t-1 m-b-1 p-b-1" style="font-size:16px; margin: 0px 10px 0px 10px">Você pode verificar se possui crédito disponível procurando um de nossos Pontos de Atendimento ou entrando em contato com a nossa Central de Relacionamento.</p>
+
+                        <div class="msg-simples bg-branco">
+                            <div class=" m-t-2">
+                                <div class="col-xs-6 border-r-1">
+                                    <h1>Pontos de atendimento</h1>
+                                    <img src="webfiles/images/icones/map-marker.svg" class="m-t-1" />
+                                    <p class="m-y-1">Veja os pontos de atendimento Crefisa mais próximos de sua localização atual.</p>
+                                    <a href="pagina-pontos-1.html" title="" class="btn btn-link font-13">Encontre aqui</a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h1>Central de Relacionamento</h1>
+                                    <div class="mini-central">
+                                        <div class="ativacao-num">
+                                            <div class="central-item m-y-1">
+                                                <div class="num">
+                                                    <svg width="20px" height="20px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <defs></defs>
+                                                        <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                                                    </svg>
+                                                    <a href="tel:01140044001" style="color:#0E2545">4004-4001</a>
+                                                </div>
+                                                <div class="titulo">Capitais e regiões metropolitanas</div>
+                                            </div>
+                                            <div class="central-item m-y-1">
+                                                <div class="num">
+                                                    <svg width="20px" height="20px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <defs></defs>
+                                                        <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                                                    </svg>
+                                                    <a href="tel:08007224444" style="color:#0E2545">0800-722-4444</a>
+                                                </div>
+                                                <div class="titulo">Demais localidades</div><p>
+                                                    De segunda a sexta-feira,<br />das 8h às 22h<br />e aos sábados, das<br />8h às 15h
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+
+                <!--NAO POSSUI PRE_APROVADO -- ANTIGO-->
+                <div class="sem-limite" ng-if="(status == '' || status == null || status == '0') && PreAprovado == 'N'">
+
+                    <div class="bg-azul-dark full-height h-100 p-t-2">
+                        <div class="container">
+                            <div class="col-xs-12" style="font-size:16px;">
+                                <!-- -->
+                                <div class="bem-vindo-app">
+                                    <div class="texto">Neste momento você não possui crédito pré-aprovado.</div>
+                                    <br />
+                                    <div class="texto">Para uma nova análise, simule e envie seus documentos.</div>
+                                    <br />
+                                    <a href="pagina-renda-cadastro.html" title="Simular empréstimo" class="btn btn-cor-primaria w-100 m-t-2" style="font-size:18px;font-weight:bold">Solicite já</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="results"> </p>
+                                <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </section>
+
+    </div>
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+    <script src="scripts/paginaInicial-controller.js" type="text/javascript"></script>
+
+</body>
+</html>
+<script type="text/javascript">
+    InicioNome();
+
+</script>

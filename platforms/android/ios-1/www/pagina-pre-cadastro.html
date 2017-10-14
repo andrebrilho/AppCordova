@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <link href="webfiles/css/fase2.css" rel="stylesheet" />
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+    <section class="app-container">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <a href="#" onclick="SairApp()" title="Voltar" class="icone"><i class="fa fa-angle-left"></i></a>
+                    </div>
+                    <div style="font-size:18px" class="col-xs-8">
+                        Cadastro
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+        .badge-ok {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: white;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 12px;
+            right: 35px;
+            background: #127817;
+            text-align: center;
+        }
+
+        .badge-wrng {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: #244b6d;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 12px;
+            right: 35px;
+            background: #ffcc5c;
+            text-align: center;
+        }
+
+        .pre-cadastro-bg-numbers {
+            height: 45px;
+            width: 45px;
+            background: #EAE9E8;
+            font-size: 30px;
+            font-family: Raleway;
+            color: #485e6b;
+            text-align: center;
+            padding-top: 2.5px;
+            border-radius: 50%;
+            margin: 9px 5px 0px 15px;
+        }
+
+        .pre-cadastro-textdiv {
+            width: calc(100%-60px);
+        }
+
+        .pre-cadastro-listitem {
+            height: 55px;
+            background: transparent;
+            width: 100%;
+            border-bottom: 2px solid #dee0e1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pre-cadastro-seta {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: #bababa;
+        }
+    </style>
+    <section class="section app-container" id="content" style="color:#313131">
+        <div id="Header" style="background-color:#244b6d;padding:20px 20px 15px 20px;position:relative;z-index:10">
+            <h6 style="color: white; font-size:20px">Siga os passos abaixo para realizar o seu cadastro <img onclick="showHelp()" src="webfiles/images/icones/information.svg" style="width: 16px;height: 16px;" />.</h6>
+        </div>
+        <div style="background:white">
+            <div class="pre-cadastro-listitem" onclick="location.href='pagina-pre-cadastro-pessoal.html'">
+                <div class="pre-cadastro-bg-numbers">
+                    1
+                </div>
+                <div class="pre-cadastro-textdiv">
+                    <p style="font-size:19px;position:absolute;left:70px;top:13px;color:#485e6b;font-weight:bold;">Dados Pessoais</p>
+                    <div id="DADOS_PESSOAIS"><i id="DADOS_PESSOAIS_i"></i></div>
+                    <i class="fa fa-chevron-right pre-cadastro-seta"></i>
+                </div>
+            </div>
+            <div class="pre-cadastro-listitem" onclick="location.href='pagina-pre-cadastro-patrimonio.html'">
+                <div class="pre-cadastro-bg-numbers">
+                    2
+                </div>
+                <div class="pre-cadastro-textdiv">
+                    <p style="font-size:19px;position:absolute;left:70px;top:13px;color:#485e6b;font-weight:bold;line-height:17px;">Dados de Patrimônio</p>
+                    <div id="DADOS_PATRIMONIO"><i id="DADOS_PATRIMONIO_i"></i></div>
+                    <i class="fa fa-chevron-right pre-cadastro-seta"></i>
+                </div>
+            </div>
+            <div class="pre-cadastro-listitem" onclick="location.href='pagina-pre-cadastro-profissional.html'">
+                <div class="pre-cadastro-bg-numbers" style="font-size:27px">
+                    3
+                </div>
+                <div class="pre-cadastro-textdiv">
+                    <p style="font-size:19px;position:absolute;left:70px;top:13px;color:#485e6b;font-weight:bold;">Dados Profissionais</p>
+                    <div id="DADOS_PROFISSIONAIS"><i id="DADOS_PROFISSIONAIS_i"></i></div>
+                    <i class="fa fa-chevron-right pre-cadastro-seta"></i>
+                </div>
+            </div>
+            <!--<div class="pre-cadastro-listitem" onclick="location.href='pagina-dados-bancarios.html'">
+                <div class="pre-cadastro-bg-numbers" style="font-size:27px">
+                    4
+                </div>
+                <div class="pre-cadastro-textdiv">
+                    <p style="font-size:17px;position:absolute;left:70px;top:13px;color:#485e6b;font-weight:bold;">Dados Bancários</p>
+                    <div class="badge-ok"><i class="fa fa-check"></i></div>
+                    <i class="fa fa-chevron-right pre-cadastro-seta"></i>
+                </div>
+            </div>-->
+            <div class="pre-cadastro-listitem" onclick="location.href='pagina-pre-cadastro-upload.html'">
+                <div class="pre-cadastro-bg-numbers" style="font-size:27px">
+                    4
+                </div>
+                <div class="pre-cadastro-textdiv">
+                    <p style="font-size:19px;position:absolute;left:70px;top:13px;color:#485e6b;font-weight:bold;">Foto dos Documentos</p>
+                    <div id="UPLOAD_DOCUMENTOS"><i id="UPLOAD_DOCUMENTOS_i"></i></div>
+                    <i class="fa fa-chevron-right pre-cadastro-seta"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--<section class="barra-acesso" style="clear:both">
+        <div class="container">
+            <div class="texto">
+                <p class="nome m-h-20 fsize-1 text-xs-center m-b-0">
+                    <b style='color:#969696'>Acesso: NOME DO CLIENTE - 000000000 / 12:00 - 15/02/2017</b>
+                </p>
+
+            </div>
+        </div>
+    </section>-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="RetornoAnalise">
+        <div class="modal-dialog" role="document" style="">
+            <div class="modal-content" style="background: #0d2242;">
+                <div class="modal-header" style="border:0;">
+                    <h5 class="modal-title" style="color:white;text-align:center">Atenção!</h5>
+                </div>
+                <div class="modal-body" style="color:white;text-align:center;font-size:22px">
+                    <p class="msg"></p>
+                </div>
+                <div class="modal-footer" style="padding:15px 15px;text-align:center;border:0">
+                    <button type="button" onclick="SairApp();" class="btn-contratar btn btn-warning btn-lg p-l-50 p-r-50" form="formPerfil" style="height:45px;margin-top:0;">Entendi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="ModalPendencia">
+        <div class="modal-dialog" role="document" style="">
+            <div class="modal-content" style="background: #0d2242;">
+                <div class="modal-header" style="border:0;">
+                    <h5 class="modal-title" style="color:white;text-align:center">Atenção!</h5>
+                </div>
+                <div class="modal-body" style="color:white;text-align:center;font-size:22px">
+                    <p class="msg">Para finalizar o processo de análise, identificamos a necessidade do envio de um novo documento.<br />Clique em Enviar Documento e regularize a pendência.</p>
+                </div>
+                <div class="modal-footer" style="padding:15px 15px;text-align:center;border:0">
+                    <button type="button" onclick="location.href='pagina-pre-cadastro-upload.html'" class="btn-contratar btn btn-warning btn-lg p-l-50 p-r-50" form="formPerfil" style="height:45px;margin-top:0;">Enviar Documento</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="info">
+        <div class="modal-dialog" role="document" style="margin:0;max-width:100% !important;width:100%">
+            <div class="modal-content" style="border:0;border-radius:0">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;"><b>Atenção</b></h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;text-align:left">
+<div class="row">
+                   <div class="col-xs-12 m-b-1 msg">
+                        <b>Para iniciar o seu cadastro, tenha em mãos os documentos abaixo:</b>
+<ul style='list-style: disc;padding: 15px;'>
+                            <li style='margin-bottom:15px '><b>Documento de Identificação, CPF e Comprovante de Residência.</b></li>
+
+                            <li>
+                                <b>Extrato bancário</b>
+                                <ul style='list-style: disc;padding: 15px;'>
+                                    <li>Enviar os dois últimos extratos bancários</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>Demonstrativo de Pagamento</b>
+                                <ul style='list-style: disc;padding: 15px;'>
+                                    <li>Enviar os dois últimos demonstrativos de pagamento.</li>
+                                </ul>
+                            </li><li>
+                                <b>Outros Documentos</b>
+                                <ul style='list-style: disc;padding: 15px;'>
+                                    <li>Para Representante legal, enviar documento comprobatório.</li>
+                                    <li>Para Assalariado, incluir sua Carteira de Trabalho.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>Cartão Magnético</b>
+                                <ul style='list-style: disc;padding: 15px;'>
+                                    <li>Você deverá alterar no INSS, o recebimento de seu beneficio para uma conta corrente.</li>
+                                    <li>Após a alteração, na tela de imagens seguir as dicas apresentadas em cada documento, para o envio do Cartão Magnético, Comprovante da alteração emitido pelo INSS e Dados da nova conta de recebimento.</li>
+                                </ul>
+                            </li>
+                        </ul>
+</div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:0px 15px">
+                    <button onclick="hideHelp()" class="btn btn-cor-primaria" style="height:40px;width:100%;margin-top:10px;"><b>Entendi</b></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="CadastroReprovado">
+        <div class="modal-dialog" role="document" style="">
+            <div class="modal-content" style="background: #0d2242;">
+                <div class="modal-header" style="border:0;">
+                    <h5 class="modal-title" style="color:white;text-align:center">Atenção!</h5>
+                </div>
+                <div class="modal-body" style="color:white;text-align:left;font-size:17px">
+<p class="msg"><b>Neste momento não foi possível aprovar o seu cadastro.</b><br />Entre em contato com a Central de Atendimento e agende uma visita ao Ponto de Atendimento mais perto de você.<br /><b>Central de Atendimento</b><br /><b>4004-4001</b> Capitais e regiões metropolitanas<br /><b>0800-722-4444</b> Demais localidades<br />De segunda a sexta-feira, das 8h às 22h e aos sábados, das 8h às 15h.</p>
+                </div>
+                <div class="modal-footer" style="padding:15px 15px;text-align:center;border:0">
+                    <button type="button" onclick="RealizarNovoPreCadastro();" class="btn-contratar btn btn-warning btn-lg p-l-50 p-r-50" form="formPerfil" style="height:45px;margin-top:0;">Entendi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var user = JSON.parse(sh1.Login_Get());
+
+        $(document).ready(function () {
+            
+            $('#content').loadmask("");
+
+            jQuery.support.cors = true;
+            $.ajaxSetup({ cache: false });
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetStatusPreCadastro?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+
+            request.done(function (data) {
+
+                verificaStatus(data);
+                $('#content').unloadmask("");
+
+
+            });
+
+            request.fail(function (data) {
+                $('#content').unloadmask("");
+                //alert("erro");
+                console.dir(data);
+            });
+
+        });
+
+        function verificaStatus(data) {
+            //console.dir(data);
+            var statusPreCadastro = {
+                DADOS_PESSOAIS: "pendente",
+                DADOS_PATRIMONIO: "pendente",
+                DADOS_PROFISSIONAIS: "pendente",
+                UPLOAD_DOCUMENTOS: "pendente"
+            }
+            var exibeInf = true;
+            if (data.SituacaoCadastral.length > 0) {
+
+                if (data.SituacaoCadastral[0].DadosPES > 0) { statusPreCadastro.DADOS_PESSOAIS = true; }
+                if (data.SituacaoCadastral[0].DadosPAT > 0) { statusPreCadastro.DADOS_PATRIMONIO = true; }
+                if (data.SituacaoCadastral[0].DadosPRO > 0) { statusPreCadastro.DADOS_PROFISSIONAIS = true; }
+                if (data.SituacaoCadastral[0].DadosIMG == 1) { statusPreCadastro.UPLOAD_DOCUMENTOS = true; } else if (data.SituacaoCadastral[0].DadosIMG == 2) {
+                    statusPreCadastro.UPLOAD_DOCUMENTOS = false;
+                    exibeInf = false;
+                    $("#ModalPendencia").modal("show");
+                    //location.href = "pre-cadastro-upload-docs.html";
+                } else {
+
+                }
+            }
+            if (data.hasOwnProperty("SituacaoCadastral") && data.SituacaoCadastral.length > 0 && (data.SituacaoCadastral[0].StatusCadastro == "E" || data.SituacaoCadastral[0].StatusCadastro == "R")) {
+                $('#RetornoAnalise').modal({ backdrop: 'static', keyboard: false });
+                $('#RetornoAnalise').find('.msg').html('Seu cadastro está <b>em análise.</b><br/>Aguarde o retorno por SMS/E-MAIL.<br/><br/>Você também poderá realizar o acompanhamento, clicando em Entendi, e realizando novamente o seu acesso (login).<br/>Lembre-se o prazo de análise é de 24h úteis!');
+            } else if (data.hasOwnProperty("SituacaoCadastral") && data.SituacaoCadastral.length > 0 && (data.SituacaoCadastral[0].StatusCadastro == "5")) {
+                $('#CadastroReprovado').modal({ backdrop: 'static', keyboard: false });
+            }
+            else if (exibeInf) {
+                $("#info").modal("show");
+            }
+            atualizaStatus(statusPreCadastro);
+        }
+
+        function atualizaStatus(statusPreCadastro) {
+            atualizaStatusCell("DADOS_PESSOAIS", statusPreCadastro.DADOS_PESSOAIS);
+            atualizaStatusCell("DADOS_PATRIMONIO", statusPreCadastro.DADOS_PATRIMONIO);
+            atualizaStatusCell("DADOS_PROFISSIONAIS", statusPreCadastro.DADOS_PROFISSIONAIS);
+            atualizaStatusCell("UPLOAD_DOCUMENTOS", statusPreCadastro.UPLOAD_DOCUMENTOS);
+        }
+
+        function atualizaStatusCell(id, status) {
+            if (status == "pendente") {
+                $("#" + id).removeClass("badge-wrng").removeClass("badge-ok");
+                $("#" + id + "_i").removeClass("fa").removeClass("fa-check").removeClass("fa-exclamation");
+            }
+            else if (status == true) {
+                $("#" + id).addClass("badge-ok");
+                $("#" + id + "_i").addClass("fa").addClass("fa-check");
+            }
+            else if (status == false) {
+                $("#" + id).addClass("badge-wrng");
+                $("#" + id + "_i").addClass("fa").addClass("fa-exclamation");
+            }
+        }
+
+        function showHelp() {
+            $("#info").modal("show");
+        }
+
+        function hideHelp() {
+            $("#info").modal("hide");
+        }
+
+        function RealizarNovoPreCadastro() {
+            var sh1 = new StorageHelp();
+            $('#content').loadmask("");
+            var user = JSON.parse(sh1.Login_Get());
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/AtualizaStatus?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                   , method: 'POST'
+                    , crossDomain: true
+                   , dataType: "json"
+                   , timeout: u.GetRequestTimeout()
+                   , beforeSend: function (request) {
+                       request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                   }
+            });
+
+            request.done(function (data) {
+
+                if (data != null && data.Error.length == 0) {
+
+                    window.localStorage.removeItem("PRE_CADASTRO");
+                    window.localStorage.removeItem("STATUS_DOC");
+
+                    location.href = location.href;
+                    $('#content').unloadmask("");
+                }
+
+
+
+            });
+
+            request.fail(function (data) {
+                $('#content').unloadmask("");
+
+            });
+
+        }
+    </script>
+</body>
+</html>

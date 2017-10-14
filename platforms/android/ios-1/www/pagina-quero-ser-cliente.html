@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <title>Crefisa</title>
+</head>
+<body>
+
+    <section class="app-container">
+
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="pagina-login.html" title="Voltar" class="icone"><i class="fa fa-angle-left"></i> <span>Voltar</span></a>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="text-xs-center" style="position:relative;right:10%">Quero ser cliente Crefisa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <section class="section quero-ser-cliente">
+
+            <div id="content" class="bg-branco full-height h-100 p-t-2">
+
+                <div  class="container">
+
+                    <div class="msg text-xs-center" style="text-align:justify !important"">
+                        <p class="font-heavy m-t-1" style="font-size:18px">Identificamos que você ainda não é um cliente Crefisa. Faça seu cadastro que entraremos em contato.</p>
+                    </div>
+
+                    <form class="formulario form-comum m-t-1" method="post" id="formCrefisa">
+                        <div class="row">
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Nome completo:</label>
+                                <input type="text" id="txtNome" required class="form-control" name="nomecompleto" placeholder="Nome completo" style="background-color:#f5f5f5; color:#000000;font-size:22px"/>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">CPF:</label>
+                                <input type="text" onkeypress="return SomenteNumero(event)" id="txtCpfProspect" class="form-control" name="cpf" placeholder="CPF" style="background-color:#f5f5f5; color:#000000;font-size:22px"/>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Telefone:</label>
+                                <input type="text" onkeypress="return SomenteNumero(event)" id="txtTelefone" required class="form-control" maxlength="11" name="telefone" placeholder="Telefone" style="background-color:#f5f5f5; color:#000000;font-size:22px"/>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Selecione o seu perfil:</label>
+                                <select class="form-control" required id="cboPerfil" name="perfil">
+                                    <option value="">Selecione o seu perfil</option>
+                                    <option value="Aposentado">APOSENTADO</option>
+                                    <option value="Aposentado">PENSIONISTA </option>
+                                    <option value="Aposentado">SERVIDOR PÚBLICO </option>
+                                    <option value="Outros">OUTROS  </option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:22px; font-weight:bold">Como ficou sabendo do Crefisa Digital?</label>
+                                <select class="form-control" required id="cboIndicacao" name="comoficousabendo">
+                                    <option value="">Selecione uma opção</option>
+                                    <option value="Amigos">CARRO DE SOM</option>
+                                    <option value="Buscas">MALA DIRETA</option>
+                                    <option value="Outros">INDICACAO </option>
+                                    <option value="Outros">PROCURA ESPONTANEA </option>
+                                    <option value="Outros">INTERNET </option>
+                                    <option value="Outros">SMS </option>
+                                    <option value="Outros">EMAIL MARKETING </option>
+                                    <option value="Outros">TV </option>
+                                    <option value="Outros">PATROCÍNIO ESPORTIVO </option>
+                                    <option value="Outros">TELEVENDAS </option>
+                                    <option value="Outros">OUTROS </option>
+
+
+                                </select>
+                            </div>
+                            <div class="col-xs-12">
+                                <button type="submit" title="Cadastrar" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Cadastrar</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+    <div class="modal modal-simples modal-vertical fade" id="prospectEnviado" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1"><strong>Excelente!</strong></p>
+                    <p class="m-t-1"><strong>O seu cadastro foi realizado com sucesso.</strong> </p>
+                    <p >Aguarde que entraremos em contato.</p>
+                    <a href="#" title="Menu" data-dismiss="modal" onclick="Inicio();" class="app-nav-collapse btn btn-cor-primaria m-t-2">Voltar para o início</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <!--Para prosseguir você precisa aceitar os termos contratuais.-->
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+
+</body>
+
+</html>
+<script type="text/javascript">
+
+    function Inicio() {
+        window.location = 'pagina-login.html';
+    }
+    $(document).ready(function () { 
+        $('#txtCpfProspect').mask("999.999.999-99");
+
+        var SPMaskBehavior = function (val) {
+            return val.replace(/\D/g, "").length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+        spOptions = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(SPMaskBehavior.apply({}, arguments), options);
+            }
+        }
+
+        $('#txtTelefone').mask(SPMaskBehavior, spOptions);
+
+
+        $('#formCrefisa').submit(function (e) {
+            e.preventDefault();
+            $("#Modal .results").html("");
+            var valido = true;
+            if($("#txtNome").val() == ""){
+                $("#Modal .results").append("Preencha o nome.<br/>");
+                valido = false;
+            }
+            if ($("#txtTelefone").val() == "") {
+                $("#Modal .results").append("Preencha o telefone.<br/>");
+                valido = false;
+            }
+            if ($("#cboPerfil").val() == "") {
+                $("#Modal .results").append("Informe o seu perfil.<br/>");
+                valido = false;
+            }
+            if ($("#cboIndicacao").val() == "") {
+                $("#Modal .results").append("Informe como ficou sabendo.<br/>");
+                valido = false;
+            }
+            if(valido){
+                EnviarEmail();
+            } else {
+                $("#Modal").modal("show");
+            }
+        });
+    });
+
+    function EnviarEmail() {
+     
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        var cpf = $('#txtCpfProspect').val();
+
+        //if (!u.ValidaCPF(cpf)) {
+        //    $('.modal-aviso-retornoLogin').modal('show');
+        //    $('.results').html("CPF Inválido");
+        //    return false;
+        //}
+
+        var nome = $('#txtNome').val();
+
+        var telefone = $('#txtTelefone').val();
+        var perfil = $("#cboPerfil option:selected").text();
+        var indicacao = $("#cboIndicacao option:selected").text();
+
+        var mensagem = "Entrar em contato com o " + nome + " portador do cpf " + cpf + " atráves do telefone " + telefone + " o futuro cliente se encontra no perfil " + perfil + " e ficou sabendo da crefisa atráves de  " + indicacao;
+        var assunto = "Quero ser Crefisa";
+        var email = "homero.patria@crefisa.com.br";
+
+        $('#content').loadmask("");
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/EnviarEmail'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        Email: email,
+                        Assunto: assunto,
+                        Mensagem: mensagem
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $("#prospectEnviado").modal();
+                    $('#content').unloadmask();
+                    
+
+                });
+        request.fail(
+                    function (result) {
+                        $('#content').unloadmask();
+                        if (result.status == 400) {
+                            //BAD REQUEST
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Erro não especificado!");
+                            //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                        }
+                        else if (result.status == 404) {
+                            //NOT FOUND
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Servidor não encontrado!");
+                            //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                        }
+                        else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                            //TIMEOUT
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Tempo de requisição expirou!");
+                            //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                        }
+                        else {
+                            $('.modal-aviso').modal('show');
+                            $('.results').html("Ocorreu um erro não identificado na requisição!");
+                            //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                        }
+                    }
+            );
+
+    }
+
+</script>

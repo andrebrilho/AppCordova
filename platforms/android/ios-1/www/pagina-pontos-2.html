@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+
+    <script src="scripts/jquery.loadmask.js"></script>
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    
+    <script type="text/javascript" language="javascript" src="webfiles/js/gmaps.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4uF5KkX3RZ1M68SPuhKGUat7T7kp0XrQ&callback=initMap"></script>
+    <!--<script src="scripts/jsSensor.js"></script>-->
+
+</head>
+<body>
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+            Olá, 
+        </div>
+
+        <ul class="menu-itens">
+            <li class="menu-item">
+                <a href="pagina-ola.html" title="">
+                    <img src="webfiles/images/icones/home.svg" />
+                    <span>Início</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="pagina-6.html" title="">
+                    <img src="webfiles/images/icones/fazer-emprestimo.svg" />
+                    <span>Fazer empréstimo</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="pagina-meus-contratos.html" title="">
+                    <img src="webfiles/images/icones/meus-contratos.svg" />
+                    <span>Meus contratos</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="pagina-pontos-1.html" title="">
+                    <img src="webfiles/images/icones/pontos-de-atendimento.svg" />
+                    <span>Pontos de atendimento</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="pagina-troca.html" title="">
+                    <img src="webfiles/images/icones/trocar-senha.svg" />
+                    <span>Trocar senha</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="pagina-central-relacionamento.html" title="">
+                    <img src="webfiles/images/icones/central-de-relacionamento.svg" />
+                    <span>Central de relacionamento</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#" title="">
+                    <img src="webfiles/images/icones/sair.svg" />
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="app-container app-container-full">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        <div class="text-xs-center">Pontos de atendimento</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section pontos-de-atendimento h-100">
+
+            <div class="mapa-barra">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="webfiles/images/icones/map-marker-2.svg" />
+                    </div>
+                    <div class="col-xs-9">
+                        <p class="font-heavy"><span id="spQtdeLoja"></span> lojas próximas a você!</p>
+                        <p><a href="pagina-pontos-3.html" class="link-focus font-medium">Veja a lista.</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapa-acoes">
+                <div class="row">
+                    <div class="col-xs-9 p-a-0">
+                        <a href="pagina-pontos-1.html" class="btn btn-cor-primaria xs w-100">Pesquisar Pontos</a>
+                    </div>
+                    <div class="col-xs-3 p-a-0">
+                        <a href="" class="location"><img src="webfiles/images/icones/location.svg" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map" style="height: 100%; min-height: 500px;"></div>
+
+            <div class="bg-branco full-height p-t-2">
+
+                <div class="container">
+
+                </div>
+                <section class="barra-acesso">
+                    <div class="container">
+                        <div class="texto">
+                            <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </section>
+
+    </section>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <!--Para prosseguir você precisa aceitar os termos contratuais.-->
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    CarregarRodape();
+    Carregar();
+
+    function Carregar() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        try {
+
+
+            var lojas = sh1.Lojas_Get();
+            lojas = JSON.parse(lojas);
+            var longitude = JSON.parse(lojas.lojasLatitudeLongitude);
+
+            $("#spQtdeLoja").html(longitude.length);
+            //var endereco = longitude[0].latitude + "," + longitude[0].longitude;
+            var endereco = sh1.EnderecoMapa_Get();
+            
+            if (endereco == null) {
+
+                watchID = navigator.geolocation.getCurrentPosition(geo_success, geo_error, {
+                    timeout: 3000,
+                    enableHighAccuracy: false
+                });
+                return;
+            }
+            SetaLatitudeLongitude(endereco, "pesquisa");
+        } catch (err) {
+            watchID = navigator.geolocation.getCurrentPosition(geo_success, geo_error, {
+                timeout: 3000,
+                enableHighAccuracy: false
+            });
+        }
+
+    }
+
+
+    function geo_error(error) {
+        ObterPermissaoParaGeolocalizacao();
+
+    }
+
+    function geo_success(position) {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var endereco = latitude + "," + longitude;
+        sh1.EnderecoAtualAPP_Save(endereco);
+        return SetaLatitudeLongitude(endereco, "app");
+
+    }
+
+    function SetaLatitudeLongitude(endereco, origem) {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var map;
+
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': endereco.replace(" ", "+") }, function (results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+
+                var lat = results[0].geometry.location.lat();
+                var long = results[0].geometry.location.lng();
+
+                if (origem == "app") {
+                    BuscaLojasCep(results[5].address_components[0].long_name, lat, long);
+                } else {
+                    BuscaLojasCep(results[0].address_components[0].long_name, lat, long);
+                }
+
+
+            }
+        });
+    }
+
+
+
+
+    function BuscaLojasCep(cep, lat, long) {
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Agendamento/RetornarLojasCep'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        Cep: cep
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $('#content').unloadmask();
+
+
+                    sh1.lojas.lojasLatitudeLongitude = result;
+
+                    sh1.Lojas_Save(JSON.stringify(sh1.lojas));
+
+
+                    try {
+
+                        map = new GMaps({
+                            div: '#map',
+                            lat: lat,
+                            lng: long
+                        });
+
+                        map.addMarker({
+                            lat: lat,
+                            lng: long,
+                            title: 'Crefisa',
+                            icon: 'webfiles/images/icones/map-marker.svg',
+                            infoWindow: {
+                                content: '<div class="mapa-marker"><p class="font-heavy font-15">Voce Está Aqui</p><p class="font-14"></div>'
+                            }
+                        });
+
+                        var i = 0;
+                        var lojas = sh1.Lojas_Get();
+                        lojas = JSON.parse(lojas);
+                        var longitudeLatitude = JSON.parse(lojas.lojasLatitudeLongitude);
+                        $("#spQtdeLoja").html(longitudeLatitude.length);
+                        for (i = 0; i < longitudeLatitude.length; i++) {
+                            map.addMarker({
+                                lat: longitudeLatitude[i].latitude,
+                                lng: longitudeLatitude[i].longitude,
+                                title: 'Crefisa - ' + longitudeLatitude[i].filial,
+                                icon: 'webfiles/images/icones/map-marker-3.svg',
+                                infoWindow: {
+                                    content: '<div class="mapa-marker"><p class="font-heavy font-15">Crefisa - ' + longitudeLatitude[i].filial + '</p><p class="font-14">' + longitudeLatitude[i].rua + ', ' + longitudeLatitude[i].numero + '<br/>' + longitudeLatitude[i].cidade + ', ' + longitudeLatitude[i].estado + '<br/>CEP:' + longitudeLatitude[i].cep + '<br/>Telefone: ' + longitudeLatitude[i].telefone + '</p><br/><a href="pagina-agendar-visita.html" class="btn btn-cor-primaria w-100 center-block">Agendar visita</a></div>'
+                                }
+                            });
+                        }
+                    } catch (err) {
+
+                        debugger;
+                    }
+
+
+
+
+                });
+        request.fail(
+                function (result) {
+                    $('#content').unloadmask();
+                    if (result.status == 400) {
+                        //BAD REQUEST
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Erro não especificado!");
+                        //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 404) {
+                        //NOT FOUND
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Servidor não encontrado!");
+                        //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                        //TIMEOUT
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Tempo de requisição expirou!");
+                        //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                    }
+                    else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                        //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                    }
+                }
+            );
+
+    }
+
+    function onRequestSuccess(accuracyName, success) {
+        watchID = navigator.geolocation.getCurrentPosition(geo_success, geo_error, {
+            timeout: 10000,
+            enableHighAccuracy: false
+        });
+        //debugger;
+        // handleSuccess("Successfully requested accuracy '" + accuracyName + "': " + success.message);
+    }
+
+    function onRequestFailure(error) {
+        window.location = "pagina-pontos-1.html";
+
+        $('.modal-aviso').modal('show');
+        $('.results').html("Sem permissão para acessar a geolocalização.");
+        //navigator.notification.alert('Sem permissão para acessar a geolocalização. ' + error.message + " cod " + error.code, function () { }, 'Atenção', 'OK');
+    }
+
+    function ObterPermissaoParaGeolocalizacao() {
+        debugger;
+        var accuracy = 3,
+            accuracyName = "High Accuracy";
+        cordova.plugins.locationAccuracy.request(onRequestSuccess.bind(this, accuracyName), onRequestFailure, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+    }
+
+</script>

@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <link href="webfiles/css/fase2.css" rel="stylesheet" />
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+    <script src="scripts/PreCadastroLocalStorage.js"></script>
+</head>
+<body>
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+    <section class="app-container">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="pagina-pre-cadastro.html" title="Voltar" class="icone"><i class="fa fa-angle-left"></i></a>
+                    </div>
+                    <div class="col-xs-8" style="margin-left:15%; font-size:18px">
+                        Dados Pessoais
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+        .badge-ok {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: white;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 21px;
+            right: 35px;
+            background: #60b28a;
+            text-align: center;
+        }
+
+        .badge-wrng {
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            color: #244b6d;
+            font-size: 12px;
+            padding-top: 3px;
+            position: absolute;
+            top: 21px;
+            right: 35px;
+            background: #ffcc5c;
+            text-align: center;
+        }
+
+        .pre-cadastro-bg-numbers {
+            height: 60px;
+            width: 60px;
+            background: #c6ccce;
+            font-size: 30px;
+            font-family: Raleway;
+            color: #485e6b;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .pre-cadastro-textdiv {
+            width: calc(100%-60px);
+        }
+
+        .pre-cadastro-listitem {
+            height: 62px;
+            background: transparent;
+            width: 100%;
+            border-bottom: 2px solid #dee0e1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pre-cadastro-seta {
+            position: absolute;
+            right: 15px;
+            top: 25px;
+            color: #bababa;
+        }
+
+        .form-Fase2 {
+            color: #485e6b;
+        }
+    </style>
+    <section class="section app-container" id="content" style="color:#313131">
+
+        <div id="Header" style="background-color:#244b6d;padding:20px 20px 15px 20px;position:relative;z-index:10">
+            <h6 style="color: white; font-size:18px">Preencha os campos abaixo:</h6>
+        </div>
+        <div id="content" class="form-Fase2">
+
+            <div class="container">
+
+                <form class="formulario form-comum m-t-1" method="post" id="formPessoal">
+                    <div class="row">
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Nome completo:</label>
+                            <input type="text" id="txtNome" class="form-control" name="Nome" placeholder="Nome completo" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Nacionalidade:</label>
+                            <select class="form-control" id="cboNacionalidade" name="CodigoNacionalidade" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5"></select>
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">UF:</label>
+                            <select class="form-control" id="cboUF" name="UFNaturalidade" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5"></select>
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Naturalidade:</label>
+                            <select class="form-control" id="cboNaturalidade" name="Naturalidade" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5"></select>
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Estado Civil:</label>
+                            <select class="form-control" id="cboEstadoCivil" name="CodigoEstadoCivil" style="padding: 0.5rem 0.75rem;font-size:22px;height:45px;background:#f5f5f5"></select>
+                        </div>
+                        <div class="col-xs-12 m-b-1" id="nomeConjuge">
+                            <label style="font-size:22px; font-weight:bold">Nome do Cônjuge:</label>
+                            <input type="text" id="txtNomeConjuge" class="form-control" name="NomeConjuge" placeholder="Nome do Cônjuge" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Sexo:</label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label for="radioFem" class="pull-xs-left" style="color:#485e6b;font-size:20px"><input type="radio" id="radioFem" class="pull-xs-left noSave" name="Sexo" value="F" style="margin-right:10px;margin-top:4px;" />Feminino</label>
+                                    <label for="radioMasc" class="pull-xs-left" style="color:#485e6b;font-size:20px"><input type="radio" id="radioMasc" class="pull-xs-left noSave" name="Sexo" value="M" style="margin-left:15px;margin-right:10px;margin-top:4px;" />Masculino</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Telefone Residencial:</label>
+                            <input type="text" id="txtTelefoneResidencial" class="form-control" name="Telefone" placeholder="Telefone Residencial" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Telefone Celular:</label>
+                            <input type="text" id="txtTelefoneCelular" class="form-control" name="Celular" placeholder="Telefone Celular" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:22px; font-weight:bold">Email:</label>
+                            <input type="text" id="txtEmail" class="form-control" name="Email" placeholder="Email" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                        </div>
+                        <div class="col-xs-12 m-b-1">
+                            <label style="font-size:12px; font-weight:bold">Autorização para envio de E-mail e SMS:</label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label for="radioSMSSim" class="pull-xs-left" style="color:#485e6b;font-size:12px"><input type="radio" checked id="radioSMSSim" class="pull-xs-left noSave" name="AuthEmailSms" value="S" style="margin-right:10px;margin-top:0px" />Sim</label>
+                                    <label for="radioSMSNao" class="pull-xs-left" style="color:#485e6b;font-size:12px; margin-left:20px"><input type="radio" id="radioSMSNao" class="pull-xs-left noSave" name="AuthEmailSms" value="N" style="margin-left:15px;margin-right:10px;margin-top:0px" />Não</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="submit" title="Continuar" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Continuar</button>
+                        </div>
+                        <div class="col-xs-12">
+                            <a href="pagina-pre-cadastro.html" title="Voltar" class="center-block btn btn-primary m-t-1" style="padding: 8px;">Voltar</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var user = JSON.parse(sh1.Login_Get());
+
+        $(document).ready(function () {
+
+            $("#txtNome, #txtNomeConjuge").keyup(function () {
+                $(this).val($(this).val().replace(/[^a-zA-Z ]/g, ''));
+            });
+
+            var localStorage = new PreCadastroLocalStorage("pessoais_" + user.id_user);
+
+            $('#content').loadmask("");
+
+            jQuery.support.cors = true;
+            $.ajaxSetup({ cache: false });
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetDadosPessoais?numCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+
+            request.done(function (_data) {
+
+                var data = _data.DadosSolicitacaoPessoais[0];
+                if (data == undefined) {
+                    data = {};
+                }
+
+                $('#content').unloadmask("");
+
+                $("#txtTelefoneCelular").mask("(99) 999999999");
+                $("#txtTelefoneResidencial").mask("(99) 99999999");
+
+                $("#txtTelefoneCelular").blur(function () { if ($(this).val().length < 13) { $(this).val("") } });
+                $("#txtTelefoneResidencial").blur(function () { if ($(this).val().length < 13) { $(this).val("") } });
+
+                if (data.hasOwnProperty("Sequencial") && data.Sequencial > 0) {
+
+                    if (data.hasOwnProperty('Nome') && data.Nome != null)
+                        $("#txtNome").val(data.Nome);
+
+                    if (data.hasOwnProperty('CodigoNacionalidade') && data.CodigoNacionalidade > 0)
+                        carregaNacionalidade(function () { $("#cboNacionalidade").val(data.CodigoNacionalidade); });
+
+                    if (data.hasOwnProperty('UFNaturalidade') && data.UFNaturalidade != null)
+                        carregaUF(function () { $("#cboUF").val(data.UFNaturalidade); })
+
+                    if (data.hasOwnProperty('Naturalidade') && data.Naturalidade != null)
+                        carregaCidade(data.UFNaturalidade, function () { $("#cboNaturalidade").val(data.Naturalidade); })
+
+                    if (data.hasOwnProperty('CodigoEstadoCivil') && data.CodigoEstadoCivil > 0)
+                        carregaEstadoCivil(function () { $("#cboEstadoCivil").val(data.CodigoEstadoCivil); });
+
+                    if (data.hasOwnProperty('NomeConjuge') && data.NomeConjuge != null)
+                        $("#txtNomeConjuge").val(data.NomeConjuge)
+
+                    if (data.hasOwnProperty('Sexo') && data.Sexo != null)
+                        $("input[name=Sexo][value=" + data.Sexo + "]").click();
+
+                    if (data.hasOwnProperty('Telefone') && data.Telefone > 0)
+                        $("#txtTelefoneResidencial").val(data.Telefone)
+
+                    if (data.hasOwnProperty('Celular') && data.Celular > 0)
+                        $("#txtTelefoneCelular").val(data.Celular)
+
+                    if (data.hasOwnProperty('Email') && data.Email != null)
+                        $("#txtEmail").val(data.Email)
+
+                    if ((data.hasOwnProperty('EnviarEmail') && data.EnviarEmail != null) && (data.hasOwnProperty('EnviarSMS') && data.EnviarSMS != null)) {
+                        if (data.EnviarEmail == 0 && data.EnviarSMS == 0) {
+                            $("input[name=AuthEmailSms][value=" + (data.EnviarEmail == 0 ? "N" : "S") + "]").click();
+                        }
+                    }
+
+
+
+
+
+
+                } else {
+
+                    if (precadastro != null && precadastro.hasOwnProperty("CodigoEstadoCivil_pessoais_" + user.id_user)) {
+                        carregaEstadoCivil(function () { if (precadastro.hasOwnProperty("CodigoEstadoCivil_pessoais_" + user.id_user)) { $("#cboEstadoCivil").val(precadastro["CodigoEstadoCivil_pessoais_" + user.id_user].value) } localStorage.inicializaCampos(); });
+                    } else {
+                        carregaEstadoCivil(function () { var localStorage = new PreCadastroLocalStorage("pessoais" + "_" + user.id_user); localStorage.inicializaCampos() });
+                    }
+
+                    if (precadastro != null && precadastro.hasOwnProperty("CodigoNacionalidade_pessoais_" + user.id_user)) {
+                        carregaNacionalidade(function () { if (precadastro.hasOwnProperty("CodigoNacionalidade_pessoais_" + user.id_user)) { $("#cboNacionalidade").val(precadastro["CodigoNacionalidade_pessoais_" + user.id_user].value) } localStorage.inicializaCampos(); });
+                    } else {
+                        carregaNacionalidade(function () { var localStorage = new PreCadastroLocalStorage("pessoais" + "_" + user.id_user); localStorage.inicializaCampos() });
+                    }
+
+                    if (precadastro != null && precadastro.hasOwnProperty("UFNaturalidade_pessoais_" + user.id_user)) {
+                        carregaUF(function () { if (precadastro.hasOwnProperty("UFNaturalidade_pessoais_" + user.id_user)) { $("#cboUF").val(precadastro["UFNaturalidade_pessoais_" + user.id_user].value) } localStorage.inicializaCampos(); });
+                    } else {
+                        carregaUF(function () { var localStorage = new PreCadastroLocalStorage("pessoais" + "_" + user.id_user); localStorage.inicializaCampos() });
+                    }
+
+                    var precadastro = JSON.parse(sh1.PreCadastro_Get());
+                    if (precadastro != null && precadastro.hasOwnProperty("UFNaturalidade_pessoais_" + user.id_user)) {
+                        carregaCidade(precadastro["UFNaturalidade_pessoais_" + user.id_user].value, function () { if (precadastro.hasOwnProperty("Naturalidade_pessoais_" + user.id_user)) { $("#cboNaturalidade").val(precadastro["Naturalidade_pessoais_" + user.id_user].value) } });
+                    }
+                }
+
+
+                setTimeout(function () {
+                    verificaConjuge();
+                }, 200);
+
+                $("#cboEstadoCivil").change(function () {
+                    verificaConjuge();
+                });
+
+            });
+
+            request.fail(function (data) {
+                $('#content').unloadmask("");
+                $("#Modal").modal("show");
+                $("#Modal .results").html("Ocorreu um erro ao carregar os dados.");
+            });
+
+            $('#formPessoal').submit(function (e) {
+                e.preventDefault();
+
+                $("#Modal .results").html("");
+                var valido = true;
+                if ($("#txtNome").val() == "") {
+                    $("#Modal .results").append("Preencha seu nome.<br/>");
+                    valido = false;
+                }
+                if ($("#cboNacionalidade").val() == "") {
+                    $("#Modal .results").append("Informe sua nacionalidade.<br/>");
+                    valido = false;
+                }
+                if ($("#cboUF").val() == "") {
+                    $("#Modal .results").append("Informe sua UF.<br/>");
+                    valido = false;
+                }
+                if ($("#cboNaturalidade").val() == "") {
+                    $("#Modal .results").append("Informe sua naturalidade.<br/>");
+                    valido = false;
+                }
+                if ($("#cboEstadoCivil").val() == "") {
+                    $("#Modal .results").append("Informe seu estado civil.<br/>");
+                    valido = false;
+                }
+                if (($("#cboEstadoCivil").val() == "casado" || $("#cboEstadoCivil").val() == "estavel") && $("#txtNomeConjuge").val() == "") {
+                    $("#Modal .results").append("Preencha o nome do cônjuge.<br/>");
+                    valido = false;
+                }
+
+                if ($("input[name=Sexo]:checked").val() == undefined) {
+                    $("#Modal .results").append("Informe seu sexo.<br/>");
+                    valido = false;
+                }
+                /*if ($("#txtTelefoneResidencial").val() == "") {
+                    $("#Modal .results").append("Preencha o telefone residencial<br/>");
+                    valido = false;
+                }*/
+                if ($("#txtTelefoneCelular").val() == "") {
+                    $("#Modal .results").append("Preencha seu telefone celular.<br/>");
+                    valido = false;
+                }
+
+                var x = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if ($("#txtEmail").val() == "" || !x.test($("#txtEmail").val())) {
+                    $("#Modal .results").append("Preencha seu email.<br/>");
+                    valido = false;
+                }
+
+                if (valido) {
+
+                    $('#content').loadmask("");
+
+                    var serializeArray = $("#formPessoal").serializeArray();
+
+                    var obj = {};
+
+                    for (var i = 0; i < serializeArray.length; i++) {
+                        obj[serializeArray[i]['name']] = serializeArray[i]['value'];
+                    }
+
+                    obj["CPF"] = user.id_user;
+
+                    obj.Celular = obj.Celular.replace("(", "").replace(")", "").replace(" ", "");
+                    obj.Telefone = obj.Telefone.replace("(", "").replace(")", "").replace(" ", "");
+                    obj.EnviarEmail = obj.AuthEmailSms == "S" ? 1 : 0;
+                    obj.EnviarSMS = obj.AuthEmailSms == "S" ? 1 : 0;
+
+                    delete obj.AuthEmailSms;
+
+                    var request = $.ajax({
+                        url: u.GetUrlApi() + "PreCadastro/SaveDadosPessoais?plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                        , method: 'POST'
+                         , crossDomain: true
+                        , dataType: "json"
+                        , timeout: u.GetRequestTimeout()
+                        , beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                        }
+                        , data: obj
+
+                    });
+                    request.done(function (data) {
+                        $('#content').unloadmask("");
+                        if (data.Error.length == 0) {
+                            location.href = 'pagina-pre-cadastro-patrimonio.html';
+                        } else {
+                            $("#Modal").modal("show");
+                            $("#Modal .results").html("Ocorreu um erro ao salvar os dados.");
+                        }
+                    });
+                    request.fail(function (data) {
+                        $('#content').unloadmask("");
+                        $("#Modal").modal("show");
+                        $("#Modal .results").html("Ocorreu um erro ao salvar os dados.");
+                    });
+                } else {
+                    $("#Modal").modal("show");
+                }
+            });
+        });
+
+        function carregaNacionalidade(callback) {
+            var requestNacionalidade = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetNacionalidades?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                  , method: 'POST'
+                   , crossDomain: true
+                  , dataType: "json"
+                  , timeout: u.GetRequestTimeout()
+                  , beforeSend: function (request) {
+                      request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                  }
+            });
+            requestNacionalidade.done(function (data) {
+                $("#cboNacionalidade").html("<option value=''>Selecione</option>");
+                $.each(data.Nacionalidades, function (index, item) {
+                    $("#cboNacionalidade").append("<option value='" + item.CodigoPais + "'>" + item.NomePais + "</option>");
+                });
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+            requestNacionalidade.fail(function (data) { console.dir("erro ao carregar nacionalidade"); });
+
+
+        }
+
+        function carregaUF(callback) {
+            var requestUF = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetUF?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                   , method: 'POST'
+                    , crossDomain: true
+                   , dataType: "json"
+                   , timeout: u.GetRequestTimeout()
+                   , beforeSend: function (request) {
+                       request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                   }
+            });
+            requestUF.done(function (data) {
+                $("#cboUF").html("<option value=''>Selecione</option>");
+                $.each(data.UnidadesFederativas, function (index, item) {
+                    $("#cboUF").append("<option value='" + item.Sigla + "'>" + item.Sigla + "</option>");
+                });
+
+                $("#cboUF").unbind("change");
+                $("#cboUF").change(function () {
+                    if ($(this).val() != "") {
+                        carregaCidade($(this).val());
+                    }
+                });
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+            requestUF.fail(function (data) { console.dir("erro ao carregar uf"); });
+        }
+
+        function carregaEstadoCivil(callback) {
+            var requestEstadoCivil = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetEstadoCivil?NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+            requestEstadoCivil.done(function (data) {
+                $("#cboEstadoCivil").html("<option value=''>Selecione</option>");
+                $.each(data.EstadoCivil, function (index, item) {
+                    $("#cboEstadoCivil").append("<option value='" + item.Codigo + "'>" + item.EstadoCivil + "</option>");
+                });
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+            requestEstadoCivil.fail(function (data) { console.dir("erro ao carregar estado civil"); });
+        }
+
+        function carregaCidade(uf, callback) {
+
+            $("#content").loadmask("");
+            jQuery.support.cors = true;
+            $.ajaxSetup({ cache: false });
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'PreCadastro/GetCidades?uf=' + uf + '&NumCPF=' + user.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                    , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + user.token);
+                    }
+            });
+
+            request.done(function (data) {
+
+                $("#content").unloadmask("");
+
+                $("#cboNaturalidade").html("<option value=''>Selecione</option>");
+                $.each(data.Naturalidades, function (index, item) {
+                    $("#cboNaturalidade").append("<option value='" + item.Municipio + "'>" + item.Municipio + "</option>");
+                });
+                if (typeof callback === 'function') {
+                    callback();
+                }
+
+            });
+
+            request.fail(function (data) { console.dir("erro ao carregar cidade"); });
+        }
+
+        function verificaConjuge() {
+
+            var localStorage = new PreCadastroLocalStorage("pessoais_" + user.id_user);
+
+            if (($("#cboEstadoCivil").val() == "1" || $("#cboEstadoCivil").val() == "5")) {
+                $("#txtNomeConjuge").removeAttr("disabled");
+                $("#nomeConjuge").show();
+            }
+            else {
+                $("#txtNomeConjuge").attr("disabled", "disabled");
+                $("#nomeConjuge").hide();
+                $("#txtNomeConjuge").val("");
+                localStorage.salvaCampo("NomeConjuge", "input");
+            }
+        }
+
+        </script>
+</body>
+</html>

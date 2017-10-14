@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" language="javascript" src="webfiles/js/jquery.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+</head>
+<body>
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        <div class="text-xs-center">Pontos de atendimento</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section central-relacionamento">
+
+            <div id="content" class="bg-branco full-height p-t-2">
+
+                <div class="container">
+
+                    <div class="msg text-xs-center">
+                        <img src="webfiles/images/icones/map-marker_final.svg" class="center-block" />
+                        <p class="font-heavy m-t-1" style="font-size:16px"><b>Insira o seu endereço ou localidade em que deseja encontrar um Ponto de Atendimento. Há sempre uma Crefisa perto de você!</b></p>
+                    </div>
+
+                    <form class="formulario form-comum m-t-1" method="post" style="padding-top:20px">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label style="font-size:22px"><b>Digite o seu CEP (não obrigatório):</b></label>
+                                <input type="tel" maxlength="8" onkeypress="return SomenteNumero(event);"  id="cep" class="form-control" name="cep" style="background-color:#f5f5f5"/>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank" class="link-focus font-medium d-block m-t-2 font-12">Não sei meu CEP</a>
+                            </div>
+                        </div>
+                        <div class="row m-t-1">
+                            <div class="col-xs-4">
+                                <label style="font-size:22px"><b>UF:</b></label>
+                                <select name="uf" onchange="CarregarCidades();" id="uf" class="form-control">
+                                    <option value="">Selecione</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AM">AM</option>
+                                    <option value="AP">AP</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MG">MG</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MT">MT</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="PR">PR</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SE">SE</option>
+                                    <option value="SP">SP</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-8">
+                                <label style="font-size:22px"><b>Cidade:</b></label>
+                                <select id="cidade" name="cidade" class="form-control">
+                                    <option></option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 m-t-2">
+                                <label style="font-size:22px"><b>Logradouro:</b></label>
+                                <input type="text" id="logradouro" maxlength="200" class="form-control" name="logradouro" style="background-color:#f5f5f5" />
+                            </div>
+                            <div class="col-xs-4 m-t-2">
+                                <label style="font-size:22px"><b>Número:</b></label>
+                                <input type="tel" id="numero" onkeypress="return SomenteNumero(event);"  maxlength="8" class="form-control" name="numero" style="background-color:#f5f5f5" />
+                            </div>
+                            <div class="col-xs-8 m-t-2">
+                                <label style="font-size:22px"><b>Bairro:</b></label>
+                                <input type="text" maxlength="200" id="bairro" class="form-control" name="bairro" style="background-color:#f5f5f5" />
+                            </div>
+                            <div class="col-xs-12 m-t-2">
+                                <a href="#" onclick="Opcao();" title="Pesquisar Pontos de Atendimento" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Pesquisar</a>
+                                <a href="#" id="MinhaLocalizacao" onclick="MinhaLocalizacao();" title="Usar minha localização atual" class="btn btn-link center-block">Usar minha localização atual</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+
+                <section class="barra-acesso">
+                    <div class="container">
+                        <div class="texto">
+                            <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </section>
+
+    </section>
+
+    <!-- TODO: Modal Enviar E-mail -->
+    <div class="modal modal-simples modal-vertical fade" id="enviarEmail" tabindex="-1" role="dialog" aria-labelledby="enviarEmailLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="enviarEmailLabel">
+                        Insira seu e-mail
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="envia-email">
+                        <div class="row text-xs-left">
+                            <div class="col-xs-12">
+                                <label>E-mail</label>
+                                <input type="email" class="form-control" name="email" />
+                            </div>
+                        </div>
+
+                        <a href="#" title="Enviar" class="btn btn-cor-primaria m-t-2">Enviar</a>
+                        <a href="#" title="Cancelar" class="btn btn-link" data-dismiss="modal">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TODO: Modal caso o e-mail tenha sido enviado -->
+            <div class="modal-content hide">
+                <div class="enviado-email m-t-2 m-b-1">
+                    <div class="text-xs-center">
+                        <p class="font-heavy">Seu contrato foi enviado para seu email com sucesso</p>
+                        <a href="#" title="Continuar" class="btn btn-cor-primaria m-t-1" data-dismiss="modal">Continuar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TODO: Modal caso contrato enviado no proximo dia util -->
+            <div class="modal-content hide">
+                <div class="enviado-email m-t-2 m-b-1">
+                    <div class="text-xs-center">
+                        <p class="font-heavy">Seu contrato será enviado por email no próximo dia útil</p>
+                        <a href="#" title="Continuar" class="btn btn-cor-primaria m-t-1" data-dismiss="modal">Continuar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <!--Para prosseguir você precisa aceitar os termos contratuais.-->
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+
+    InicioNome();
+
+    $('#cep').mask("99999-999");
+    CarregarRodape();
+    var u = new Util();
+    
+    if (u.GetAppOuWeb() == 1) {
+
+        var MinhaLocalizacao = document.getElementById('MinhaLocalizacao');
+        MinhaLocalizacao.style.display = 'none';
+    }
+
+    function SomenteNumero(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) return true;
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+    function MinhaLocalizacao() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        sh1.EnderecoMapa_Save(null);
+        window.location = "pagina-pontos-2.html";
+    }
+
+    function Opcao() {
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        var cep = $("#cep").val();
+        var cidade = $("#cidade option:selected").text();
+
+        sh1.EnderecoAtualAPP_Save(null);
+        if (cep.length <= 0) {
+            if ($("#cidade option:selected").text().length == 0) {
+                $('.modal-aviso').modal('show');
+                $('.results').html("Estado e cidade são obrigatórios.");
+                //navigator.notification.alert('Estado e cidade são obrigatórios.', function () { }, 'Atenção', 'OK');
+                return;
+            }
+            sh1.EnderecoMapa_Save(cidade);
+            CarregarLojas();
+        }
+        else {
+            sh1.EnderecoMapa_Save(cep);
+            BuscaLojasCep();
+        }
+    }
+
+    function BuscaLojasCep() {
+        var cep = $("#cep").val();
+
+        if (cep.length < 8) {
+            $('.modal-aviso').modal('show');
+            $('.results').html("CEP precisa ter 8 números");
+            //navigator.notification.alert('CEP precisa ter 8 números', function () { }, 'Atenção', 'OK');
+            return;
+        }
+
+        var formatCep = cep.substring(0, 5) + '-' + cep.substring(8, 5);
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Agendamento/RetornarLojasCep'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        Cep: formatCep
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $('#content').unloadmask();
+
+                    debugger;
+                    sh1.lojas.lojasLatitudeLongitude = result;
+
+                    sh1.Lojas_Save(JSON.stringify(sh1.lojas));
+
+                    window.location = 'pagina-pontos-2.html';
+
+                });
+        request.fail(
+                       function (result) {
+                           $('#content').unloadmask();
+                           if (result.status == 400) {
+                               //BAD REQUEST
+                               $('.modal-aviso').modal('show');
+                               $('.results').html("Erro não especificado!");
+                               //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                           }
+                           else if (result.status == 404) {
+                               //NOT FOUND
+                               $('.modal-aviso').modal('show');
+                               $('.results').html("Servidor não encontrado!");
+                               //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                           }
+                           else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                               //TIMEOUT
+                               $('.modal-aviso').modal('show');
+                               $('.results').html("Tempo de requisição expirou!");
+                               //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                           }
+                           else {
+                               $('.modal-aviso').modal('show');
+                               $('.results').html("Ocorreu um erro não identificado na requisição!");
+                               //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                           }
+                       }
+            );
+
+    }
+
+
+    function CarregarLojas() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Agendamento/RetornarLojas'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        UF: $("#uf").val(),
+                        Cidade: $("#cidade option:selected").text()
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $('#content').unloadmask();
+
+                    sh1.lojas.lojasLatitudeLongitude = result;
+
+                    sh1.Lojas_Save(JSON.stringify(sh1.lojas));
+
+                    window.location = 'pagina-pontos-2.html';
+
+                });
+        request.fail(
+                               function (result) {
+                                   $('#content').unloadmask();
+                                   if (result.status == 400) {
+                                       //BAD REQUEST
+                                       $('.modal-aviso').modal('show');
+                                       $('.results').html("Erro não especificado!");
+                                       //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                                   }
+                                   else if (result.status == 404) {
+                                       //NOT FOUND
+                                       $('.modal-aviso').modal('show');
+                                       $('.results').html("Servidor não encontrado!");
+                                       //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                                   }
+                                   else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                                       //TIMEOUT
+                                       $('.modal-aviso').modal('show');
+                                       $('.results').html("Tempo de requisição expirou!");
+                                       //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                                   }
+                                   else {
+                                       $('.modal-aviso').modal('show');
+                                       $('.results').html("Ocorreu um erro não identificado na requisição!");
+                                       //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                                   }
+                               }
+            );
+    }
+
+    function CarregarCidades() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Agendamento/RetornarCidades'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        UF: $("#uf").val()
+                    }
+        });
+
+        request.done(
+                function (result) {
+                    $('#content').unloadmask();
+
+                    var cidades = JSON.parse(result);
+
+                    $("#cidade").append("<option value='selecione' selected>Selecione a cidade</option>");
+
+                    for (i = 0; i < cidades.length; i++) {
+                        $("#cidade").append("<option value=" + cidades[i].nomeCidade + ">" + cidades[i].nomeCidade + "</option>");
+                    }
+
+                });
+        request.fail(
+                 function (result) {
+                     $('#content').unloadmask();
+                     if (result.status == 400) {
+                         //BAD REQUEST
+                         $('.modal-aviso').modal('show');
+                         $('.results').html("Erro não especificado!");
+                         //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                     }
+                     else if (result.status == 404) {
+                         //NOT FOUND
+                         $('.modal-aviso').modal('show');
+                         $('.results').html("Servidor não encontrado!");
+                         //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                     }
+                     else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                         //TIMEOUT
+                         $('.modal-aviso').modal('show');
+                         $('.results').html("Tempo de requisição expirou!");
+                         //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                     }
+                     else {
+                         $('.modal-aviso').modal('show');
+                         $('.results').html("Ocorreu um erro não identificado na requisição!");
+                         //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                     }
+                 }
+            );
+    }
+</script>

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <link href="webfiles/css/fase2.css" rel="stylesheet" />
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+</head>
+<body style="background:#FFFFFF !important;">
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+    <section class="app-container">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="pagina-pre-cadastro.html" title="Voltar" class="icone app-nav-collapse"><i class="fa fa-angle-left"></i></a>
+                    </div>
+                    <div style="margin-left:15%; font-size:18px" class="col-xs-8">
+                        Retorno da Análise
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="section app-container" style="">
+        
+
+        <div style="padding:10px;width:100%;">
+
+            <label style="font-size:22px;color:#485e6b; padding:20px; text-align:justify; margin-top:20px">Você receberá através de SMS/E-mail o retorno de sua análise em até 24 horas úteis.</label>
+
+            <div class="col-xs-12">
+                <button onclick="window.location = 'pagina-pre-cadastro.html'" title="Continuar" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Entendi</button>
+            </div>
+            <div class="col-xs-12">
+                <a href="pagina-pre-cadastro.html" title="Voltar" class="center-block btn btn-primary m-t-1" style="padding: 8px;">Voltar</a>
+            </div>
+
+        </div>
+    </section>
+    <!--<section class="barra-acesso" style="clear:both">
+        <div class="container">
+            <div class="texto">
+                <p class="nome m-h-20 fsize-1 text-xs-center m-b-0">
+                    <b style='color:#969696'>Acesso: NOME DO CLIENTE - 000000000 / 12:00 - 15/02/2017</b>
+                </p>
+
+            </div>
+        </div>
+    </section>-->
+
+    <!--<div class="modal fade" tabindex="-1" role="dialog" id="Retorno">
+        <div class="modal-dialog" role="document" style="margin:0;max-width:100% !important;width:100%">
+            <div class="modal-content" style="border:0;border-radius:0">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;">Retorno da Análise</h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;height:244px">
+                    <div class="col-xs-12 m-b-1">
+                        <label style="font-size:22px;">O prazo do retorno de sua análise é de até 24 horas úteis.</label>
+                        <label style="font-size:22px; font-weight:bold">Como deseja receber o retorno da análise?</label>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="radioSMS" class="pull-xs-left" style="color:#485e6b;font-size:20px"><input type="radio" id="radioSMS" class="pull-xs-left" name="tipoRetornoAnalise" value="SMS" style="margin-right:10px;margin-top:4px;" />SMS</label>
+                                <label for="radioEmail" class="pull-xs-left" style="color:#485e6b;font-size:20px"><input type="radio" id="radioEMAIL" class="pull-xs-left" name="tipoRetornoAnalise" value="EMAIL" style="margin-left:15px;margin-right:10px;margin-top:4px;" />E-mail</label>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <input type="text" id="txtContato" required class="form-control" name="contato" placeholder="Email ou Telefone" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:0px 15px">
+                    <button type="submit" class="btn btn-cor-primaria" form="formPerfil" style="height:40px;width:100%;margin-top:10px;"><b>Enviar para análise</b></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>-->
+
+    
+
+    <script>
+        $(document).ready(function () {
+            /*InicioNome();
+            $(".btnUpload").click(function () {
+                $("#Upload .modal-title").html("<b>" + $(this).attr("data-doc") + "</b>");
+                $("#Upload .modal-body").html($(this).attr("data-msg"));
+                $("#Upload").modal("show");
+
+            });*/
+
+        });
+    </script>
+</body>
+</html>

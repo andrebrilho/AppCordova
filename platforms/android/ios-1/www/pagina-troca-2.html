@@ -1,0 +1,612 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+</head>
+<body>
+    <section class="section ativacao">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="pagina-troca.html" title="Voltar" class="icone"><i class="fa fa-angle-left"></i> <span>Voltar</span></a>
+                    </div>
+                    <div class="col-xs-8">
+                        Trocar Senha
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content" class="container">
+
+            <div class="texto-conteudo">
+                <div class="textos" style="font-size:18px; margin: 20px 0 0 0; text-align:left !important">
+                    Para seguir com a alteração de sua senha, siga os passos abaixo:
+                </div>
+                <div style="padding:15px;">
+                    <div class="row">
+                        <div class="col-xs-2 ativacao-passo-um" style="color:white; font-size:36px; text-align:center;">
+                            <div style="background-color:#0E2545; width: 50px; height: 50px; border-radius:50%; color:white; padding-top:6px">1</div>
+                        </div>
+
+                        <div class="col-xs-10" style="font-size:18px;">
+                            Informe o número do seu celular que enviaremos o SMS com o seu código.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+
+                    <form class="formulario form-comum m-t-1" method="post">
+                        <div class="row">
+                            <div class="col-xs-4" style="padding-left:2px">
+                                <label><b>DDD:</b></label>
+                                <input type="tel" id="txtDDDEnvio" onkeypress="return SomenteNumero(event);" class="form-control" name="cpf" maxlength="2" style="background-color:#f5f5f5; font-size:24px; color:#000000; letter-spacing: 1px; text-align: center" />
+                            </div>
+                            <div class="col-xs-8" style="padding-right:0px;padding-left:2px">
+                                <label><b>Celular:</b></label>
+                                <input type="tel" id="txtTelefoneEnvio" onkeypress="return SomenteNumero(event);" class="form-control" maxlength="9" name="telefone" style="background-color:#f5f5f5; font-size:24px; color:#000000; letter-spacing: 1px; text-align: center;" />
+                            </div>
+                            <div class="col-xs-12 m-t-1" style="padding-right:0px;padding-left:2px">
+                                <a href="#" title="Continuar" onclick="CodigoAtivacao('SMS');" class="btn btn-cor-primaria" style="font-size:20px;width:100%"><b>Enviar</b></a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="col-xs-12">
+
+                    <hr />
+                </div>
+
+                <div style="padding:15px;">
+                    <div class="row">
+                        <div class="col-xs-2 ativacao-passo-dois" style="color:white; font-size:36px; text-align:center;">
+                            <div style="background-color:#0E2545; width: 50px; height: 50px; border-radius:50%; color:white; padding-top:6px">2</div>
+                        </div>
+
+                        <div class="col-xs-10" style="font-size:18px;">
+                            Aguarde o recebimento do SMS. Após receber o código, digite no campo abaixo.
+                        </div>
+                    </div>
+                </div>
+            
+
+
+        </div>
+
+        <div class="col-xs-12">
+            <div class="row">
+                <form class="form-group" name="codigo">
+                    <div class="col-xs-12" style="padding-right:0px;padding-left:2px">
+                        <label><b>Código:</b></label>
+                        <input id="txtCodigoAtivacao" maxlength="6" onkeypress="return SomenteNumero(event);" disabled onfocus="AlterarPosicaoFocus('dvSuspender');" type="tel" class="form-control" style="background-color:#f5f5f5; font-size:24px; color:#000000; letter-spacing: 1px; text-align: center" " />
+                    </div>
+                    <div class="col-xs-12 text-xs-center m-t-1" style="padding-left:2px;padding-right:0">
+                        <a href="#" title="Continuar" onclick="ValidarCodigoAtivacao();" class="btn btn-cor-primaria" style="font-size:20px;width:100%; font-weight:bold">Continuar</a>
+                    </div>
+                    <div class="col-xs-12 text-xs-center m-b-1 reenviar-codigo">
+                        Não recebi o código, <a href="#" title="reenviar código" style="color:#3e76b9;text-decoration:underline;font-weight:600" onclick="CodigoAtivacao('SMS');">enviar novamente</a>.
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+
+
+
+        <div style="font-size:14px;margin-top:10px;" class="ativacao-msg">
+            <span style="margin-left:10px;margin-right:10px">Caso não esteja conseguindo receber o código, entre em contato com nossa <a href="javascript:void(0);" class="link-focus" data-toggle="modal" data-target="#centralRelacionamento">Central de Relacionamento.</a></span>
+        </div>
+
+    </section>
+
+    <!-- TODO: Modal Codigo de ativacao enviado -->
+    <div class="modal modal-simples modal-vertical fade" id="codigoEnviado" tabindex="-1" role="dialog" aria-labelledby="codigoEnviadoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="codigoEnviadoLabel">
+
+                        <defs></defs>
+                        <g id="Group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(170.000000, 94.000000)">
+                            <path d="M23.0569938,23.5465806 C29.5862248,23.5465806 34.8988977,18.3012786 34.8988977,11.8548458 C34.8988977,5.40777926 29.5868667,0.163111001 23.0569938,0.163111001 L11.8419039,0.163111001 C5.31203097,0.163111001 0,5.40777926 0,11.8548458 C0,18.3012786 5.31203097,23.5465806 11.8419039,23.5465806 L14.2539979,23.5465806 L14.2539979,57.3913429 C14.2539979,57.9162533 14.6853537,58.3419806 15.2168457,58.3419806 L19.6818916,58.3419806 C20.213544,58.3419806 20.6447393,57.9162533 20.6447393,57.3913429 L20.6447393,56.8214356 L29.117318,56.8214356 C29.6489704,56.8214356 30.0801657,56.3955499 30.0801657,55.8707979 L30.0801657,50.0400614 C30.0801657,49.515151 29.6489704,49.0894237 29.117318,49.0894237 L25.5480414,49.0894237 L25.5480414,45.2230217 C25.5480414,44.6982697 25.117488,44.272384 24.5851937,44.272384 L20.6447393,44.272384 L20.6447393,23.5465806 L23.0569938,23.5465806 Z M1.92569548,11.8548458 C1.92569548,6.45617422 6.37389155,2.06438643 11.8419039,2.06438643 L23.0569938,2.06438643 C28.5250062,2.06438643 32.9732022,6.45617422 32.9732022,11.8548458 C32.9732022,17.2528836 28.5250062,21.6453052 23.0569938,21.6453052 L11.8419039,21.6453052 C6.37389155,21.6453052 1.92569548,17.2528836 1.92569548,11.8548458 L1.92569548,11.8548458 Z M23.6223459,46.1736594 L23.6223459,50.0400614 C23.6223459,50.5648135 24.0537017,50.9906992 24.5851937,50.9906992 L28.1544702,50.9906992 L28.1544702,54.9201601 L20.6447393,54.9201601 L20.6447393,46.1736594 L23.6223459,46.1736594 Z M16.1796934,56.4407052 L18.7190438,56.4407052 L18.7190438,23.5465806 L16.1796934,23.5465806 L16.1796934,56.4407052 Z" id="Fill-1" stroke="#FFB51F" stroke-linecap="round" stroke-linejoin="round" fill="#FFB51F"></path>
+                            <path d="M28.8659018,11.5009093 C28.8659018,8.10681577 26.0696315,5.34584698 22.6319441,5.34584698 L11.4168541,5.34584698 C7.97916676,5.34584698 5.18273598,8.10681577 5.18273598,11.5009093 C5.18273598,14.894369 7.97916676,17.6559716 11.4168541,17.6559716 L22.6319441,17.6559716 C26.0696315,17.6559716 28.8659018,14.894369 28.8659018,11.5009093 L28.8659018,11.5009093 Z M7.10843145,11.5009093 C7.10843145,9.15521073 9.04102734,7.2471224 11.4168541,7.2471224 L22.6319441,7.2471224 C25.0076104,7.2471224 26.9402063,9.15521073 26.9402063,11.5009093 C26.9402063,13.8466078 25.0076104,15.7546962 22.6319441,15.7546962 L11.4168541,15.7546962 C9.04102734,15.7546962 7.10843145,13.8466078 7.10843145,11.5009093 L7.10843145,11.5009093 Z" id="Fill-4" fill="#0D2242"></path>
+                        </g>
+                        </svg>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-msg">Enviado com sucesso!<br /> Para o número: <p class="celularToken "></p></div>
+                    <a href="#" title="Entendi" class="btn btn-cor-primaria m-t-2" data-dismiss="modal">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TODO: Modal Codigo de ativacao enviado -->
+    <div class="modal modal-simples modal-vertical fade" id="codigoEnviadoEmail" tabindex="-1" role="dialog" aria-labelledby="codigoEnviadoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="codigoEnviadoLabel">
+
+                        <defs></defs>
+                        <g id="Group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(170.000000, 94.000000)">
+                            <path d="M23.0569938,23.5465806 C29.5862248,23.5465806 34.8988977,18.3012786 34.8988977,11.8548458 C34.8988977,5.40777926 29.5868667,0.163111001 23.0569938,0.163111001 L11.8419039,0.163111001 C5.31203097,0.163111001 0,5.40777926 0,11.8548458 C0,18.3012786 5.31203097,23.5465806 11.8419039,23.5465806 L14.2539979,23.5465806 L14.2539979,57.3913429 C14.2539979,57.9162533 14.6853537,58.3419806 15.2168457,58.3419806 L19.6818916,58.3419806 C20.213544,58.3419806 20.6447393,57.9162533 20.6447393,57.3913429 L20.6447393,56.8214356 L29.117318,56.8214356 C29.6489704,56.8214356 30.0801657,56.3955499 30.0801657,55.8707979 L30.0801657,50.0400614 C30.0801657,49.515151 29.6489704,49.0894237 29.117318,49.0894237 L25.5480414,49.0894237 L25.5480414,45.2230217 C25.5480414,44.6982697 25.117488,44.272384 24.5851937,44.272384 L20.6447393,44.272384 L20.6447393,23.5465806 L23.0569938,23.5465806 Z M1.92569548,11.8548458 C1.92569548,6.45617422 6.37389155,2.06438643 11.8419039,2.06438643 L23.0569938,2.06438643 C28.5250062,2.06438643 32.9732022,6.45617422 32.9732022,11.8548458 C32.9732022,17.2528836 28.5250062,21.6453052 23.0569938,21.6453052 L11.8419039,21.6453052 C6.37389155,21.6453052 1.92569548,17.2528836 1.92569548,11.8548458 L1.92569548,11.8548458 Z M23.6223459,46.1736594 L23.6223459,50.0400614 C23.6223459,50.5648135 24.0537017,50.9906992 24.5851937,50.9906992 L28.1544702,50.9906992 L28.1544702,54.9201601 L20.6447393,54.9201601 L20.6447393,46.1736594 L23.6223459,46.1736594 Z M16.1796934,56.4407052 L18.7190438,56.4407052 L18.7190438,23.5465806 L16.1796934,23.5465806 L16.1796934,56.4407052 Z" id="Fill-1" stroke="#FFB51F" stroke-linecap="round" stroke-linejoin="round" fill="#FFB51F"></path>
+                            <path d="M28.8659018,11.5009093 C28.8659018,8.10681577 26.0696315,5.34584698 22.6319441,5.34584698 L11.4168541,5.34584698 C7.97916676,5.34584698 5.18273598,8.10681577 5.18273598,11.5009093 C5.18273598,14.894369 7.97916676,17.6559716 11.4168541,17.6559716 L22.6319441,17.6559716 C26.0696315,17.6559716 28.8659018,14.894369 28.8659018,11.5009093 L28.8659018,11.5009093 Z M7.10843145,11.5009093 C7.10843145,9.15521073 9.04102734,7.2471224 11.4168541,7.2471224 L22.6319441,7.2471224 C25.0076104,7.2471224 26.9402063,9.15521073 26.9402063,11.5009093 C26.9402063,13.8466078 25.0076104,15.7546962 22.6319441,15.7546962 L11.4168541,15.7546962 C9.04102734,15.7546962 7.10843145,13.8466078 7.10843145,11.5009093 L7.10843145,11.5009093 Z" id="Fill-4" fill="#0D2242"></path>
+                        </g>
+
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-msg">Enviado com sucesso!<br />  <p class="emailToken "></p></div>
+                    <a href="#" title="Entendi" class="btn btn-cor-primaria m-t-2" data-dismiss="modal">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-simples modal-vertical fade" id="senhaSucesso" tabindex="-1" role="dialog" aria-labelledby="senhaAlteradaSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="webfiles/images/icones/user.svg" class="center-block" />
+                    <p class="m-t-1">A sua senha foi alterada com sucesso!</p>
+                    <a href="#" title="Menu" data-dismiss="modal" onclick="Inicio();" class="app-nav-collapse btn btn-cor-primaria m-t-2">Voltar para o ínicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TODO: Modal Central de Relacionamento -->
+    <div class="modal modal-simples modal-vertical fade" id="centralRelacionamento" tabindex="-1" role="dialog" aria-labelledby="centralRelacionamentoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="centralRelacionamentoLabel">
+                        Central de relacionamento
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="ativacao-num">
+                        <div class="num">
+                            <svg width="25px" height="25px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <defs></defs>
+                                <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                            </svg>
+                            <a style="font-size:19px" href="tel:01140044001">4004-4001</a>
+                        </div>
+                        <div class="titulo">Capitais e regiões metropolitanas</div>
+                    </div>
+                    <div style="position:relative;top:8px" class="central-item m-y-1">
+                        <div class="num">
+                            <svg width="25px" height="25px" viewBox="0 -1 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <defs></defs>
+                                <path d="M11.3830286,0.00108530552 C11.0971753,0.0159180847 10.8409584,0.182084328 10.7109117,0.436978144 C10.5808651,0.691871959 10.5967506,0.996759555 10.7525833,1.23676946 C10.908416,1.47677937 11.1805153,1.61543957 11.4663634,1.60050752 C17.5142603,1.60050752 22.3998912,6.48425528 22.3998912,12.5298927 C22.3958109,12.8182972 22.5473941,13.0865566 22.7965965,13.2319492 C23.045799,13.3773418 23.3540118,13.3773418 23.6032143,13.2319492 C23.8524168,13.0865566 24.004,12.8182972 23.9999197,12.5298927 C23.9999197,5.61986354 18.3789797,0.00108530552 11.4663634,0.00108530552 C11.438604,-0.000361768508 11.410788,-0.000361768508 11.3830286,0.00108530552 L11.3830286,0.00108530552 Z M5.12458392,3.20826006 C4.86128963,3.20622106 4.60478507,3.2488286 4.37457058,3.31655427 C3.76066499,3.49734229 3.21674571,3.8438118 2.79120908,4.26621121 C0.865487359,6.19119582 -0.231096759,8.01569939 0.0411601632,10.0891077 C0.313417086,12.1625187 1.81328608,14.2013955 4.49123932,16.8783218 L7.12461949,19.5107042 C9.80257432,22.1876571 11.8338782,23.6869289 13.9080735,23.9590972 C15.9822688,24.2312389 17.8157958,23.1267446 19.7415106,21.20176 C20.164064,20.7763936 20.5106717,20.23267 20.6915275,19.6189984 C20.8723832,19.0053268 20.8775969,18.197232 20.3081873,17.628051 C19.3297627,16.6499776 17.4866457,15.3556185 16.4997862,14.8623834 C15.761723,14.4934766 14.9850822,14.794248 14.4997507,15.1289537 C14.0144191,15.4636328 13.6369929,15.8771101 13.4080646,16.0952713 C13.0496841,16.4367746 12.7839447,16.7239909 12.5913834,16.8866521 C12.3988221,17.0493134 12.3311785,17.0594564 12.2913781,17.0615889 C12.2515776,17.0642546 12.1082697,17.0509261 11.7747022,16.8283399 C11.4431664,16.6071664 10.9636936,16.1917698 10.3330099,15.5621306 C10.3302526,15.5593334 10.3274747,15.5565566 10.3246764,15.5538003 L8.44130958,13.671147 C7.80484279,13.0349502 7.39723074,12.5551235 7.17462038,12.2216707 C6.95201002,11.8882178 6.93915006,11.7449895 6.9412829,11.7051906 C6.94341627,11.6653916 6.95355511,11.6061197 7.11628601,11.4136292 C7.2790177,11.2211548 7.56632895,10.9471711 7.90796676,10.5889272 C8.12620211,10.3600845 8.53984386,9.99113244 8.87465062,9.50598503 C9.20945737,9.02083762 9.51035659,8.2444914 9.14132203,7.50670726 C8.64788152,6.52021029 7.35302995,4.67780119 6.37460615,3.69974918 C6.08990215,3.41515065 5.74178823,3.2721863 5.39125533,3.22492071 C5.30362203,3.21310417 5.21234868,3.20893981 5.12458392,3.20826006 L5.12458392,3.20826006 Z M11.3830286,3.20826006 C11.0971753,3.22309284 10.8409584,3.38925908 10.7109117,3.6441529 C10.5808651,3.89904671 10.5967506,4.20393431 10.7525833,4.44394422 C10.908416,4.68395412 11.1805153,4.82261432 11.4663634,4.80768227 C15.7469161,4.80768227 19.1998343,8.25928339 19.1998343,12.538223 C19.195754,12.8266275 19.3473371,13.094887 19.5965396,13.2402795 C19.8457421,13.3856721 20.1539549,13.3856721 20.4031574,13.2402795 C20.6523599,13.094887 20.803943,12.8266275 20.7998627,12.538223 C20.7998627,7.39489165 16.611636,3.20826006 11.4663634,3.20826006 C11.438604,3.20681298 11.410788,3.20681298 11.3830286,3.20826006 L11.3830286,3.20826006 Z M5.14125088,4.79935195 C5.20308771,4.80337476 5.22992579,4.82135067 5.24125266,4.83267324 C5.96237375,5.55352217 7.40385886,7.61514275 7.7079632,8.22311513 C7.73770106,8.28256831 7.7453084,8.32650711 7.55796053,8.59797971 C7.37061267,8.86945231 7.03394374,9.19117608 6.74961282,9.48932438 C6.44805119,9.80554614 6.15574439,10.0678247 5.89126422,10.380669 C5.62678405,10.6935134 5.36885786,11.10694 5.34125444,11.6218873 C5.31365101,12.136848 5.51464632,12.6238054 5.84126333,13.1130153 C6.15495771,13.5828989 6.61829555,14.1017648 7.24962171,14.7374285 C7.26805043,14.7578558 7.28752109,14.7773191 7.30795609,14.7957408 L7.30795609,14.8040711 L9.19132292,16.6867243 C9.2124512,16.7073776 9.23470792,16.7268448 9.25799077,16.7450366 C9.89409568,17.3763552 10.4212013,17.847545 10.8913532,18.1611917 C11.3807677,18.4876604 11.8679041,18.6886012 12.3830464,18.6610111 C12.8981886,18.6333944 13.3117746,18.3672639 13.6247351,18.1028794 C13.9376956,17.8384949 14.2000781,17.5463205 14.5164176,17.2448561 C14.81468,16.9606387 15.1365244,16.6324373 15.4081002,16.4451449 C15.6796759,16.2578793 15.7236306,16.2571462 15.7831068,16.2868688 C16.3913211,16.5908656 18.4537135,18.0401154 19.1748338,18.760975 C19.1974902,18.7836335 19.2380163,18.8699357 19.1498334,19.1691609 C19.0616505,19.4683861 18.8311618,19.8526873 18.6081571,20.0771662 C16.8161337,21.8685191 15.5372281,22.554418 14.1164105,22.3680053 C12.695593,22.1815927 10.8516986,20.9705502 8.25797298,18.3777801 L5.61625933,15.7453977 C3.02253479,13.1526543 1.81101698,11.3011285 1.62452166,9.88084961 C1.43802634,8.46057068 2.13253283,7.19048016 3.92456257,5.39913528 C4.1491335,5.17622114 4.53357927,4.93748338 4.83291206,4.84933389 C4.98257846,4.80525915 5.07941405,4.79532913 5.14125088,4.79935195 L5.14125088,4.79935195 Z" id="Shape-Copy" stroke="none" fill="#0D2242" fill-rule="evenodd"></path>
+                            </svg>
+                            <span style="font-size:19px"><a href="tel:08007224444"><strong>0800-722-4444</strong></a></span>
+                        </div>
+                        <div class="titulo">Demais localidades</div><p>
+                            De segunda a sexta-feira,<br />das 8h às 22<br />e aos sábados, das<br />8h às 15h
+                        </p>
+                    </div>
+
+                    <a href="#" title="Entendi" class="btn btn-cor-primaria m-t-2" data-dismiss="modal">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    function CodigoInvalido() {
+        $('.modal-aviso').modal('show');
+        $('.results').html("Código de ativação inválido!");
+        //navigator.notification.alert('Código de ativação inválido!', function () { }, 'Atenção', 'Entendi');
+    }
+
+    function onLoad() {
+        VerificaCliente();
+
+        var ddd = $("#txtDDDEnvio");
+        ddd.keyup(function () {
+            if (ddd.val().length == 2) {
+                var telefone = $("#txtTelefoneEnvio");
+                telefone.focus();
+            }
+        });
+    }
+
+    window.onload = onLoad();
+
+    function SomenteNumero(e) {
+        var tecla = (window.event) ? event.keyCode : e.which;
+        if ((tecla > 47 && tecla < 58)) return true;
+        else {
+            if (tecla == 8 || tecla == 0) return true;
+            else return false;
+        }
+    }
+
+    function Inicio() {
+        window.location = 'pagina-ola.html';
+    }
+
+    function VerificaCliente() {
+
+        var u = new Util();
+        var sh1 = new StorageHelp();
+        CarregarRodape();
+
+        var esqueceuSenha = false;
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+        $('#content').loadmask("");
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/VerificaClienteCrefisa?travaAppAntigo=1&plataforma='+u.getPlatform()+'&versao='+u.getVersion()
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user,
+                        EsqueceuSenha: esqueceuSenha
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+
+
+                    $('#content').unloadmask();
+                });
+
+    }
+
+
+    function CodigoAtivacao(TipoEnvio) {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+
+        var dadosUser = sh1.Login_Get();
+
+        dadosUser = JSON.parse(dadosUser);
+
+
+        if (TipoEnvio != ' ')
+            sh1.TipoEnvio_Save(TipoEnvio);
+        else
+            TipoEnvio = sh1.TipoEnvio_Get();
+
+        var ddd = $('#txtDDDEnvio').val();
+        var telefone = $('#txtTelefoneEnvio').val();
+
+        $('.celularToken').html("(" + ddd + ") " + telefone);
+
+        if ((ddd.length < 2) || ddd == '') {
+            $('.modal-aviso').modal('show');
+            $('.results').html("DDD é obrigatório!");
+            $('#content').unloadmask();
+            return;
+        }
+
+        if ((telefone.length < 8) || telefone == '') {
+            $('.modal-aviso').modal('show');
+            $('.results').html("Celular é obrigatório!");
+            $('#content').unloadmask();
+            return;
+        }
+
+
+
+
+
+        $('#content').loadmask("");
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/EnviarCodigo?travaAppAntigo=1'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                        , TipoEnvio: TipoEnvio
+                         , DDD: ddd
+                        , TelefoneEmail: telefone
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+                    //sh1.login_class.id_user = result.id_usuario;
+                    //sh1.login_class.psw = password;
+                    //sh1.login_class.token = result.access_token;
+                    //sh1.login_class.user = result.user_name;
+                    //sh1.login_class.token_guid = "";
+                    //sh1.login_class.applications = result.id_aplicacao;
+
+                    //sh1.Login_Save(JSON.stringify(sh1.login_class));
+                    $('#content').unloadmask();
+                    if (TipoEnvio == 'SMS') {
+                        var campoAtivacao = document.getElementById('txtCodigoAtivacao');
+                        campoAtivacao.disabled = false;
+                        $("#codigoEnviado").modal();
+                    }
+                    else {
+                        $("#codigoEnviadoEmail").modal();
+                    }
+
+
+
+
+                });
+        request.fail(
+                function (result) {
+                    $('#content').unloadmask();
+                    if (result.status == 400) {
+                        //BAD REQUEST
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Erro não especificado!");
+                        //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 404) {
+                        //NOT FOUND
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Servidor não encontrado!");
+                        //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                        //TIMEOUT
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Tempo de requisição expirou!");
+                        //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                    }
+                    else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                        //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                    }
+                }
+            );
+    }
+
+    function ValidarCodigoAtivacao() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+
+        $('#content').loadmask("");
+
+        var dadosUser = sh1.Login_Get();
+        dadosUser = JSON.parse(dadosUser);
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/ValidarTokenTrocaSenha?travaAppAntigo=1'
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                        , CodigoAtivacao: $("#txtCodigoAtivacao").val()
+                        , travaAppAntigo: "1"
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+
+                    $('#content').unloadmask();
+                    if (result.Validado == true) {
+                        CriarUser();
+                    }
+                    else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Código de ativação inválido!");
+                        //navigator.notification.alert('Código de ativação inválido!', function () { }, 'Atenção', 'Entendi');
+                        $("#txtCodigoAtivacao").val('');
+                    }
+
+                });
+        request.fail(
+                function (result) {
+                    $('#content').unloadmask();
+                    if (result.status == 400) {
+                        //BAD REQUEST
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Erro não especificado!");
+                        //navigator.notification.alert('Erro não especificado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 404) {
+                        //NOT FOUND
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Servidor não encontrado!");
+                        //navigator.notification.alert('Servidor não encontrado!', function () { }, 'Atenção', 'OK');
+                    }
+                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                        //TIMEOUT
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Tempo de requisição expirou!");
+                        //navigator.notification.alert('Tempo de requisição expirou!', function () { }, 'Atenção', 'OK');
+                    }
+                    else {
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                        //navigator.notification.alert('Ocorreu um erro não identificado na requisição!', function () { }, 'Atenção', 'OK');
+                    }
+                }
+            );
+    }
+
+    function CriarUser() {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        $('#content').loadmask("");
+
+        var dadosUser = sh1.Login_Get();
+        var senha = sh1.TrocaSenha_Get();
+        dadosUser = JSON.parse(dadosUser);
+
+        jQuery.support.cors = true;
+        var request = $.ajax({
+            url: u.GetUrlApi() + 'Login/VerificaClienteCrefisa?travaAppAntigo=1&plataforma='+u.getPlatform()+'&versao='+u.getVersion()
+                , method: 'POST'
+                , crossDomain: true
+                , timeout: u.GetRequestTimeout()
+                , data:
+                    {
+                        CPF: dadosUser.id_user
+                    }
+        });
+
+        request.done(
+                function (result) {
+
+                    if (result.ClienteCadSenha == true) {
+
+
+                        jQuery.support.cors = true;
+                        var request2 = $.ajax({
+                            url: u.GetUrlApi() + 'Login/CriarSenha?travaAppAntigo=1'
+                                , method: 'POST'
+                                , crossDomain: true
+                                , timeout: u.GetRequestTimeout()
+                                , data:
+                                    {
+                                        CPF: dadosUser.id_user
+                                        , Senha: senha
+
+                                    }
+                        });
+
+                        request2.done(
+                                function (result) {
+                                    $('#content').unloadmask();
+
+
+                                    if (result == true) {
+                                        $("#senhaSucesso").modal();
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro ao alterar senha, tente novamente!");
+                                    }
+
+                                });
+                        request2.fail(
+                                function (result) {
+                                    $('#content').unloadmask();
+                                    if (result.status == 400) {
+                                        //BAD REQUEST
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro não especificado!");
+
+                                    }
+                                    else if (result.status == 404) {
+                                        //NOT FOUND
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Servidor não encontrado!");
+
+                                    }
+                                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                                        //TIMEOUT
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Tempo de requisição expirou!");
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                                    }
+                                }
+                            );
+                    }
+                    else {
+                        $('#content').unloadmask();
+                        $('.modal-aviso').modal('show');
+                        $('.results').html("Senha incorreta!");
+                    }
+
+                });
+
+        request.fail(
+                                function (result) {
+                                    $('#content').unloadmask();
+                                    if (result.status == 400) {
+                                        //BAD REQUEST
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Erro não especificado!");
+
+                                    }
+                                    else if (result.status == 404) {
+                                        //NOT FOUND
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Servidor não encontrado!");
+
+                                    }
+                                    else if (result.status == 408 || result.statusText.toLowerCase() == "timeout") {
+                                        //TIMEOUT
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Tempo de requisição expirou!");
+                                    }
+                                    else {
+                                        $('.modal-aviso').modal('show');
+                                        $('.results').html("Ocorreu um erro não identificado na requisição!");
+                                    }
+                                }
+                            );
+    }
+
+
+
+
+
+</script>

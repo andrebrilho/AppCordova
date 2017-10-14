@@ -1,0 +1,238 @@
+﻿app.controller("emprestimoValorController", function ($scope, emprestimoService) {
+
+    var u = new Util();
+    var sh1 = new StorageHelp();
+    CarregarRodape();
+
+    var dadosUser = sh1.Login_Get();
+    dadosUser = JSON.parse(dadosUser);
+    var emprestimoValor;
+    $scope.cpfUsuario = dadosUser.id_user;
+    $scope.nomeUsuario = dadosUser.applications;
+    $scope.date = new Date();
+    var orgao = JSON.parse(sh1.Orgao_Get());
+    $scope.EhRefin = Object.keys(orgao.refinContrato).length > 0;
+    //window.localStorage.removeItem("ORGAO");
+    //orgao.idSubOrgao
+    $('#content').loadmask("");
+    var listaEmprestimoValor = emprestimoService.obterDadosEmprestimoValor(dadosUser.id_user, orgao.idOrgao, orgao.idSubOrgao, dadosUser.token, u.GetUrlApi() + 'Emprestimo/DadosEmprestimoValor');
+    listaEmprestimoValor.then(function (_emprestimo) {
+        $('#content').unloadmask("");
+        emprestimoValor = _emprestimo.data;
+        if (Object.keys(emprestimoValor).length == 0) {
+            $('.modal-aviso-trava').modal('show');
+            $('.results').html('Realize o seu empréstimo online de segunda a sexta-feira, das 8h às 22h e aos sábados, das 8h às 15h.');
+            return;
+        }
+
+        emprestimoValor[0].tomador.reverse();
+
+        $.each(emprestimoValor[0].tomador, function (index, item) {
+            emprestimoValor[0].tomador[index].parcela.reverse();
+        });
+
+
+        var novoArray = [];
+
+        $.each(emprestimoValor[0].tomador, function (index, item) {
+            if (item.habilitado == true) {
+                $.each(emprestimoValor[0].tomador[index].parcela, function (index2, item2) {
+                    if (item2.habilitado == true) {
+                        novoArray.push({
+                            sequencialSimulacao: item.sequencialSimulacao,
+                            valorTomador: item.valorTomador,
+                            idParcela: item2.idParcela,
+                            quantidadeParcelas: item2.quantidadeParcelas,
+                            saldoDescontoRefinanciamento: item2.saldoDescontoRefinanciamento,
+                            totalLiquidoDisponivel: item2.totalLiquidoDisponivel,
+                            valorFinanciado: item2.valorFinanciado,
+                            valorNovoContrato: item2.valorNovoContrato
+                        });
+                    }
+                });
+            }
+        });
+
+        console.dir(novoArray);
+        $scope.novoArray = novoArray;
+
+        setTimeout(function () {
+            $(".swiper-slide").first().addClass("bgY");
+            var swiper = new Swiper('.swiper-container', {
+                effect: 'coverflow',
+                slidesPerView: 4,
+                centeredSlides: true,
+                spaceBetween: 15,
+                grabCursor: true,
+                nextButton: ".swiper-button-next",
+                prevButton: ".swiper-button-prev",
+                loop: novoArray.length > 3,
+                slidesPerView: 'auto',
+                coverflow: {
+                    rotate: 30,
+                    stretch: 0,
+                    depth: 200,
+                    modifier: 1.1,
+                    slideShadows: true
+                },
+                onSlideChangeEnd: function (swiper) {
+                    $('.swiper-slide').each(function () {
+                        if ($(this).index() === swiper.activeIndex) {
+                            // Fadein in active slide
+                            var seqSim = $(this).attr("data-sequencialSimulacao");
+                            var idParcela = $(this).attr("data-idParcela");
+
+                            var tomador_novo = $.grep(emprestimoValor[0].tomador, function (e) { return e.sequencialSimulacao == seqSim })[0];
+                            var parcela_novo = $.grep(tomador_novo.parcela, function (e) { return e.idParcela == idParcela })[0];
+
+                            $("#valorNovoContrato").html(parcela_novo.valorNovoContrato);
+                            $("#saldoDescontoRefinanciamento").html(parcela_novo.saldoDescontoRefinanciamento);
+                            $("#totalLiquidoDisponivel").html(parcela_novo.totalLiquidoDisponivel);
+                        }
+                        else {
+                            // Fadeout in inactive slides
+                        }
+                    });
+                }
+            });
+            $('.swiper-content').hide().css('visibility', 'visible').fadeIn(200);
+
+        }, 500);
+
+        //var listaEmprestimoValor = emprestimoValor;
+        //$scope.emprestimoValor = listaEmprestimoValor[0];
+        //var tomador = listaEmprestimoValor[0].tomador[3];
+        //$scope.valorTomador = tomador.valorTomador;
+        //$scope.tomador = tomador.parcela;
+        //$scope.tomadorObjeto = tomador;
+        //setParcela(tomador.parcela[3]);
+    }, function err() {
+        $('#content').unloadmask("");
+        $('.modal-aviso-trava').modal('show');
+        $('.results').html(result.data);
+    });
+
+
+    $scope.Outro = function (id, tomador) {
+        if (tomador.habilitado == false) {
+            return;
+        }
+        $("#a1").removeClass('box-valor1');
+        $("#a2").removeClass('box-valor1');
+        $("#a3").removeClass('box-valor1');
+        $("#a4").removeClass('box-valor1');
+
+        $("#a1").removeClass('box-valor');
+        $("#a2").removeClass('box-valor');
+        $("#a3").removeClass('box-valor');
+        $("#a4").removeClass('box-valor');
+
+        $("#a1").addClass('box-valor');
+        $("#a2").addClass('box-valor');
+        $("#a3").addClass('box-valor');
+        $("#a4").addClass('box-valor');
+
+        $("#" + id).removeClass('box-valor');
+        $("#" + id).addClass('box-valor1');
+
+        return false;
+    }
+
+    $scope.processaEmprestimos = function (tomador) {
+        if (tomador.habilitado == false)
+            return;
+
+        $scope.valorTomador = tomador.valorTomador;
+        $scope.tomador = tomador.parcela;;
+        $scope.tomadorObjeto = tomador;
+        $scope.parcela = tomador.parcela[3];
+        sh1.Tomador_Save(JSON.stringify($scope.tomadorObjeto));
+        var teste = "";
+        $scope.parcela = tomador.parcela[3];
+
+    }
+
+    $scope.obterDadosParcela = function (parcela) {
+
+        if (parcela.habilitado == false)
+            return;
+
+        setParcela(parcela);
+
+        if (parcela.valorFinanciado == 0.00) {
+            document.getElementById("btnContinuar").setAttribute('disabled', 'disabled');
+        }
+        else {
+            document.getElementById("btnContinuar").removeAttribute('disabled');
+        }
+    }
+
+    function setParcela(parcela) {
+        $scope.parcela = parcela;
+        sh1.Tomador_Save(JSON.stringify($scope.tomadorObjeto));
+    }
+
+    //$scope.DetalhesSimulacao = function () {
+    //    var u = new Util();
+    //    var sh1 = new StorageHelp();
+
+
+    //    var parcela = $scope.parcela;
+
+    //    if (parcela.valorFinanciado == "R$ 0,00" || parcela.valorFinanciado == undefined || parcela.valorFinanciado == null) {
+    //        $("#ModalParcelas .results").html("Não é possível continuar com a parcela selecionada.");
+    //        $("#ModalParcelas").modal("show");
+    //        return;
+    //    }
+
+    //    if (typeof parcela != "undefined" && parcela != '') {
+    //        sh1.Parcela_Save(JSON.stringify(parcela));
+    //        window.location = 'pagina-8.html';
+    //    }
+    //    else {
+    //        $('.modal-aviso').modal('show');
+    //        $('.results').html("Por favor selecione uma parcela");
+    //    }
+
+    //}
+
+    $scope.DetalhesSimulacao = function (idParcela, sequencialSimulacao) {
+        var u = new Util();
+        var sh1 = new StorageHelp();
+
+        var seqSim = sequencialSimulacao;
+        var idParcela = idParcela;
+
+        var tomador_novo = $.grep(emprestimoValor[0].tomador, function (e) { return e.sequencialSimulacao == seqSim })[0];
+        var parcela_novo = $.grep(tomador_novo.parcela, function (e) { return e.idParcela == idParcela })[0];
+
+        var parcela = parcela_novo;
+
+        // <<<<<<<<<   ALTERAÇÃO ERICK _ ERRO PARCELA ZERADA - 18/01/2017 10:00hrs >>>>>>>>>>>>>>>>>
+        if (parcela.valorFinanciado == "R$ 0,00" || parcela.valorFinanciado == undefined || parcela.valorFinanciado == null) {
+            $("#ModalParcelas .results").html("Não é possível continuar com a parcela selecionada.");
+            $("#ModalParcelas").modal("show");
+            return;
+        }
+        // <<<<<<<< FIM ALTERAÇÃO ERICK >>>>>>>>>
+
+        if (typeof parcela != "undefined" && parcela != '') {
+            sh1.Tomador_Save(JSON.stringify(tomador_novo));
+            sh1.Parcela_Save(JSON.stringify(parcela_novo));
+            window.location = 'pagina-8.html';
+        }
+        else {
+            $('.modal-aviso').modal('show');
+            $('.results').html("Por favor selecione uma parcela");
+        }
+
+    }
+    $scope.EhRefinMetodo = function () {
+        return $scope.EhRefin;
+    }
+
+    $scope.EhHabilitado = function (Objeto) {
+        return Objeto.habilitado;
+    }
+
+});

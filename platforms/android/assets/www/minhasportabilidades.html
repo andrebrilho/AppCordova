@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider IT</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery.mask.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+    <style>
+        .navbar-default-detalhes {
+            background-color: #000;
+            position: relative;
+            min-height: 24px;
+            margin-bottom: 0px;
+        }
+
+        .navbar-brand-detalhes {
+            padding-left: 15px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .row-detalhes {
+            background-color: #f1f1f1;
+            margin: 10px 0px;
+        }
+
+
+
+
+        .btnCancelar {
+            background: transparent;
+            width: 80%;
+            color: red;
+            border: 2px solid red;
+            margin-top: 5px;
+            box-shadow: rgb(128, 128, 128) 2px 2px;
+        }
+
+        .cadastro-seta {
+            position: absolute;
+            right: 15px;
+            top: 17px;
+            color: #bababa;
+        }  
+
+
+    </style>
+</head>
+    
+<body>
+    <div class="load-menu"></div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle menu collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Minhas Portabilidades</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="text-center">
+
+        </div>
+    </div>
+    <div class="list-group" id="listPortabilidades">
+    </div>
+
+    <script type="text/html" id="itemTemplatePortabilidade">
+        <a href="#" class="list-group-item itemPortabilidade" data-toggle="collapse" data-target="">
+            <input type="hidden" name="_id" />
+            <input type="hidden" name="status" />
+            <div class="row">
+                <div class="col-xs-10">
+                    <h4 class="list-group-item-heading nomeBanco"></h4>
+                    <p class="list-group-item-text infos"></p>
+                </div>
+                <div class="col-xs-2" style="padding-top:12px;">
+                    <span class="fa fa-chevron-down"></span>
+                </div>
+            </div>
+        </a>
+        <div id="demo" class="collapse">
+            <nav class="navbar navbar-default-detalhes">
+                <a class="navbar-brand-detalhes" href="#">Detalhes da Portabilidade</a>
+            </nav>
+            <div class="row row-detalhes">
+                <div class="col-xs-10 linhaBloco">
+                    <p class="list-group-item-text info" style="word-wrap: break-word"></p>
+
+                </div>
+            </div>
+        </div>
+    </script>
+    <script>
+        $(document).ready(function () {
+            var loading = $.loading();
+            var user = window.localStorage.getItem("user");
+            user = JSON.parse(user);
+
+            var divida = window.localStorage.getItem("DIVIDA");
+            divida = JSON.parse(divida);
+            var portabilidades = [];
+            $.post("http://serviceciab2.azurewebsites.net/portabilidadesbyid", { idusuario: user._id }).done(function (data) {
+                if (data != null && !data.hasOwnProperty("error")) {
+                    portabilidades = data;
+                    $.each(data.reverse(), function (index, item) {
+                        var urlBlock = "https://rinkeby.etherscan.io/tx/" + item.blockchain;
+                        var htmlTemplate = $($("#itemTemplatePortabilidade").html()).clone(true);
+                        $(htmlTemplate).find("input[name=_id]").val(item._id);
+                        $(htmlTemplate).find("input[name=status]").val(item.status);
+                        $(htmlTemplate[2]).addClass(item._id);
+                        $(htmlTemplate[0]).attr("data-target", "." + item._id).attr("id", item._id);
+                        
+
+
+                        $(htmlTemplate).find(".infos").html("Valor Parcela: R$<span class='vlrReal'>" + parseFloat(item.novovalorparcela).toFixed(2) + "</span><br />" + "Status: " + item.status);
+                        $(htmlTemplate[2]).find(".info").html("<div><b>Blockchain:</b> " + item.blockchain  + "<br/> </br><div style='text-align:center; width:100%; margin-left:25px;'><a href='" + urlBlock +"' class='link-visu'><b>Visualizar na rede</b></a></div>");
+                        $("#listPortabilidades").append(htmlTemplate);
+                    });
+                    $(".vlrReal").mask('000.000,00', { reverse: true });
+
+                    $(".collapse").on('show.bs.collapse', function () {
+                        var id = $(this).attr("class").replace(" ", "").replace("collapse", "").replace("in", "");
+                        $("#" + id).find("span.fa-chevron-down").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+                        // $("#imgCamera").attr("src", "").hide();
+                        //$(".concluir").hide();
+
+                    }).on("hide.bs.collapse", function () {
+                        var id = $(this).attr("class").replace(" ", "").replace("collapse", "").replace("in", "");
+
+                        $("#" + id).find("span.fa-chevron-up").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+
+                    });
+
+
+                } else {
+                    navigator.notification.alert(
+                        'Não foi possível retornar suas portabilidades.',  // message
+                        function () { },         // callback
+                        'Atenção',            // title
+                        'Tentar novamente'                  // buttonName
+                    );
+                }
+
+                $(".itemPortabilidade").click(function () {
+                    var _id = $(this).find("input[name=_id]").val();
+                    var status = $(this).find("input[name=status]").val();
+                    if (status == "Pendente") {
+                        var p = $.grep(portabilidades, function (e) { return e._id == _id })[0];
+                        window.localStorage.setItem("PORTABILIDADE", JSON.stringify(p));
+                        location.href = "resumo.html";
+                    } else {
+
+
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

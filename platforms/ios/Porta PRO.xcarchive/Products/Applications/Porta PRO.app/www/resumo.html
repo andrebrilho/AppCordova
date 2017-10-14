@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider IT</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery.mask.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+</head>
+
+<body>
+    <div class="load-menu"></div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="minhasportabilidades.html" class="navbar-toggle menu collapsed pull-left" aria-expanded="false">
+                    <span class="fa fa-chevron-left"></span>
+                </a>
+                <a class="navbar-brand" href="#">Resumo</a>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:15px;background:#2f2f2f;">
+        <h4 style="color:white">Informações da Portabilidade: </h3>
+    </div>
+    <div class="container-fluid">
+        <div style="margin-top:20px;">
+            <div class="row">
+                <div class="col-xs-5" style="padding-right:0">
+                    <div>
+                        <div style="font-size:12px">Banco Origem:</div>
+                        <div class="bancoAnterior" style="font-size:14px;color:black;padding:5px 0 10px 0;"></div>
+                        <div style="font-size:12px">Valor da Parcela:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="valorParcelaAnterior"></div>
+                        <div style="font-size:12px">Parcelas Paga:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="parcelasPagas"></div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding-top:50px">
+                    <span class="fa fa-chevron-right" style="margin-left:-12px;background:#d1d1d1;padding:10px 12px 10px 13px;border-radius:50%;"></span>
+                </div>
+                <div class="col-xs-5" style="padding-left:0">
+                    <div>
+                        <div style="font-size:12px">Banco Destino:</div>
+                        <div class="bancoNovo" style="font-size:14px;color:black;padding:5px 0 10px 0;"></div>
+                        <div style="font-size:12px">Nova Parcela:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="novoValorParcela"></div>
+                        <div style="font-size:12px">Parcelas Restantes:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="parcelasRestantes"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-login btn-simular  btn-confirmar">Confirmar Portabilidade</button>
+        </div>
+    </div>
+
+    <div class="bg-concluido text-center">
+
+        <div class="icon icon--order-success svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+                <g fill="none" stroke="#8EC343" stroke-width="2">
+                    <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                    <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                </g>
+            </svg>
+
+        </div>
+        <h3 class="text-ok">SUA PORTABILIDADE FOI SOLICITADA COM SUCESSO!
+            <button onclick="" class="btn-login" style="margin:20px auto;width:90%;">Visualizar Blockchain Gerado</button>
+
+            <button onclick="location.href='index.html'" class="btn-login" style="margin:20px auto;width:70%;background:#264a92">Voltar para o Início</button>
+            </h1>
+
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            var loading = $.loading();
+            var portabilidade = window.localStorage.getItem("PORTABILIDADE");
+            portabilidade = JSON.parse(portabilidade);
+            var divida = {};
+            var taxa = {};
+            $.get("http://serviceciab.azurewebsites.net/dividas/" + portabilidade.iddivida).done(function (data) {
+                divida = data;
+                $(".bancoAnterior").html(divida.bancoorigem);
+                $(".valorParcelaAnterior").html("R$<span class='vlrReal'>" + divida.valorparcela + "</span>");
+                $(".parcelasPagas").html(divida.qntparcelapaga);
+                $(".vlrReal").mask('000.000,00', { reverse: true });
+            });
+            $.get("http://serviceciab.azurewebsites.net/taxas/" + portabilidade.idtaxa).done(function (data) {
+                taxa = data;
+
+                $(".bancoNovo").html(taxa.fullname);
+                $(".novoValorParcela").html("R$<span class='vlrReal'>" + portabilidade.novovalorparcela + "</span>");
+                $(".parcelasRestantes").html(divida.qntparcelas - divida.qntparcelapaga);
+                $(".vlrReal").mask('000.000,00', { reverse: true });
+            });
+
+            $(".btn-confirmar").click(function () {
+                $.put("http://serviceciab.azurewebsites.net/alteraportabilidade", { _id: portabilidade._id, status: "Solicitado" }).done(function (data) {
+
+                    if (data != null && !data.hasOwnProperty("error")) {
+
+                        $(".bg-concluido").addClass("animated");
+                        setTimeout(function () {
+                            $('.icon--order-success').addClass('animated');
+                            setTimeout(function () {
+                                $(".text-ok").fadeIn();
+                            }, 300);
+                        }, 600);
+                    } else {
+                        navigator.notification.alert(
+                            'Não foi possível continuar sua portabilidade.',  // message
+                            function () { },         // callback
+                            'Atenção',            // title
+                            'Tentar novamente'                  // buttonName
+                        );
+                    }
+                });
+            });
+        });
+
+        $.put = function (url, data, callback, type) {
+
+            if ($.isFunction(data)) {
+                type = type || callback,
+                    callback = data,
+                    data = {}
+            }
+
+            return $.ajax({
+                url: url,
+                type: 'PUT',
+                success: callback,
+                data: data,
+                contentType: type
+            });
+        }
+    </script>
+</body>
+
+</html>

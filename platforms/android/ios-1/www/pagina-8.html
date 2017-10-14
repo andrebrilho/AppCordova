@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+    <script src="scripts/emprestimoDetalhe-controller.js" type="text/javascript"></script>
+</head>
+<body ng-controller="emprestimoDetalheController">
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                    </div>
+                    <div style="margin-left:15%" class="col-xs-8">
+                        Detalhes da simulação
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section emprestimo">
+
+            <div class="bg-branco full-height p-t-2">
+
+                <div class="walkthrough-full">
+                    <div class="container">
+                        <ul>
+                            <li class="actived">
+                                <span>1</span>
+                            </li>
+                            <li class="actived">
+                                <span>2</span>
+                            </li>
+                            <li class="active">
+                                <span>3</span>
+                            </li>
+                            <li class="">
+                                <span>4</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="Condicoes" style="width:100%; background-color:#F2F2F2">
+
+                    <p style="font-size:18px;padding-top:10px;padding-bottom:10px; text-align:center">Confirme as condições do seu empréstimo</p>
+
+                    <div style="width:50%; float:left; text-align:center; font-size:16px; background-color:#F2F2F2; margin-top:-10px!important; padding-bottom:10px">
+                        Valor Liberado
+                        <br />
+                        <span class="valor"><b>{{emprestimoDetalhe.valorLiberado}}</b></span>
+                    </div>
+                    <div style="width:50%; float:left; text-align:center; font-size:16px; background-color:#F2F2F2; margin-top:-10px!important; padding-bottom:10px">
+                        Nº Parcelas
+                        <br />
+                        <span><b>{{emprestimoDetalhe.numeroParcelas}}</b></span>
+                    </div>
+                </div>
+
+                <div class="container" id="content">
+                    <div class="m-b-2 font-medium" style="margin-top:55px">
+                        <span style="font-size:16px; text-align:center">O valor acima será creditado no próximo dia útil e as parcelas serão debitadas no dia do seu pagamento na conta cadastrada:</span>
+
+                        <div class="row-condicoes cond" style="font-size:16px; margin-top:20px">
+                            <div class="row">
+                                <div class="col-xs-4 text-xs-center">
+                                    Banco
+                                    <br />
+                                    <span><b>{{emprestimoDetalhe.banco}} - {{emprestimoDetalhe.nomeBanco}}</b></span>
+                                </div>
+                                <div class="col-xs-4 text-xs-center">
+                                    Agência
+                                    <br />
+                                    <span class="valor"><b>{{emprestimoDetalhe.agencia}} {{digitoAgencia}}</b></span>
+                                </div>
+                                <div class="col-xs-4 p-a-0 text-xs-center">
+                                    Conta Corrente
+                                    <br />
+                                    <span style="color:#0E2545"><b>{{emprestimoDetalhe.conta}} {{digitoConta}}</b></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--<div style="padding-top:20px" ng-if="sizeOf(emprestimoDetalhe.ContratoaRefinanciar) > 0">
+
+                            <div class="detalhes-header borda">
+                                <a href="#">Confissão de dívida e autorização</a>
+                            </div>
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td>Contrato</td>
+                                            <td>Quantidade de parcelas</td>
+                                            <td>Valor (R$)</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="refin in emprestimoDetalhe.ContratoaRefinanciar">
+                                            <td>{{refin.codContrato}}</td>
+                                            <td>{{refin.numeroParcelasEmAberto}}</td>
+                                            <td>{{refin.saldoDevedorAtual.replace(" ","")}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="text-xs-center texto-cinza "><span class="font-raleway">Valor Total:</span> {{emprestimoDetalhe.valorTotalRefinanciar}}</p>
+                            </div>
+                        </div>-->
+
+                    </div>
+
+
+                    <div class="detalhes-header font-medium" id="dvaberto">
+                        <a href="javascript:void(0);" class="collapse-toggle" id="aberto">Demonstrativo do Custo Efetivo Total<i class="collapse-icone-open icone fa fa-angle-down"></i><i class="collapse-icone-close icone fa fa-angle-up" style="display: none;"></i></a>
+                    </div>
+
+                </div>
+
+                <div class="collapse-conteudo" style="display: none;">
+
+                    <div class="msg-simples font-raleway texto-cinza m-t-2" style="padding:10px 0px">
+                        <div class="topico">
+                            <p class="">Nome do(a) Contratante</p>
+                            <p style="font-size:18px"><b>{{nomeUsuario}}</b></p>
+                        </div>
+                        <div class="topico">
+                            <p class="font-raleway">CPF</p>
+                            <p style="font-size:18px"><b>{{cpfUsuario}}</b></p>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped table-clean text-xs-center n-b-t m-b-0" style="font-size:14px">
+                        <thead>
+                            <tr>
+                                <td>Quantidade de Parcelas</td>
+                                <td>Valor de cada Parcela</td>
+                                <td>Valor Total das Parcelas</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{emprestimoDetalhe.numeroParcelas}}</td>
+                                <td> {{emprestimoDetalhe.valorParcela}}</td>
+                                <td> {{emprestimoDetalhe.valorTotal}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped table-clean text-xs-center n-b-t" style="font-size:14px">
+                        <thead>
+                            <tr>
+                                <td>Data do Contrato</td>
+                                <td>Vencimento da 1° Parcela</td>
+                                <td>Vencimento da última Parcela</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{emprestimoDetalhe.dataContrato}}</td>
+                                <td>{{emprestimoDetalhe.dataVencimentoPrimeiraParcela}}</td>
+                                <td>{{emprestimoDetalhe.dataVencimentoUltimaParcela}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="container">
+
+                        <div class="text-xs-center">
+
+                            <div class="text-xs-center m-t-2">
+
+                                <span class="font-medium texto-cinza" style="font-size:18px"><b>Detalhes do empréstimo</b></span>
+
+                                <ul class="tree" style="padding-left:0px !important;">
+                                    <li class="first">
+                                        <div class="item item-f">
+                                            <div class="row">
+                                                <div class="pull-xs-left" style="padding-left:20px">Taxa Juros Mensal</div>
+                                                <div class="pull-xs-right" style="padding-right:20px"><b>{{emprestimoDetalhe.taxaJurosMensal}}%</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left" style="padding-left:20px">Taxa Juros Anual</div>
+                                                <div class="pull-xs-right" style="padding-right:20px"><b>{{emprestimoDetalhe.taxaJurosAnual}}%</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left" style="padding-left:20px">CET Anual</div>
+                                                <div class="pull-xs-right" style="padding-right:20px"><b>{{emprestimoDetalhe.CETAnual}}%</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left" style="padding-left:20px">CET Mensal</div>
+                                                <div class="pull-xs-right" style="padding-right:20px"><b>{{emprestimoDetalhe.CETMensal}}%</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left" style="padding-left:20px">IOF</div>
+                                                <div class="pull-xs-right" style="padding-right:20px"><b>{{emprestimoDetalhe.valorIOF}}</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="container">
+
+                        <div class="text-xs-center">
+
+                            <div class="text-xs-center m-t-2">
+
+                                <span class="font-medium texto-cinza" style="font-size:18px">Componentes do fluxo da Operação</span>    
+
+                                <ul class="tree" style="padding-left:0px !important;">
+                                    <li class="first">
+                                        <div class="item item-f">
+                                            <div class="row">
+                                                <div class="pull-xs-left text-xs-left" style="padding-left:20px">Valor total do empréstimo <br /> no ato da contratação</div>
+                                                <div class="pull-xs-right text-xs-right font-medium m-t-8" style="padding-right:20px"> <b>{{emprestimoDetalhe.valorTotalEmprestimo}}<br />{{emprestimoDetalhe.percentualTotalContratacao}} %</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left text-xs-left" style="padding-left:20px">Valor liberado ao cliente</div>
+                                                <div class="pull-xs-right font-medium" style="padding-right:20px"> <b>{{emprestimoDetalhe.valorLiberadoCliente}}<br />{{emprestimoDetalhe.percentualLiberadoCliente}}%</b></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="pull-xs-left text-xs-left" style="padding-left:20px">Despesas vinculadas à <br /> concessão do crédito</div>
+                                                <div class="pull-xs-right font-medium m-t-8" style="padding-right:20px"> <b>{{ emprestimoDetalhe.valorDespesas}}<br />{{emprestimoDetalhe.percentualDespesas}}%</b></div>
+                                            </div>
+                                        </div>
+                                        <ul class="tree" style="padding-left:40px;">
+                                            <li>
+                                                <div class="item">
+                                                    <div class="row">
+                                                        <div class="pull-xs-left text-xs-right" style="position:relative; left:20px">IOF</div>
+                                                        <div class="pull-xs-right font-medium m-t-8" style="padding-right:20px"> <b>{{ emprestimoDetalhe.valorIOF}}<br />{{emprestimoDetalhe.percentualIOF}}%</b></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="msg-simples font-raleway texto-cinza m-t-1 m-b-2" style="text-align:justify">
+                        <div class="topico text-xs-left" style="padding:10px">
+                            <p class="">
+                                O (a) contratante declara estar ciente de que o demonstrativo acima representa todos os custos envolvidos na operação contratada e possui validade para a presente data.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <!-- TODO: Modal Falta Pouco -->
+                <div class="modal modal-simples modal-vertical fade" id="termosClick" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                            </div>
+                            <div class="modal-body">
+                                Para prosseguir você precisa aceitar os termos contratuais.
+                                <a href="pagina-4.html" title="Entendi" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="container">
+                    <div class="text-xs-center">
+                        <div class="acoes">
+                            <div class="termos font-medium" onclick="$('#termos').modal();" style="margin-left:5px;">
+                                <div style="width:12px;height:12px;border-radius:2px;border:1px solid #d2d2d2;position:relative;left:0px;top:13px;" id="fakeCheckbox"></div>
+                                <input type="checkbox" id="ckbTermos" style="display:none" onclick="$('#termos').modal();" name="termos" disabled />
+                                <span class="naoConcordo"><a href="#" title="" onclick="$('#termos').modal();" class="link-focus">Clique Aqui</a> para ler os termos contratuais.</span>
+                                <span class="concordo" style="display:none">Eu estou de acordo com os <a href="#" title="" onclick="$('#termos').modal();" class="link-focus">termos contratuais.</a></span>
+                            </div>
+                            <button ng-click="ConfirmarContrato()" title="Contratar" class="center-block btn btn-cor-primaria w-70 m-t-1 btn-contratar" style="font-size:18px;font-weight:bold">Contratar</button>
+                            <a href="#" title="Voltar" onclick="return EtapaDois();" class="center-block btn btn-primary w-70">Voltar</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-aviso-trava modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="results"> </p>
+                                <a href="#" title="Entendi" onclick="window.location = 'pagina-ola.html'" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="barra-acesso">
+                    <div class="container">
+                        <div class="texto">
+                            <p class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </section>
+
+    </section>
+
+    <!-- TODO: Modal Central de Relacionamento -->
+    <div class="modal modal-simples fade" id="termos" tabindex="-1" role="dialog" aria-labelledby="termosLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="termosLabel">
+                        Termos contratuais
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div style="text-align:justify">
+                        <p>CLÁUSULAS E CONDIÇÕES</p>
+
+                        <p> CLÁUSULA PRIMEIRA – OBJETO</p>
+
+                        <p> I.1 Constitui objeto do presente contrato a concessão de empréstimo ao (à) Contratante pela Contratada,caracterizado como sem destinação específica.</p>
+
+                        <p> CLÁUSULA SEGUNDA - VALOR, PRAZO E ENCARGOS</p>
+
+                        <p>
+                            II.1 A Contratada concede ao (à) Contratante a quantia discriminada no Quadro Resumo, entregue no ato da celebração deste contrato, importância que o (a) Contratante recebe e dá quitação, obrigando-se a solvê-la na forma ora convencionada. Na hipótese de o (a) Contratante possuir alguma pendência financeira anterior que não tenha sido formalmente cobrada pela Contratada e ter se beneficiado de algum abatimento negocial, haverá desconto no valor a ser concedido, o que fica aqui expressamente requerido e autorizado pelo (a) Contratante.<br />
+                            II.2 A quantia concedida, acrescida dos juros remuneratórios pactuados, que poderão ser capitalizados mensalmente, deverá ser paga pelo(a) Contratante através de parcelas mensais, fixas e consecutivas, tudo conforme descrição que consta no Quadro Resumo deste contrato.<br />
+                            II.3 Se o vencimento da parcela devida pelo(a) Contratante estiver vinculado à data do recebimento do crédito do seu salário/benefício, caso receba seu salário/benefício em data anterior à prevista no Quadro Resumo do presente contrato, haverá abatimento dos juros remuneratórios proporcionalmente ao período antecipado.<br />
+                            II.4 Se o vencimento da parcela devida pelo(a) Contratante estiver vinculado à data do recebimento do 13º salário e/ou restituição do imposto de renda do(a) Contratante, caso receba o 13º salário e/ou restituição do imposto de renda em data anterior à prevista no Quadro Resumo do presente contrato, haverá abatimento dos juros remuneratórios proporcionalmente ao período antecipado.<br />
+                            II.5 A planilha de cálculo do Custo Efetivo Total (CET) foi apresentada previamente à contratação da operação e consta de forma destacada do presente contrato, em seu Anexo 2.
+                        </p>
+
+                        <p> CLÁUSULA TERCEIRA - FORMA DE PAGAMENTO</p>
+
+                        <p>
+                            III.1 O (a) Contratante poderá efetuar o pagamento das parcelas devidas das seguintes formas, conforme opção que consta no Quadro Resumo deste contrato, ficando vedada a alteração da forma de pagamento estabelecida, apenas podendo ser modificada se houver expressa anuência da Contratada, à exceção do direito previsto na Resolução 3695/2009 do Conselho Monetário Nacional.<br />
+                            a) as parcelas devidas pelo(a) Contratante serão pagas através de desconto na conta corrente descrita no "Anexo 1" deste contrato até liquidação total da dívida. Havendo transferência da movimentação bancária do(a) Contratante para outra agência, conta corrente ou banco e se o salário do(a) Contratante passar a ser creditado em conta corrente diversa da ora indicada e esses dados bancários (agência/conta corrente/banco) forem informados pelo(a) Contratante à Contratada e uma nova autorização de débito for por ele(a) firmada, ficará a Contratada expressamente autorizada a realizar débitos dos valores devidos em razão do presente contrato nessa nova conta bancária junto aos bancos Caixa Econômica Federal, Banco do Brasil, Bradesco, Itaú, HSBC, Santander, SICREDI, Banestes, ou qualquer outro, até quitação total de sua dívida, reconhecendo o(a) Contratante, nesta oportunidade, que tem a obrigação de quitar a dívida referente ao contrato de empréstimo pessoal celebrado nesta data através de débito na conta corrente na qual receba seu salário ou em qualquer outra que apresente movimentação, junto a qualquer banco.<br />
+                            b) as parcelas devidas pelo(a) Contratante serão pagas através da entrega de cheques pré-datados, relacionados no "Anexo 1" deste contrato, os quais serão depositados pela Contratada nas datas de vencimentos das parcelas a eles vinculadas ou na data de recebimento do salário pelo(a) Contratante.<br />
+                            c) as parcelas devidas pelo(a) Contratante serão pagas através de boletos bancários.
+                        </p>
+
+                        <p> CLÁUSULA QUARTA - RESCISÃO</p>
+
+                        <p> IV.1 O presente contrato será rescindido e a dívida imediata e antecipadamente exigível, nas seguintes hipóteses:</p>
+
+                        <p> CONTRATO DE EMPRÉSTIMO PESSOAL</p>
+
+                        <p>
+                            a) se o (a) Contratante infringir qualquer cláusula deste contrato ou deixar de cumprir, pontual e integralmente, qualquer obrigação nele assumida;<br />
+                            b) se o (a) Contratante entrar em estado de insolvência ou sofrer medidas que afetem os direitos creditórios da Contratada;<br />
+                            c) se o (a) Contratante tiver omitido ato ou fato relevante existente na data da contratação, cuja natureza fosse capaz de influir negativamente na decisão da Contratada de concessão do crédito;<br />
+                            d) se quaisquer das declarações feitas pelo(a) Contratante neste contrato não corresponderem à situação jurídica a que se referem.<br />
+                            Parágrafo único. Ocorrendo qualquer uma das hipóteses de vencimento antecipado previstas nesta Cláusula, o (a) Contratante deverá liquidar, no prazo máximo de 48 (quarenta e oito) horas úteis a totalidade do débito em aberto, ou seja, todas as parcelas vencidas acrescidas dos encargos previstos na Cláusula 5ª deste contrato, além das parcelas vincendas que se tornarem antecipadamente exigíveis, as quais serão trazidas a valor presente.
+                        </p>
+
+                        <p> CLÁUSULA QUINTA – INADIMPLEMENTO</p>
+
+                        <p> V.1 Se o(a) Contratante não efetuar o pagamento das parcelas convencionadas na forma e nas datas estipuladas, os débitos em atraso ficarão sujeitos, de pleno direito, à correção monetária, que terá como indexador o CDI ou IPCA, IGP-M e INPC, o que for maior, juros remuneratórios de acordo com a taxa mensal pactuada, prevista no Quadro Resumo deste contrato, juros moratórios de 1% (um por cento) ao mês, que poderão ser capitalizados mensalmente, além de multa de 2% (dois por cento) sobre o valor total do débito, ou seja, sobre todas as parcelas vencidas, e também sobre as vincendas nas hipóteses de vencimento antecipado do débito previstas na Cláusula 4ª deste contrato, as quais serão trazidas a valor presente, calculados desde o primeiro dia de inadimplência até a data do efetivo pagamento, sendo que a aplicação de qualquer das hipóteses de vencimento antecipado do débito previstas na Cláusula 4ª será previamente comunicada ao(a) Contratante.</p>
+
+                        <p> CLÁUSULA SEXTA - CONFISSÃO DE DÍVIDA E AUTORIZAÇÃO</p>
+
+                        <p>
+                            VI.1 O (a) Contratante reconhece dever à Contratada o valor das parcelas relacionadas no Quadro Resumo no campo "Confissão de Dívida e Autorização", autorizando-a, para quitação exclusiva destas parcelas, a reter a referida importância do crédito concedido através do contrato de empréstimo pessoal celebrado nesta data.<br />
+                            CLÁUSULA SÉTIMA - DISPOSIÇÕES GERAIS<br />
+                            VII.1 O presente contrato constitui título executivo extrajudicial, na forma preceituada no artigo 784, inciso III, do Novo Código de Processo Civil Brasileiro.<br />
+                            VII.2 A abstenção do exercício, pela Contratada, de quaisquer direitos ou faculdades que lhe assistam, ou a concordância com atrasos no cumprimento de obrigações do (a) Contratante não alterarão as condições<br />
+                            estipuladas neste contrato, não constituíndo novação e nem obrigando a Contratada relativamente a inadimplementos futuros.<br />
+                            VII.3 O (a) Contratante somente poderá ceder ou transferir os direitos e obrigações decorrentes deste contrato com a expressa anuência da Contratada.<br />
+                            VII.4 Por todas as obrigações assumidas neste contrato, a favor da Contratada, respondem solidariamente os herdeiros e sucessores do (a) Contratante, inclusive no que tange aos acessórios da dívida que se tornarem devidos em decorrência de mora ou inadimplento contratual.<br />
+                            VII.5 Na amortização ou liquidação antecipada do contrato, o valor presente dos pagamentos será calculado com a utilização da taxa de juros pactuada no contrato.<br />
+                            VII.6 O (a) Contratante declara que recebeu, neste ato, uma das vias deste contrato.
+                        </p>
+
+                        <p></p>
+
+                        <p>
+                            VII.7 O (a) Contratante declara que não foram cobrados seguros, taxas adicionais ou quaisquer outros valores na contratação que não os expressamente previstos neste contrato.<br />
+                            VII.8 O IOF incidente sobre a operação, nos termos da legislação em vigor, será calculado em conformidade com o sistema de amortização decrescente.<br />
+                            VII.9 Em conformidade com a circular 3.461/09 do Banco Central do Brasil, o(a) CONTRATANTE declara que o propósito e a natureza do seu relacionamento com a CONTRATADA estão estabelecidos nos termos do contrato ora firmado com a instituição financeira.<br />
+                            VII.10 O (a) CONTRATANTE autoriza expressamente a CONTRATADA a realizar consulta e a inserir informações no SCR — Sistema de Informações de Crédito do Banco Central do Brasil, estando ciente de que:<br />
+                            a) o SCR tem por finalidades fornecer informações ao Bacen para fins de supervisão do risco de crédito a que estão expostas as instituições financeiras e propiciar o intercâmbio de informações entre essas instituições com o objetivo de subsidiar decisões de crédito e de negócios;<br />
+                            b) poderá ter acesso aos dados constantes em seu nome no SCR por meio da Central de Atendimento ao Público do Banco Central do Brasil (CAP);<br />
+                            c) pedidos de correções, de exclusões e de manifestações de discordância quanto às informações constantes do SCR deverão ser dirigidas à instituição responsável pela remessa das informações, por meio de requerimento escrito e fundamentado, ou, quando for o caso, pela respectiva decisão judicial;<br />
+                            d) a consulta sobre qualquer informação ao SCR depende de sua prévia autorização;<br />
+                            e) mais informações sobre o SCR podem ser obtidas em consulta a pagina na Internet do Banco Central:<br />
+                            www.bcb.gov.br
+                        </p>
+
+                        <p> ANEXO 1</p>
+
+                        <p> AUTORIZAÇÃO DE DESCONTO EM CONTA CORRENTE</p>
+
+                        <p>
+                            Autorizo Crefisa S/A Crédito, Financiamento e Investimentos (Contratada) ou Bamércio S/A Previdência Privada ou R. L. Participação e Empreendimentos Comerciais Ltda. ou Sedona Cobrança e Assessoria Ltda. a descontar da conta corrente, da qual sou titular, as prestações mensais objeto do contrato de empréstimo pessoal celebrado.<br />
+                            Tenho ciência da impossibilidade de alteração da forma de pagamento ora estabelecida, qual seja, desconto em conta corrente, podendo apenas ser modificada se houver expressa anuência da Contratada, à exceção do direito previsto na Resolução 3695/2009 do Conselho Monetário Nacional.<br />
+                            Comprometo-me a manter saldo suficiente para os devidos pagamentos e, caso não haja saldo disponível<br />
+                            suficiente para débito do valor integral da parcela, ou seja, havendo o inadimplemento do contrato, autorizo a Contratada a proceder aos descontos em minha conta corrente mesmo após o vencimento da última parcela prevista nesta autorização, nas seguintes condições:<br />
+                            a) Serão acrescidos ao saldo devedor os encargos moratórios previstos no contrato para as hipóteses de<br />
+                            inadimplemento;<br />
+                            b) Será cobrado um valor mensal a partir do inadimplemento, que não ultrapassará o valor original das parcelas pactuadas e respeitará o dia de vencimento das parcelas originalmente pactuadas;<br />
+                            c) O valor mensal poderá ser cobrado em até 8 (oito) frações, limitado ao valor original das parcelas pactuadas;<br />
+                            d) A prorrogação do prazo para pagamento do valor total devido não ultrapassará 1825 (um mil, oitocentos<br />
+                            e vinte e cinco) dias;<br />
+                            e) Será cobrada com prioridade a parcela vencida há mais tempo.<br />
+                            Portanto, os descontos poderão ser feitos parceladamente em minha conta corrente, de acordo com o saldo existente, até que seja atingido o valor da parcela vencida ou do saldo devedor, isentando o Banco de qualquer responsabilidade caso a conta corrente não comporte o valor do documento a liquidar. Os encargos moratórios serão deduzidos do valor descontado e o saldo remanescente será cobrado no mês subsequente. Declaro ter ciência, portanto, de que na hipótese de inadimplemento, causado pelo descumprimento de minha obrigação, aqui assumida, de manter saldo suficiente em minha conta corrente, o prazo para pagamento das parcelas previsto no presente contrato será estendido e descontos poderão ser realizados após os vencimentos originais previstos no presente contrato.<br />
+                            Havendo transferência da minha movimentação bancária para outra agência, conta corrente ou banco e se meu salário passar a ser creditado em conta corrente diversa da ora indicada e esses dados bancários (agência/conta corrente/banco) forem informados pelo(a) Contratante à Contratada e uma nova autorização de débito for por ele(a) firmada, ficará a Contratada expressamente autorizada a realizar débitos dos valores devidos em razão do presente contrato nessa nova conta bancária junto aos bancos Caixa Econômica Federal, Banco do Brasil, Bradesco, Itaú, HSBC, Santander, SICREDI, Banestes, ou qualquer outro, até quitação total de minha dívida. Reconheço, nesta oportunidade, que tenho a obrigação de quitar a dívida referente ao contrato de empréstimo pessoal celebrado nesta data através de débito na conta corrente na qual receba meu salário ou em qualquer outra que apresente movimentação, junto a qualquer banco.
+                        </p>
+
+                        <p> ANEXO 2</p>
+
+                        <p> DEMONSTRATIVO DO CUSTO EFETIVO TOTAL</p>
+
+                        <p> O (a) Contratante declara estar ciente de que o demonstrativo representa todos os custos envolvidos na operação contratada e possui validade para a presente data.</p>
+
+                        <p></p>
+
+                    </div>
+
+                    <a href="#" title="Enviar" onclick="SetaTermos();" data-dismiss="modal" class="btn btn-cor-primaria m-t-2" style="font-size:18px; font-weight:bold">Concordo</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+<script>
+    InicioNome();
+
+    function ChamaTermo() {
+        if ($("#ckbTermos").is(':checked')) {
+            window.location = 'pagina-9.html';
+        } else {
+
+            $("#termos").modal();
+        }
+    }
+
+    function SetaTermos() {
+        $("#ckbTermos").attr("checked", true).show();
+        $("#fakeCheckbox").hide();
+        $(".naoConcordo").hide();
+        $(".concordo").show();
+        //$(".btn-contratar").removeAttr('disabled');
+    }
+
+    function EtapaDois() {
+        window.location = "pagina-7.html";
+    }
+
+</script>

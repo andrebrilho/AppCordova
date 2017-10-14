@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider IT</title>
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <!--<script src="static/js/jquery.mobile-1.4.5.min.js"></script>-->
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+</head>
+
+<body>
+    <div class="content-login">
+        <video autoplay muted loop webkit-playsinline playsinline preload="auto" class="bg-vid">
+            <source src="static/img/19400221.mp4" type="video/webm">
+            <source src="static/img/19400221.mp4" type="video/mp4">
+        </video>
+        <div class="logo">
+            <img src="static/img/logo-provider-alt.png" />
+        </div>
+        <div class="safe_area">
+            <div class="row">
+                <div class="col-xs-12">
+                    <input class="input-login" name="email" placeholder="E-mail" />
+                    <input class="input-login" name="password" type="password" placeholder="Senha" />
+                </div>
+                <div class="col-xs-12 text-center" style="margin-top:30px">
+                    <button class="btn-login btn-entrar">Entrar</button>
+                    <a href="cadastro.html" class="btn-login-link">Não tenho cadastro</a>
+                    <!--<button id="Play">Play</button>
+                    <button id="Stop" style="display:none;">Stop</button>
+                    <p id="audio_position" style="color:white"></p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    //     document.addEventListener("deviceready", onDeviceReady, false);
+
+    // function uploadVoice(fileName, dirName) {
+
+    //     var win = function (r) {
+    //         alert(r.response);
+    //         console.log("Code = " + r.responseCode);
+    //         console.log("Response = " + r.response);
+    //         console.log("Sent = " + r.bytesSent);
+    //     };
+
+    //     var fail = function(error) {
+    //         alert("An error has occurred");
+    //         alert(JSON.stringify(error));
+    //     };
+
+    //     // file system fail
+    //     var fsFail = function(error) {
+    //         alert("file system error");
+
+    //     };
+
+    //     var dirFail = function(error) {
+    //         alert("Directory error");
+
+    //     };
+
+    //     var fileURI;
+
+    //     var gotFileSystem = function (fileSystem) {
+    //         fileSystem.root.getDirectory(dirName, {
+    //             create: false,
+    //             exclusive: false
+    //         }, function (dataDir) {
+    //             if(device.platform == "Android"){
+    //             fileURI = "file:///mnt/sdcard/myrecording.wav"
+    //             }else{
+    //                 fileURI = dataDir.toURL() + fileName;
+    //             }
+    //             //fileURI = fileURI + fileName;
+
+    //             var options = new FileUploadOptions();
+    //             options.fileKey = "file";
+    //             options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    //             options.mimeType = "audio/wav";
+    //             options.chunkedMode = false;
+    //             options.httpMethod = 'POST';
+    //             var params = new Object();
+    //             params.voice = 'pt-BR_NarrowbandModel';
+    //             options.params = params;
+    //             //alert(JSON.stringify(options));
+    //             var ft = new FileTransfer();
+    //             ft.upload(fileURI, "https://stt-ciab.mybluemix.net/sttext", win, fail, options);
+    //             //var m = new Media(fileURI,function(){},function(){});
+    //             //m.play();
+
+    //         }, dirFail);
+
+    //     };
+
+    //     // get file system to copy or move image file to
+    //     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFileSystem, fsFail);
+
+    // }
+
+
+    //     // Record audio
+    //     // 
+    //     function recordAudio() {
+    //         var src = "myrecording.wav";
+    //         var mediaRec = new Media(src, onSuccess, onError);
+    //         $("#Play").hide();
+    //         $("#Stop").show();
+    //         // Record audio
+    //         mediaRec.startRecord();
+    //         var stop = false;
+
+    //         $("#Stop").unbind("click");
+    //         $("#Stop").bind("click",function(){
+    //             stop = true;
+    //             $("#Play").show();
+    //             $("#Stop").hide();
+    //         });
+
+    //         // Stop recording after 10 sec
+    //         var recTime = 0;
+    //         var recInterval = setInterval(function() {
+    //             recTime = recTime + 1;
+    //             setAudioPosition(recTime + " seg");
+    //             if (stop) {
+    //                 clearInterval(recInterval);
+    //                 mediaRec.stopRecord();
+    //                 uploadVoice(src,"");
+    //                 //mediaRec.play();
+    //                 document.getElementById('audio_position').innerHTML = "";
+    //             }
+    //         }, 1000);
+    //     }
+
+    //     // PhoneGap is ready
+    //     //
+    //     function onDeviceReady() {
+    //         $("#Play").bind("click", function () {
+    //             recordAudio();
+    //         });
+    //     }
+
+    //     // onSuccess Callback
+    //     //
+    //     function onSuccess() {
+    //         console.log("recordAudio():Audio Success");
+    //     }
+
+    //     // onError Callback 
+    //     //
+    //     function onError(error) {
+    //         alert('code: '    + error.code    + '\n' + 
+    //               'message: ' + error.message + '\n');
+    //     }
+
+    //     // Set audio position
+    //     // 
+    //     function setAudioPosition(position) {
+    //         document.getElementById('audio_position').innerHTML = position;
+    //     }
+
+
+    // var captureSuccess = function (mediaFiles) {
+    //     alert("Sucesso");
+    //     var i, path, len;
+    //     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+    //         path = mediaFiles[i].fullPath;
+    //         // do something interesting with the file
+    //     }
+    // };
+
+    // // capture error callback
+    // var captureError = function (error) {
+    //     navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+    // };
+
+    // function startCapture() {
+    //     alert("start");
+    //     // start audio capture
+    //     navigator.device.capture.captureAudio(captureSuccess, captureError, { limit: 2 });
+    // }
+    $(document).ready(function () {
+var loading = $.loading();
+        // $("#btnAudio").bind("touchend", function () {
+        //     stopAudio();
+        // });
+        var user = window.localStorage.getItem("user");
+        user = JSON.parse(user);
+        if (user != null && user._id != null) {
+            location.href = "index.html";
+        }
+
+
+
+        $(".btn-entrar").on("click", function (e) {
+            e.preventDefault();
+            if ($("input[name=email]").val() == "" || $("input[name=password]").val() == "") {
+                navigator.notification.alert(
+                    'Digite seu email e senha para entrar',  // message
+                    function () { },
+                    'Atenção',            // title
+                    'OK'                  // buttonName
+                );
+            } else {
+                if ($("input[name=email]").val() != "") {
+                    var x = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    if (!x.test($("input[name=email]").val())) {
+                        navigator.notification.alert(
+                            'Digite um e-mail válido.',  // message
+                            function () { },
+                            'Atenção',            // title
+                            'OK'                  // buttonName
+                        );
+                        return false;
+                    }
+                }
+
+                var obj = {
+                    email: $("input[name=email]").val(),
+                    password: $("input[name=password]").val()
+                }
+
+                $.post("http://serviceciab.azurewebsites.net/users", obj).done(function (data) {
+
+                    if (data != null && !data.hasOwnProperty("error")) {
+                        window.localStorage.setItem("user", JSON.stringify(data));
+                        location.href = "index.html";
+                    }
+                    else {
+                        if (data.hasOwnProperty("error")) {
+                            navigator.notification.alert(
+                                'Ocorreu um erro ao realizar o login',  // message
+                                function () { },         // callback
+                                'Atenção',            // title
+                                'Tentar novamente'                  // buttonName
+                            );
+                        } else {
+                            navigator.notification.alert(
+                                'Usuário ou senha inválidos.',  // message
+                                function () { },         // callback
+                                'Atenção',            // title
+                                'Tentar novamente'                  // buttonName
+                            );
+                        }
+                    }
+                }).fail(function (data) {
+                    alert(JSON.stringify(data));
+                });
+            }
+        });
+    });
+
+</script>
+
+</html>

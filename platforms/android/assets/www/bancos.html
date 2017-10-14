@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider  IT</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery.mask.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+</head>
+
+<body>
+    <div class="load-menu"></div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="portabilidade.html" class="navbar-toggle menu collapsed pull-left" aria-expanded="false">
+                    <span class="fa fa-chevron-left"></span>
+                </a>
+                <a class="navbar-brand" href="#">Propostas Encontradas</a>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:15px;background:#2f2f2f;">
+        <h4 style="color:white">Selecione uma das propostas: </h3>
+    </div>
+    <div class="container-fluid">
+        <div class="text-center">
+
+        </div>
+    </div>
+    <div class="list-group" id="listBanks">
+    </div>
+
+    <script type="text/html" id="itemTemplateBanco">
+        <a href="#" class="list-group-item itemBanco">
+            <input type="hidden" name="idTaxa" />
+            <input type="hidden" name="novovalorparcela" />
+            <div class="row">
+                <div class="col-xs-10">
+                    <h4 class="list-group-item-heading nomeBanco"></h4>
+                    <p class="list-group-item-text infos"></p>
+                </div>
+                <div class="col-xs-2" style="padding-top:12px;">
+                    <span class="fa fa-chevron-right"></span>
+                </div>
+            </div>
+        </a>
+    </script>
+    <script>
+        $(document).ready(function () {
+            var loading = $.loading();
+            var user = window.localStorage.getItem("user");
+            user = JSON.parse(user);
+
+            var divida = window.localStorage.getItem("DIVIDA");
+            divida = JSON.parse(divida);
+            console.dir(divida);
+            $.post("http://serviceciab2.azurewebsites.net/calculaParcela", { iddivida: divida._id }).done(function (data) {
+                if (data != null && !data.hasOwnProperty("error")) {
+
+                    if(data.length == 0){
+                        navigator.notification.alert(
+                        'Não encontramos nenhum banco com uma parcela menor.',  // message
+                        function () { location.href="portabilidade.html" },         // callback
+                        'Atenção',            // title
+                        'Tentar novamente'                  // buttonName
+                    );
+                    }
+
+                    data.sort(SortByValorTaxa);
+
+                    $.each(data, function (index, item) {
+                        var htmlTemplate = $($("#itemTemplateBanco").html()).clone(true);
+                        $(htmlTemplate).find("input[name=idTaxa]").val(item._id);
+                        $(htmlTemplate).find("input[name=novovalorparcela]").val(item.novovalorparcela.toFixed(2));
+                        $(htmlTemplate).find(".nomeBanco").html(item.fullname);
+                        $(htmlTemplate).find(".infos").html("Valor Parcela: R$<span class='vlrReal'>" + item.novovalorparcela.toFixed(2) + "</span><br />");
+                        $("#listBanks").append(htmlTemplate);
+                    });
+                    $(".vlrReal").mask('000.000,00', {reverse: true});
+                } else {
+                    navigator.notification.alert(
+                        'Não foi possível calcular as parcelas.',  // message
+                        function () { },         // callback
+                        'Atenção',            // title
+                        'Tentar novamente'                  // buttonName
+                    );
+                }
+
+                $(".itemBanco").click(function () {
+                    
+                    var novovalorparcela = $(this).find("input[name=novovalorparcela]").val();
+                    var idtaxa = $(this).find("input[name=idTaxa]").val();
+                    
+                    
+                    var obj = {
+                        idusuario: user._id,
+                        iddivida: divida._id,
+                        novovalorparcela: novovalorparcela,
+                        idtaxa: idtaxa,
+                        blockchain: null,
+                        status: 'Pendente'
+                    };
+                    
+
+                    $.post("http://serviceciab2.azurewebsites.net/createportabilidade", obj).done(function (data) {
+                        window.localStorage.setItem("PORTABILIDADE", JSON.stringify(data));
+                        location.href = "resumo.html";
+                    });
+
+                });
+            });
+
+        });
+
+        function SortByValorTaxa(a, b) {
+            var aName = a.valortaxa;
+            var bName = b.valortaxa;
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+        }
+    </script>
+</body>
+
+</html>

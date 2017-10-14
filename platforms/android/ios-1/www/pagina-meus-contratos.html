@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+
+    <script type="text/javascript" src="cordova.js"></script>
+    
+   
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+
+    
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="FileTransfer.js"></script>
+
+    <script src="scripts/module.js"></script>
+    <script src="scripts/services.js" type="text/javascript"></script>
+    <script src="scripts/contrato-controller.js" type="text/javascript"></script>
+
+</head>
+<body ng-controller="contratoController">
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+            </div>
+
+            <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container fully">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                        <div class="text-xs-center">Meus contratos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section central-relacionamento">
+
+            <div class="bg-branco p-t-2" id="content">
+
+                <div class="text-xs-center">
+                    <!--<p class="font-medium m-b-3">Contratos atualizados em 00/00 às 00:00</p>-->
+                </div>
+                <!--ng-repeat="contrato in listaContratos"-->
+                <div class="container">
+
+                    <div class="refinanciamento contrato-item"  ng-repeat="contrato in listaContratos">
+
+                        <div class="corpo">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <p class="font-medium">{{contrato.nomeOrgao}}</p>
+                                    <!--<p>{{contrato.nomeOrgao}}</p>-->
+                                </div>
+                                <div class="col-xs-5">
+                                    <p>Nº Contrato: <b>{{contrato.numeroContrato}}</b></p>
+                                </div>
+                                <div class="col-xs-7 text-xs-right">
+                                    <p>Data Contratação: <b>{{contrato.dataEmissaoContrato}}</b></p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>Nº Parcelas: <b>{{contrato.quantidadeParcelas}}</b></p>
+                                </div>
+                                <div class="col-xs-6 text-xs-right">
+                                    <p>Valor Financiado: <b>{{contrato.valorFinanciado.replace(" ","")}}</b></p>
+                                </div>
+                                <div class="col-xs-12"  ng-if="contrato.stsContrato == 'INADIMPLENTE'">
+                                    <a href="pagina-central-relacionamento.html" class="btn btn-cor-primaria center-block m-t-1"><img src="webfiles/images/icones/telefone.svg" /> Fale com a central</a>
+                                </div>
+                            </div>
+                            
+                            <div class="abre-parcelas">
+                                <a href="#collapseCt{{$index}}" title="" class="btn-abre-parcelas ativo collapsed" ng-if="contrato.stsContrato == 'ATIVO'" data-toggle="collapse">
+                                    Contrato ativo
+                                    <span class="pull-xs-right">
+                                        <i class="collapse-icone-open icone fa fa-angle-down"></i>
+                                        <i class="collapse-icone-close icone fa fa-angle-up"></i>
+                                    </span>
+                                </a>
+                                <a href="#collapseCt{{$index}}" title="" class="btn-abre-parcelas processamento collapsed"  ng-if="contrato.stsContrato == 'EM PROCESSAMENTO'" data-toggle="collapse">
+                                    Contrato em processamento
+                                    <span class="pull-xs-right">
+                                        <i class="collapse-icone-open icone fa fa-angle-down"></i>
+                                        <i class="collapse-icone-close icone fa fa-angle-up"></i>
+                                    </span>
+                                </a>
+                                <a href="#collapseCt{{$index}}" title="" class="btn-abre-parcelas atraso collapsed"ng-if="contrato.stsContrato == 'INADIMPLENTE'" data-toggle="collapse">
+                                    Contrato em atraso
+                                    <span class="pull-xs-right">
+                                        <i class="collapse-icone-open icone fa fa-angle-down"></i>
+                                        <i class="collapse-icone-close icone fa fa-angle-up"></i>
+                                    </span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="collapse m-b-1" id="collapseCt{{$index}}">
+                            <table class="table table-striped tabela-parcelas-clean">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td>Parcela</td>
+                                        <td>Vencimento</td>
+                                        <td>Valor (R$)</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  ng-repeat="parcela in contrato.parcela">
+                                        
+                                        <td ng-if="parcela.status == 'PAGO'"><img src="webfiles/images/icones/ativo.svg" /></td>
+                                        <td ng-if="parcela.status == 'ABERTO'"></td>
+                                        <td ng-if="parcela.status == 'ATRASO'" ng-init="GetTotal(parcela)"><img src="webfiles/images/icones/atraso.svg" /></td>
+                                        <td>{{parcela.numeroParcela}}</td>
+                                        <td>{{parcela.dataVencimento}}</td>
+                                        <td>{{parcela.valor}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="text-xs-center p-y-1">
+                                <div class="row">
+                                    <!--<div class="col-xs-12">
+                                        <p class="font-15">Valor Total à Pagar:  <span class="font-heavy"> {{contrato.valorTotalaPagar}}</span></p>
+                                    </div>-->
+                                    <div class="col-xs-6">
+                                        <img src="webfiles/images/icones/ativo.svg" /> Parcela paga
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <img src="webfiles/images/icones/atraso.svg" /> Parcela em atraso
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-if="contrato.stsContrato == 'ATIVO' && 
+                                      contrato.habilitaDownload">
+                                    <div class="col-xs-12 p-y-1">
+                                        <a href="javascript:void(0);" ng-if="appOuMobile==1" ng-click="DownloadContrato(contrato.numeroContrato)" class="link-focus font-16 font-heavy">Ver contrato</a>
+                                        <p  ng-if="appOuMobile==1">ou</p>
+                                        <a href="javascript:void(0);" ng-click="MostraModal(contrato);" class="link-focus font-16 font-heavy">Enviar por e-mail</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <section class="barra-acesso">
+                <div class="container">
+                    <div class="texto">
+                        <p style="color:#969696" class="nome m-h-20 fsize-1 text-xs-center m-b-0"></p>
+
+                    </div>
+                </div>
+            </section>
+        </section>
+
+    </section>
+
+    <div class="modal modal-simples modal-vertical fade" id="faltaCentral" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body" style="font-size:18px">
+                    Você ainda não possui nenhum contrato, para mais informações entre em contato com a nossa <a href="pagina-central-relacionamento.html" style="color:#2f7ff9"><u>Central de Relacionamento.</u></a>
+                    <a href="#" title="Entendi" class="btn btn-cor-primaria m-t-2" data-dismiss="modal">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: Modal Enviar E-mail -->
+    <div class="modal-email modal modal-simples modal-vertical fade" id="enviarEmail" tabindex="-1" role="dialog" aria-labelledby="enviarEmailLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="enviarEmailLabel">
+                        Insira seu e-mail
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="envia-email">
+                        <div class="row text-xs-left">
+                            <div class="col-xs-12">
+                                <label>E-mail</label>
+                                <input type="email" id="email" class="form-control" name="email" />
+                            </div>
+                        </div>
+
+                        <a href="#" title="Enviar" ng-click="EnviarContratoPorEmail()"  class="btn btn-cor-primaria m-t-2">Enviar</a>
+                        <a href="#" title="Cancelar" class="btn btn-link" data-dismiss="modal">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+
+   
+
+            
+
+            <!-- TODO: Modal caso contrato enviado no proximo dia util -->
+            <div class="modal-content hide">
+                <div class="enviado-email m-t-2 m-b-1">
+                    <div class="text-xs-center">
+                        <p class="font-heavy">Seu contrato será enviado por email no próximo dia útil</p>
+                        <a href="#" title="Continuar" class="btn btn-cor-primaria m-t-1" data-dismiss="modal">Continuar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- TODO: Modal Falta Pouco -->
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <!--Para prosseguir você precisa aceitar os termos contratuais.-->
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-crefisa modal modal-simples modal-vertical fade" id="faltaCentral" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    Serviço crefisa não implementado
+                    <a href="#"  onclick="$('.modal-crefisa').modal('hide');" title="Entendi" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+<script>
+    InicioNome();
+</script>

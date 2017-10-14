@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Crefisa</title>
+    <link rel="stylesheet" href="webfiles/css/tema.css" media="all" type="text/css" />
+    <link href="styles/loadmask.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script src="scripts/storage-help.js"></script>
+    <script src="scripts/util/Util.js"></script>
+    <script src="scripts/jquery.loadmask.js"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/plugins/tether/dist/js/tether.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript" src="webfiles/js/custom.js" charset="UTF-8"></script>
+
+    <script src="webfiles/js/jquery.mask.min.js"></script>
+</head>
+<body>
+
+    <nav class="app-nav" style="display: none;">
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="javascript:void(0);" title="Voltar" class="app-nav-collapse icone pull-xs-left"><img src="webfiles/images/icones/close.svg" /></a>
+                        <div class="text-xs-center">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="msg-container nome-cliente">
+
+        </div>
+
+        <div id="dvMenu"></div>
+    </nav>
+
+    <section class="app-container" style="color:#313131">
+
+        <div class="breadcrumb-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a href="javascript:void(0);" title="Menu" class="icone app-nav-collapse"><img src="webfiles/images/bars.svg" /></a>
+                    </div>
+                    <div style="margin-left:15%; font-size:18px" class="col-xs-8">
+                        Cadastrar Renda
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .badge-ok {
+                border-radius: 3px;
+                width: 20px;
+                height: 20px;
+                color: white;
+                font-size: 12px;
+                padding-top: 3px;
+                position: absolute;
+                top: 21px;
+                right: 35px;
+                background: #60b28a;
+                text-align: center;
+            }
+
+            .badge-wrng {
+                border-radius: 3px;
+                width: 20px;
+                height: 20px;
+                color: #244b6d;
+                font-size: 12px;
+                padding-top: 3px;
+                position: absolute;
+                top: 21px;
+                right: 35px;
+                background: #ffcc5c;
+                text-align: center;
+            }
+
+            .pre-cadastro-bg-numbers {
+                height: 60px;
+                width: 60px;
+                background: #c6ccce;
+                font-size: 30px;
+                font-family: Raleway;
+                color: #485e6b;
+                text-align: center;
+                padding-top: 10px;
+            }
+
+            .pre-cadastro-textdiv {
+                width: calc(100%-60px);
+            }
+
+            .pre-cadastro-listitem {
+                height: 62px;
+                background: transparent;
+                width: 100%;
+                border-bottom: 2px solid #dee0e1;
+                position: relative;
+                z-index: 1;
+            }
+
+            .pre-cadastro-seta {
+                position: absolute;
+                right: 15px;
+                top: 25px;
+                color: #bababa;
+            }
+
+            .form-Fase2 {
+                color: #485e6b;
+            }
+        </style>
+
+        <section class="section simulador" id="content">
+
+            <div class="form-Fase2">
+
+                <div class="container">
+
+                    <form method="post" id="formSimulador">
+                        <div class="row">
+                            <div class="col-xs-12 m-b-1">
+                                <p style="font-size:16px; font-weight:bold; padding-top:15px">Para continuar o cadastro da nova renda <img src="webfiles/images/icones/information_blue.svg" style="width: 16px;height: 16px;margin-top:-4px" onclick="$('#Informacao').modal('show')" />, informe seu sálario recebido e clique em Simular.</p>
+                            </div>
+                            <div class="col-xs-12 m-b-1">
+                                <label style="font-size:16px; font-weight:bold">Salário (líquido) Recebido:</label>
+                                <input type="text" id="txtSalarioProspect" class="form-control" name="salario" placeholder="Valor" style="background-color:#f5f5f5; color:#000000;font-size:22px" />
+                            </div>
+                            <div class="col-xs-12">
+                                <p>Salário recebido mensalmente (aposentado, pensionista e servidores públicos)</p>
+                                <button type="submit" title="Continuar" class="btn btn-cor-primaria center-block m-t-2" style="font-size:18px;font-weight:bold">Simular</button>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <a href="#" onclick="PaginaOla();" title="Voltar" class="center-block btn btn-primary m-t-1" style="padding: 8px;">Voltar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-aviso2 modal modal-simples fade" id="ModalValor" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="offset-md-2 col-md-8">
+                            <div class="block-center font-medium" style="text-align:center;padding-top: 30px; margin-bottom:20px;">
+                                <!--<div style="border-radius:4px;border:1px solid #d0d0d0;font-size:26px;width:100%;color:#005480;margin-top: 0px;padding:20px;">-->
+                                <div style="font-size:26px;width:100%;color:#005480;margin-top: 0px;padding:16px;">
+                                    <p style="font-size:18px;margin-bottom: 0;margin-top: 15px;">Você tem um limite pré-aprovado de até</p>
+                                    <p style="margin-top:10px;font-size:39px;font-weight:bold; margin-bottom:0px">R$<span id="valorSimulador"></span>*,</p>
+                                    <p style="font-size:18px;margin-bottom: 0;margin-top:10px;">liberado após análise de seus documentos</p>
+                                    <Button onClick="SoliciteJa()" id="btnContinuar" title="Solicite Já" class="center-block btn btn-cor-primaria w-70 m-t-1" style="font-size:18px;font-weight:bold">Solicite Já</Button>
+                                    <p style="font-size:12px;margin-bottom: 0;margin-top:10px;">*Valor sujeito a alteração após análise</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </section>
+
+    <section class="barra-acesso" style="clear:both">
+        <div class="container">
+            <div class="texto">
+                <p class="nome m-h-20 fsize-1 text-xs-center m-b-0">
+                    <b style='color:#969696'></b>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="Informacao">
+        <div class="modal-dialog" role="document" style="">
+            <div class="modal-content" style="border:0;border-radius:0">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" style="color:#000000;">Renda</h5>
+                </div>
+                <div class="modal-body" style="background:#efefef;color:black;">
+                    <p>Esta simulação é apenas para renda de aposentado, pensionista e servidores públicos</p>
+                </div>
+                <div class="modal-footer" style="padding:5px 15px">
+                    <button type="submit" class="btn btn-cor-primaria center-block" form="formPerfil" style="height:40px;width:100%;margin-top:0;font-weight:bold">Entendi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal-aviso modal modal-simples modal-vertical fade" id="ModalErro" tabindex="-1" role="dialog" aria-labelledby="faltaPoucoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="faltaPoucoLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="results"> </p>
+                    <a href="#" title="Entendi" onclick="$('.modal-aviso').modal('hide')" class="btn btn-cor-primaria m-t-2">Entendi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            InicioNome();
+            CarregarRodape();
+
+            var u = new Util();
+            var sh1 = new StorageHelp();
+            var dadosUser = sh1.Login_Get();
+            dadosUser = JSON.parse(dadosUser);
+            $("#content").loadmask("");
+            var request = $.ajax({
+                url: u.GetUrlApi() + 'Emprestimo/StatusProposta?NumCPF=' + dadosUser.id_user + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion()
+                 , method: 'POST'
+                     , crossDomain: true
+                    , dataType: "json"
+                    , timeout: u.GetRequestTimeout()
+                    , beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + dadosUser.token);
+                    }
+            });
+
+            request.done(function (_statusProposta) {
+                $("#content").unloadmask("");
+                if (_statusProposta.Error.length == 0 && _statusProposta.PerfilCliente > 0) {
+                    if (_statusProposta.StatusProposta == "1" || _statusProposta.StatusProposta == "2") {
+                        location.href = "pagina-ola.html";
+                    }
+                }
+            })
+            request.fail(function () {
+                $("#content").unloadmask("");
+            })
+
+            $('#formSimulador').submit(function (e) {
+
+                e.preventDefault();
+                $("#ModalErro .results").html("");
+                var valido = true;
+                if ($("#txtSalarioProspect").val() == "") {
+                    $("#ModalErro .results").append("Preencha o Salário Recebido.<br/>");
+                    valido = false;
+                }
+
+                if (valido) {
+
+                    $('#modalLoading').modal('show');
+                    var u = new Util();
+
+                    var sh1 = new StorageHelp();
+                    var dadosUser = sh1.Login_Get();
+                    dadosUser = JSON.parse(dadosUser);
+                    var userName = dadosUser.id_user;
+                    var salario = $('#txtSalarioProspect').val().replace(/[.]+/g, '').replace(',', '.')
+                    var request = $.ajax({
+                        url: u.GetUrlApi() + 'Login/Simulador?salario=' + salario + "&plataforma=" + u.getPlatform() + "&versao=" + u.getVersion() + "&cpf=" + userName
+               , method: 'POST'
+               , crossDomain: true
+               , timeout: u.GetRequestTimeout()
+                    });
+
+                    request.done(
+                            function (result) {
+                                $('#modalLoading').modal('hide');
+                                $('#valorSimulador').html(result.ValorFinanciado);
+                                $('#valorSimulador').mask('000.000.000.000,00', { reverse: true });
+                                $('#ModalValor').modal('show');
+                            });
+                    request.fail(
+                            function (result) {
+                                $('#modalLoading').modal('hide');
+                                $('.modal-aviso').modal('show');
+                                $('.results').html("Ocorreu um erro não identificado na requisição!");
+                            }
+                        );
+                } else {
+                    $("#ModalErro").modal("show");
+                }
+            });
+
+
+            $('#txtSalarioProspect').mask("000.000,00", { reverse: true });
+        });
+
+
+
+
+        function SoliciteJa() {
+            var sh1 = new StorageHelp();
+
+            var dadosUser = sh1.Login_Get();
+            dadosUser = JSON.parse(dadosUser);
+
+            var ObjRenda = {
+                codCliente: dadosUser.codCliente,
+                perfilCliente: 3
+            }
+
+            sh1.ObjRenda_Set(ObjRenda);
+
+            location.href = "pagina-renda-upload.html";
+        }
+    </script>
+</body>
+
+</html>

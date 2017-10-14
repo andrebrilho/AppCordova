@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Provider IT</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/myapp.css" rel="stylesheet" />
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery.mask.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="static/js/myapp.js"></script>
+    <script src="static/js/sha256.js"></script>
+    <script src="static/js/ajax-loading.js"></script>
+    <script src="static/js/jquery.qrcode.min.js"></script>
+    <script src="static/js/jquery.qrcode.js"></script>
+    <script src="static/js/qrcode.js"></script>
+
+    <style>
+        .loader {
+            margin: 0 0 2em;
+            height: 100px;
+            width: 20%;
+            text-align: center;
+            padding: 1em;
+            margin: 0 auto 1em;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        /*
+  Set the color of the icon
+*/
+        svg path .loads,
+        svg rect .loads {
+            fill: #000000;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="load-menu"></div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="minhasportabilidades.html" class="navbar-toggle menu collapsed pull-left" aria-expanded="false">
+                    <span class="fa fa-chevron-left"></span>
+                </a>
+                <a class="navbar-brand" href="#">Resumo</a>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:15px;background:#2f2f2f;">
+        <h4 style="color:white">Informações da Portabilidade: </h3>
+    </div>
+    <div class="container-fluid">
+        <div style="margin-top:20px;">
+            <div class="row">
+                <div class="col-xs-5" style="padding-right:0">
+                    <div>
+                        <div style="font-size:12px">Banco Origem:</div>
+                        <div class="bancoAnterior" style="font-size:14px;color:black;padding:5px 0 10px 0;"></div>
+                        <div style="font-size:12px">Valor da Parcela:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="valorParcelaAnterior"></div>
+                        <div style="font-size:12px">Parcelas Pagas:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="parcelasPagas"></div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding-top:50px">
+                    <span class="fa fa-chevron-right" style="margin-left:-12px;background:#d1d1d1;padding:10px 12px 10px 13px;border-radius:50%;"></span>
+                </div>
+                <div class="col-xs-5" style="padding-left:0">
+                    <div>
+                        <div style="font-size:12px">Banco Destino:</div>
+                        <div class="bancoNovo" style="font-size:14px;color:black;padding:5px 0 10px 0;"></div>
+                        <div style="font-size:12px">Nova Parcela:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="novoValorParcela"></div>
+                        <div style="font-size:12px">Parcelas Restantes:</div>
+                        <div style="font-size:14px;padding:5px 0 10px 0;color:black;" class="parcelasRestantes"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-login btn-simular  btn-confirmar">Confirmar Portabilidade</button>
+        </div>
+    </div>
+
+    <div class="bg-concluido text-center">
+
+        <div class="icon icon--order-success svg" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+                <g fill="none" stroke="#000000" stroke-width="2">
+                    <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                    <path class="loads" d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                </g>
+            </svg>
+
+        </div>
+
+        <div class="loader loader--style5" title="4" id="loader">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 width="48px" height="85px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <rect class="loads" x="0" y="0" width="4" height="20" fill="#333">
+            <animateTransform attributeType="xml"
+                              attributeName="transform" type="translate"
+                              values="0 0; 0 20; 0 0"
+                              begin="0" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+            <rect class="loads" x="10" y="0" width="4" height="20" fill="#333">
+            <animateTransform attributeType="xml"
+                              attributeName="transform" type="translate"
+                              values="0 0; 0 20; 0 0"
+                              begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+            <rect class="loads" x="20" y="0" width="4" height="20" fill="#333">
+            <animateTransform attributeType="xml"
+                              attributeName="transform" type="translate"
+                              values="0 0; 0 20; 0 0"
+                              begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+  </svg>
+        </div>
+
+
+
+        <h3 class="text-ok">REGISTRO NA REDE BLOCKCHAIN INICIADO</h3>
+        <p id="Dochash" style="word-wrap: break-word; margin: 15px; font-size:20px;"></p>
+            
+
+        <button id="btnVisualizar" class="btn-login" style="margin:20px auto;width:70%;background:#000000; display:none;" >Visualizar Blockchain</button>
+            <button onclick="location.href='index.html'" class="btn-login" style="margin:20px auto;width:70%;background:#264a92">Voltar para o Início</button>
+            
+
+
+    </div>
+    <div id="qrcode"></div>
+   
+    <script>
+        var valorFinal;
+      
+        $(document).ready(function () {
+            //var loading = $.loading();
+            
+            var portabilidade = window.localStorage.getItem("PORTABILIDADE");
+            portabilidade = JSON.parse(portabilidade);
+            var divida = {};
+            var taxa = {};
+            $.get("http://serviceciab2.azurewebsites.net/dividas/" + portabilidade.iddivida).done(function (data) {
+                divida = data;
+                $(".bancoAnterior").html(divida.bancoorigem);
+                $(".valorParcelaAnterior").html("R$<span class='vlrReal'>" + divida.valorparcela + "</span>");
+                $(".parcelasPagas").html(divida.qntparcelapaga);
+                $(".vlrReal").mask('000.000,00', { reverse: true });
+            });
+            $.get("http://serviceciab2.azurewebsites.net/taxas/" + portabilidade.idtaxa).done(function (data) {
+                taxa = data;
+
+                $(".bancoNovo").html(taxa.fullname);
+                $(".novoValorParcela").html("R$<span class='vlrReal'>" + portabilidade.novovalorparcela + "</span>");
+                $(".parcelasRestantes").html(divida.qntparcela - divida.qntparcelapaga);
+                $(".vlrReal").mask('000.000,00', { reverse: true });
+            });
+            valorFinal = sha256_digest(portabilidade.iddivida);
+            $(".btn-confirmar").click(function () {
+                $.put("http://serviceciab2.azurewebsites.net/alteraportabilidade", { _id: portabilidade._id, status: "Solicitado", blockchain: "" }).done(function (data) {
+
+                    if (data != null && !data.hasOwnProperty("error")) {
+                  
+                        $(".bg-concluido").addClass("animated");
+                        setTimeout(function () {
+                            $(".text-ok").html("REGISTRO EM ANDAMENTO");
+                           // $('.icon--order-success').addClass('animated');
+                            setTimeout(function () {
+                                $(".text-ok").fadeIn();
+                            }, 300);
+                        }, 600);
+                        
+                        var servicoStatus = "https://originalmy-staging.appspot.com/api/v1/status?d=" + valorFinal;
+
+                            var setTimer = setInterval(function () {
+
+                                if (valorFinal != null) {
+                                    $.get(servicoStatus).done(function (data) {
+                                        var valorChecaBlock = data;
+
+                                        var urlBlock = "https://rinkeby.etherscan.io/tx/" + valorChecaBlock.transaction;
+                                        //var urlBlock = "http://gastracker.io/tx/" + valorChecaBlock.transaction;
+                                        $('#Dochash').html("Status: " + valorChecaBlock.status + "<br/> Cod. Transação: Aguardando");
+
+                                        if (valorChecaBlock.status == "sent") {
+                                            $('#Dochash').html("Status: Enviado" + "<br/> Cod. Transação: Aguardando");
+                                            $(".text-ok").html("REGISTRO EM ANDAMENTO");
+                                        }
+
+                                        if (valorChecaBlock.status == "pending") {
+                                            $('#Dochash').html("Status: Pendente" + "<br/> Cod. Transação: Aguardando");
+                                            $(".text-ok").html("REGISTRO EM ANDAMENTO");
+                                        }
+
+                                        if (valorChecaBlock.status == "confirmed") {
+
+                                            $.put("http://serviceciab2.azurewebsites.net/alteraportabilidade", { _id: portabilidade._id, status: "Confirmado", blockchain: valorChecaBlock.transaction })
+
+                                            $('#Dochash').html("Status: Confirmado" + "<br/> Cod. Transação: " + valorChecaBlock.transaction);
+                                            $(".text-ok").html("REGISTRO BLOCKCHAIN FINALIZADO");
+                                            clearInterval(setTimer);
+
+                                            setTimeout(function () {
+                                                $('.icon--order-success').removeAttr('hidden');
+                                                $('.icon--order-success').addClass('animated');
+                                                $('#loader').hide();
+
+                                                setTimeout(function () {
+                                                    $(".text-ok").fadeIn();
+                                                }, 300);
+                                            }, 600);
+
+                                           
+                                            $('#btnVisualizar').show();
+
+                                            $('#btnVisualizar').click(function () {
+                                                window.location.href = urlBlock;
+                                            });
+
+
+                                        }
+
+                                    });
+                                } else {
+
+                                    clearInterval(setTimer);
+                                    navigator.notification.alert(
+                                        'Erro ao chamar de Verifica Status.',  // message
+                                        function () { },         // callback
+                                        'Atenção',            // title
+                                        'Tentar novamente'                  // buttonName
+                                    );
+                                }
+                            }, 1000);
+
+                    } else {
+                        navigator.notification.alert(
+                            'Não foi possível continuar sua portabilidade.',  // message
+                            function () { },         // callback
+                            'Atenção',            // title
+                            'Tentar novamente'                  // buttonName
+                        );
+                    }
+                });
+
+                var servicoRegistra = "https://originalmy-staging.appspot.com/api/v1/company/register?d=" + valorFinal + "&k=2387-ED1MA-K942";
+                if (valorFinal != null) {
+                    $.get(servicoRegistra).done(function (data) {
+                        var valorRegistraDoc = data;
+ 
+                    });
+                } else {
+                    navigator.notification.alert(
+                        'Erro ao chamar o serviço de Registrar.',  // message
+                        function () { },         // callback
+                        'Atenção',            // title
+                        'Tentar novamente'                  // buttonName
+                    );
+                }
+
+                $('#Dochash').html("Status: " + valorChecaBlock.status + "<br/> Cod. Transação: Aguardando");
+                
+            });
+        });
+
+
+
+        $.put = function (url, data, callback, type) {
+
+            if ($.isFunction(data)) {
+                type = type || callback,
+                    callback = data,
+                    data = {}
+            }
+
+            return $.ajax({
+                url: url,
+                type: 'PUT',
+                success: callback,
+                data: data,
+                contentType: type
+            });
+        }
+    </script>
+</body>
+
+</html>
